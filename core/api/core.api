@@ -9304,7 +9304,7 @@ public final class dev/kord/core/entity/interaction/AttachmentOptionValue : dev/
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class dev/kord/core/entity/interaction/AutoCompleteInteraction : dev/kord/core/behavior/interaction/AutoCompleteInteractionBehavior, dev/kord/core/entity/interaction/DataInteraction {
+public abstract interface class dev/kord/core/entity/interaction/AutoCompleteInteraction : dev/kord/core/behavior/interaction/AutoCompleteInteractionBehavior, dev/kord/core/entity/interaction/ChatInputBasedInteraction, dev/kord/core/entity/interaction/DataInteraction {
 	public abstract fun getCommand ()Ldev/kord/core/entity/interaction/InteractionCommand;
 	public abstract fun getFocusedOption ()Ldev/kord/core/entity/interaction/StringOptionValue;
 	public abstract fun withStrategy (Ldev/kord/core/supplier/EntitySupplyStrategy;)Ldev/kord/core/entity/interaction/AutoCompleteInteraction;
@@ -9380,7 +9380,27 @@ public final class dev/kord/core/entity/interaction/ChannelOptionValue : dev/kor
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class dev/kord/core/entity/interaction/ChatInputCommandInteraction : dev/kord/core/entity/interaction/ApplicationCommandInteraction {
+public abstract interface class dev/kord/core/entity/interaction/ChatInputBasedInteraction : dev/kord/core/entity/interaction/Interaction {
+	public abstract fun getCommand ()Ldev/kord/core/entity/interaction/InteractionCommand;
+}
+
+public final class dev/kord/core/entity/interaction/ChatInputBasedInteraction$DefaultImpls {
+	public static fun compareTo (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;Ldev/kord/core/entity/Entity;)I
+	public static fun getApplicationId (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ldev/kord/common/entity/Snowflake;
+	public static fun getChannel (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ldev/kord/core/behavior/channel/MessageChannelBehavior;
+	public static fun getChannel (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getChannelId (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ldev/kord/common/entity/Snowflake;
+	public static fun getChannelOrNull (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getEntitlements (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ljava/util/List;
+	public static fun getGuildLocale (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ldev/kord/common/Locale;
+	public static fun getId (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ldev/kord/common/entity/Snowflake;
+	public static fun getLocale (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ldev/kord/common/Locale;
+	public static fun getToken (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ljava/lang/String;
+	public static fun getType (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)Ldev/kord/common/entity/InteractionType;
+	public static fun getVersion (Ldev/kord/core/entity/interaction/ChatInputBasedInteraction;)I
+}
+
+public abstract interface class dev/kord/core/entity/interaction/ChatInputCommandInteraction : dev/kord/core/entity/interaction/ApplicationCommandInteraction, dev/kord/core/entity/interaction/ChatInputBasedInteraction {
 	public abstract fun getCommand ()Ldev/kord/core/entity/interaction/InteractionCommand;
 	public abstract fun withStrategy (Ldev/kord/core/supplier/EntitySupplyStrategy;)Ldev/kord/core/entity/interaction/ChatInputCommandInteraction;
 }

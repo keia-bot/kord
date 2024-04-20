@@ -12,10 +12,10 @@ import dev.kord.core.supplier.EntitySupplyStrategy
  *
  * Contains an [InteractionCommand].
  */
-public sealed interface ChatInputCommandInteraction : ApplicationCommandInteraction {
+feapublic sealed interface ChatInputCommandInteraction : ChatInputBasedInteraction, ApplicationCommandInteraction {
 
     /** An [InteractionCommand] that contains the values the user submitted when using a [ChatInputCommandCommand]. */
-    public val command: InteractionCommand get() = InteractionCommand(data.data, kord)
+    override val command: InteractionCommand get() = InteractionCommand(data.data, kord)
 
     override fun withStrategy(strategy: EntitySupplyStrategy<*>): ChatInputCommandInteraction
 }

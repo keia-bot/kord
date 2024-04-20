@@ -17,7 +17,7 @@ import dev.kord.core.supplier.EntitySupplyStrategy
  *
  * Check [AutoCompleteInteractionBehavior] for response options.
  */
-public sealed interface AutoCompleteInteraction : DataInteraction, AutoCompleteInteractionBehavior {
+public sealed interface AutoCompleteInteraction : DataInteraction, ChatInputBasedInteraction, AutoCompleteInteractionBehavior {
 
     /**
      * An [InteractionCommand] that contains the values the user filled so far.
@@ -25,7 +25,7 @@ public sealed interface AutoCompleteInteraction : DataInteraction, AutoCompleteI
      * This might not contain all [options][InteractionCommand.options] and
      * [resolvedObjects][InteractionCommand.resolvedObjects], they will be available in a [ChatInputCommandInteraction].
      */
-    public val command: InteractionCommand get() = InteractionCommand(data.data, kord)
+    override val command: InteractionCommand get() = InteractionCommand(data.data, kord)
 
     /**
      * The single [focused][OptionValue.focused] option the user is currently typing.
