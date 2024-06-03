@@ -21,9 +21,7 @@ import dev.kord.voice.udp.AudioFrameSenderFactory
 import dev.kord.voice.udp.GlobalVoiceUdpSocket
 import dev.kord.voice.udp.VoiceUdpSocket
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
@@ -118,8 +116,13 @@ public class VoiceConnectionBuilder(
     /**
      *
      */
-    public fun frameProvider(provider: AudioFrameProvider) {
-        this.frameProvider = provider
+    public fun frameProvider(
+        duration: Duration,
+        provide: suspend () -> AudioFrame?
+    ) {
+        this.frameProvider = object : AudioFrameProvider.Callback(duration) {
+            override suspend fun read(): AudioFrame? = provide()
+        }
     }
 
     /**
@@ -248,6 +251,6 @@ public class VoiceConnectionBuilder(
 
     // we can't use the SAM feature or else we break the IR backend, so lets just use this object instead
     private object EmptyAudioPlayerFrameProvider : AudioFrameProvider {
-        override suspend fun provide(): AudioFrame? = null
+        override fun CoroutineScope.provide(): Flow<AudioFrame?> = emptyFlow()
     }
 }

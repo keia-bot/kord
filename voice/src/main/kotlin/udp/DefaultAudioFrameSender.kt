@@ -8,10 +8,8 @@ import dev.kord.voice.encryption.VoiceEncryption
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.core.*
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @KordVoice
@@ -22,22 +20,21 @@ public data class DefaultAudioFrameSender(
     val voiceSocket: VoiceUdpSocket,
 ) : AudioFrameSender {
     override suspend fun start(configuration: AudioFrameSenderConfiguration): Unit = coroutineScope {
-        val frames = Channel<AudioFrame?>(Channel.RENDEZVOUS)
-        with(frameProvider) {
-            launch { provideFrames(frames) }
+        val frames: Flow<AudioFrame?> = with(frameProvider) {
+            provide()
         }
-
-        var sequence: UShort = Random.nextBits(UShort.SIZE_BITS).toUShort()
-        val packetProvider = DefaultAudioPacketProvider(configuration.key, voiceEncryption)
 
         log.trace { "audio poller starting." }
 
         try {
+            var sequence: UShort = Random.nextBits(UShort.SIZE_BITS).toUShort()
+
+            val packetProvider = DefaultAudioPacketProvider(configuration.key, voiceEncryption)
+
             with(frameInterceptor) {
-                frames.consumeAsFlow()
-                    .intercept(configuration.interceptorConfiguration)
+                frames.intercept(configuration.interceptorConfiguration)
                     .filterNotNull()
-                    .map { packetProvider.provide(sequence, sequence * 960u, configuration.ssrc, it.data) }
+                    .map { packetProvider.provide(sequence, sequence * it.sampleCount, configuration.ssrc, it.data) }
                     .map { Datagram(ByteReadPacket(it.data, it.dataStart, it.viewSize), configuration.server) }
                     .onEach(voiceSocket::send)
                     .onEach { sequence++ }
