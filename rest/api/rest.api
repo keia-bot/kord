@@ -3591,24 +3591,23 @@ public final class dev/kord/rest/json/request/EmojiModifyRequest$Companion {
 }
 
 public final class dev/kord/rest/json/request/EntitlementsListRequest {
-	public fun <init> ()V
-	public fun <init> (Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;)V
 	public synthetic fun <init> (Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ldev/kord/common/entity/Snowflake;
+	public synthetic fun <init> (Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
 	public final fun component2 ()Ljava/util/List;
 	public final fun component3 ()Ldev/kord/rest/route/Position$BeforeOrAfter;
 	public final fun component4 ()Ljava/lang/Integer;
-	public final fun component5 ()Ldev/kord/common/entity/Snowflake;
+	public final fun component5-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
 	public final fun component6 ()Ljava/lang/Boolean;
-	public final fun copy (Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;)Ldev/kord/rest/json/request/EntitlementsListRequest;
-	public static synthetic fun copy$default (Ldev/kord/rest/json/request/EntitlementsListRequest;Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;ILjava/lang/Object;)Ldev/kord/rest/json/request/EntitlementsListRequest;
+	public final fun copy-cWTPKEo (Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;)Ldev/kord/rest/json/request/EntitlementsListRequest;
+	public static synthetic fun copy-cWTPKEo$default (Ldev/kord/rest/json/request/EntitlementsListRequest;Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;ILjava/lang/Object;)Ldev/kord/rest/json/request/EntitlementsListRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getExcludeEnded ()Ljava/lang/Boolean;
-	public final fun getGuildId ()Ldev/kord/common/entity/Snowflake;
+	public final fun getGuildId-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
 	public final fun getLimit ()Ljava/lang/Integer;
 	public final fun getPosition ()Ldev/kord/rest/route/Position$BeforeOrAfter;
 	public final fun getSkuIds ()Ljava/util/List;
-	public final fun getUserId ()Ldev/kord/common/entity/Snowflake;
+	public final fun getUserId-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -5289,27 +5288,27 @@ public final class dev/kord/rest/json/request/StartThreadRequest$Companion {
 
 public final class dev/kord/rest/json/request/TestEntitlementCreateRequest {
 	public static final field Companion Ldev/kord/rest/json/request/TestEntitlementCreateRequest$Companion;
-	public fun <init> (Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/EntitlementOwnerType;)V
-	public final fun component1 ()Ldev/kord/common/entity/Snowflake;
-	public final fun component2 ()Ldev/kord/common/entity/Snowflake;
+	public synthetic fun <init> (JJLdev/kord/common/entity/EntitlementOwnerType;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-4_xYDEk ()J
+	public final fun component2-4_xYDEk ()J
 	public final fun component3 ()Ldev/kord/common/entity/EntitlementOwnerType;
-	public final fun copy (Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/EntitlementOwnerType;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
-	public static synthetic fun copy$default (Ldev/kord/rest/json/request/TestEntitlementCreateRequest;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/EntitlementOwnerType;ILjava/lang/Object;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
+	public final fun copy-U2evHYk (JJLdev/kord/common/entity/EntitlementOwnerType;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
+	public static synthetic fun copy-U2evHYk$default (Ldev/kord/rest/json/request/TestEntitlementCreateRequest;JJLdev/kord/common/entity/EntitlementOwnerType;ILjava/lang/Object;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getOwnerId ()Ldev/kord/common/entity/Snowflake;
+	public final fun getOwnerId-4_xYDEk ()J
 	public final fun getOwnerType ()Ldev/kord/common/entity/EntitlementOwnerType;
-	public final fun getSkuId ()Ldev/kord/common/entity/Snowflake;
+	public final fun getSkuId-4_xYDEk ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kord/rest/json/request/TestEntitlementCreateRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public synthetic class dev/kord/rest/json/request/TestEntitlementCreateRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Ldev/kord/rest/json/request/TestEntitlementCreateRequest$$serializer;
-	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/kord/rest/json/request/TestEntitlementCreateRequest;)V
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/kord/rest/json/request/TestEntitlementCreateRequest;)V
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
@@ -7323,10 +7322,10 @@ public final class dev/kord/rest/service/EmojiService : dev/kord/rest/service/Re
 
 public final class dev/kord/rest/service/EntitlementService : dev/kord/rest/service/RestService {
 	public fun <init> (Ldev/kord/rest/request/RequestHandler;)V
-	public final fun createTestEntitlement (Ldev/kord/common/entity/Snowflake;Ldev/kord/rest/json/request/TestEntitlementCreateRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun deleteTestEntitlement (Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getEntitlement (Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun listEntitlements (Ldev/kord/common/entity/Snowflake;Ldev/kord/rest/json/request/EntitlementsListRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun createTestEntitlement-9y3P_48 (JLdev/kord/rest/json/request/TestEntitlementCreateRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun deleteTestEntitlement-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getEntitlement-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun listEntitlements-9y3P_48 (JLdev/kord/rest/json/request/EntitlementsListRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/kord/rest/service/GuildService : dev/kord/rest/service/RestService {
@@ -7545,7 +7544,7 @@ public abstract class dev/kord/rest/service/RestService {
 
 public final class dev/kord/rest/service/SkuService : dev/kord/rest/service/RestService {
 	public fun <init> (Ldev/kord/rest/request/RequestHandler;)V
-	public final fun listSkus (Ldev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun listSkus-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/kord/rest/service/StageInstanceService : dev/kord/rest/service/RestService {

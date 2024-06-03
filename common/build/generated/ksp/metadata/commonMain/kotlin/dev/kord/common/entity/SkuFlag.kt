@@ -1,21 +1,15 @@
 // THIS FILE IS AUTO-GENERATED, DO NOT EDIT!
 @file:Suppress(names = arrayOf("IncorrectFormatting", "ReplaceArrayOfWithLiteral",
-                "SpellCheckingInspection", "GrazieInspection"))
+                "SpellCheckingInspection", "GrazieInspection", "MemberVisibilityCanBePrivate"))
 
 package dev.kord.common.entity
 
 import kotlin.LazyThreadSafetyMode.PUBLICATION
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
+import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 
 /**
  * See [SkuFlag]s in the
@@ -170,8 +164,9 @@ public sealed class SkuFlag(
  * @see SkuFlag
  * @see SkuFlags.Builder
  */
-@Serializable(with = SkuFlags.Serializer::class)
-public class SkuFlags internal constructor(
+@JvmInline
+@Serializable
+public value class SkuFlags internal constructor(
     /**
      * The raw value used by Discord.
      */
@@ -233,11 +228,6 @@ public class SkuFlags internal constructor(
         return Builder(value).apply(builder).build()
     }
 
-    override fun equals(other: Any?): Boolean = this === other ||
-            (other is SkuFlags && this.value == other.value)
-
-    override fun hashCode(): Int = value.hashCode()
-
     override fun toString(): String = "SkuFlags(values=$values)"
 
     public class Builder(
@@ -277,20 +267,6 @@ public class SkuFlags internal constructor(
          */
         public fun build(): SkuFlags = SkuFlags(value)
     }
-
-    internal object Serializer : KSerializer<SkuFlags> {
-        override val descriptor: SerialDescriptor =
-                PrimitiveSerialDescriptor("dev.kord.common.entity.SkuFlags", PrimitiveKind.INT)
-
-        private val `delegate`: KSerializer<Int> = Int.serializer()
-
-        override fun serialize(encoder: Encoder, `value`: SkuFlags) {
-            encoder.encodeSerializableValue(delegate, value.value)
-        }
-
-        override fun deserialize(decoder: Decoder): SkuFlags =
-                SkuFlags(decoder.decodeSerializableValue(delegate))
-    }
 }
 
 /**
@@ -305,13 +281,6 @@ public inline fun SkuFlags(builder: SkuFlags.Builder.() -> Unit = {}): SkuFlags 
  * Returns an instance of [SkuFlags] that has all bits set that are set in any element of [flags].
  */
 public fun SkuFlags(vararg flags: SkuFlag): SkuFlags = SkuFlags {
-    flags.forEach { +it }
-}
-
-/**
- * Returns an instance of [SkuFlags] that has all bits set that are set in any element of [flags].
- */
-public fun SkuFlags(vararg flags: SkuFlags): SkuFlags = SkuFlags {
     flags.forEach { +it }
 }
 
