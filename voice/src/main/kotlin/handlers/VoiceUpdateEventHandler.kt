@@ -59,7 +59,7 @@ internal class VoiceUpdateEventHandler(
             voiceUpdateLogger.trace { "changing voice servers for session ${connection.data.sessionId}" }
 
             // update the gateway configuration accordingly
-            connection.voiceGatewayConfiguration = connection.voiceGatewayConfiguration.copy(
+            connection.voiceGatewayConfig = connection.voiceGatewayConfig.copy(
                 token = voiceServerUpdate.voiceServerUpdateData.token,
                 endpoint = "wss://${voiceServerUpdate.voiceServerUpdateData.endpoint}/?v=${KordConfiguration.VOICE_GATEWAY_VERSION}",
             )

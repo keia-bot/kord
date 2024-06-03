@@ -36,19 +36,18 @@ public data class DefaultVoiceGatewayData(
     val sessionId: String,
     val client: HttpClient,
     val reconnectRetry: Retry,
-    val eventFlow: MutableSharedFlow<VoiceEvent>
+    val eventFlow: MutableSharedFlow<VoiceEvent>,
 )
 
 /**
  * The default Voice Gateway implementation of Kord, using an [HttpClient] for the underlying websocket.
  */
+@Suppress("t")
 @KordVoice
 public class DefaultVoiceGateway(
-    private val data: DefaultVoiceGatewayData
+    override val scope: CoroutineScope,
+    private val data: DefaultVoiceGatewayData,
 ) : VoiceGateway {
-    override val scope: CoroutineScope =
-        CoroutineScope(SupervisorJob() + CoroutineName("kord-voice-gateway[$${data.guildId.value}]"))
-
     private lateinit var socket: DefaultClientWebSocketSession
 
     override val events: SharedFlow<VoiceEvent> = data.eventFlow
@@ -103,7 +102,7 @@ public class DefaultVoiceGateway(
             } catch (exception: CancellationException) {
                 defaultVoiceGatewayLogger.trace(exception) { "voice gateway stopped" }
             } catch (exception: Exception) {
-                defaultVoiceGatewayLogger.error(exception) { "voice gateway stopped"}
+                defaultVoiceGatewayLogger.error(exception) { "voice gateway stopped" }
             }
 
             defaultVoiceGatewayLogger.trace { "voice gateway connection closing" }
@@ -132,7 +131,7 @@ public class DefaultVoiceGateway(
         socket.incoming.asFlow().buffer(Channel.UNLIMITED).collect {
             when (it) {
                 is Frame.Binary, is Frame.Text -> read(it)
-                else -> { /*ignore*/
+                else                           -> { /*ignore*/
                 }
             }
         }
@@ -165,14 +164,13 @@ public class DefaultVoiceGateway(
         @Suppress("UNUSED_VARIABLE")
         val exhaustive = when (state.value) { //exhaustive state checking
             is State.Running -> throw IllegalStateException("The Gateway is already running, call stop() first.")
-            State.Stopped -> Unit
+            State.Stopped    -> Unit
         }
 
         handshakeHandler.configuration = configuration
         data.reconnectRetry.reset()
         state.update { State.Running(true) } // resetting state
     }
-
 
     override suspend fun send(command: Command): Unit = stateMutex.withLock {
         sendUnsafe(command)
@@ -187,14 +185,16 @@ public class DefaultVoiceGateway(
         val json = Json.encodeToString(Command.SerializationStrategy, command)
         defaultVoiceGatewayLogger.trace {
             when (command) {
-                is Identify -> {
+                is Identify                              -> {
                     val copy = command.copy(token = "token")
                     "Voice Gateway >>> ${Json.encodeToString(Command.SerializationStrategy, copy)}"
                 }
-                is SelectProtocol -> {
+
+                is SelectProtocol                        -> {
                     val copy = command.copy(data = command.data.copy(address = "ip"))
                     "Voice Gateway >>> ${Json.encodeToString(Command.SerializationStrategy, copy)}"
                 }
+
                 is Heartbeat, is Resume, is SendSpeaking -> "Voice Gateway >>> $json"
             }
         }
@@ -238,19 +238,19 @@ public class DefaultVoiceGateway(
 
 internal val VoiceGatewayCloseCode.retry
     get() = when (this) { //this statement is intentionally structured to ensure we consider the retry for every new code
-        VoiceGatewayCloseCode.UnknownOpcode -> true
+        VoiceGatewayCloseCode.UnknownOpcode         -> true
         VoiceGatewayCloseCode.FailedToDecodePayload -> true
-        VoiceGatewayCloseCode.NotAuthenticated -> true
-        VoiceGatewayCloseCode.AuthenticationFailed -> false
-        VoiceGatewayCloseCode.AlreadyAuthenticated -> true
-        VoiceGatewayCloseCode.SessionNoLongerValid -> false
-        VoiceGatewayCloseCode.SessionTimeout -> true
-        VoiceGatewayCloseCode.ServerNotFound -> false
-        VoiceGatewayCloseCode.UnknownProtocol -> false
-        VoiceGatewayCloseCode.Disconnect -> false
-        VoiceGatewayCloseCode.VoiceServerCrashed -> true
+        VoiceGatewayCloseCode.NotAuthenticated      -> true
+        VoiceGatewayCloseCode.AuthenticationFailed  -> false
+        VoiceGatewayCloseCode.AlreadyAuthenticated  -> true
+        VoiceGatewayCloseCode.SessionNoLongerValid  -> false
+        VoiceGatewayCloseCode.SessionTimeout        -> true
+        VoiceGatewayCloseCode.ServerNotFound        -> false
+        VoiceGatewayCloseCode.UnknownProtocol       -> false
+        VoiceGatewayCloseCode.Disconnect            -> false
+        VoiceGatewayCloseCode.VoiceServerCrashed    -> true
         VoiceGatewayCloseCode.UnknownEncryptionMode -> false
-        is VoiceGatewayCloseCode.Unknown -> true
+        is VoiceGatewayCloseCode.Unknown            -> true
     }
 
 /**
@@ -258,19 +258,19 @@ internal val VoiceGatewayCloseCode.retry
  */
 internal val VoiceGatewayCloseCode.exceptional
     get() = when (this) {
-        VoiceGatewayCloseCode.UnknownOpcode -> true
+        VoiceGatewayCloseCode.UnknownOpcode         -> true
         VoiceGatewayCloseCode.FailedToDecodePayload -> true
-        VoiceGatewayCloseCode.NotAuthenticated -> true
-        VoiceGatewayCloseCode.AuthenticationFailed -> true
-        VoiceGatewayCloseCode.AlreadyAuthenticated -> true
-        VoiceGatewayCloseCode.SessionNoLongerValid -> false
-        VoiceGatewayCloseCode.SessionTimeout -> false
-        VoiceGatewayCloseCode.ServerNotFound -> true
-        VoiceGatewayCloseCode.UnknownProtocol -> true
-        VoiceGatewayCloseCode.Disconnect -> false
-        VoiceGatewayCloseCode.VoiceServerCrashed -> false
+        VoiceGatewayCloseCode.NotAuthenticated      -> true
+        VoiceGatewayCloseCode.AuthenticationFailed  -> true
+        VoiceGatewayCloseCode.AlreadyAuthenticated  -> true
+        VoiceGatewayCloseCode.SessionNoLongerValid  -> false
+        VoiceGatewayCloseCode.SessionTimeout        -> false
+        VoiceGatewayCloseCode.ServerNotFound        -> true
+        VoiceGatewayCloseCode.UnknownProtocol       -> true
+        VoiceGatewayCloseCode.Disconnect            -> false
+        VoiceGatewayCloseCode.VoiceServerCrashed    -> false
         VoiceGatewayCloseCode.UnknownEncryptionMode -> true
-        is VoiceGatewayCloseCode.Unknown -> false
+        is VoiceGatewayCloseCode.Unknown            -> false
     }
 
 private fun <T> ReceiveChannel<T>.asFlow() = flow {

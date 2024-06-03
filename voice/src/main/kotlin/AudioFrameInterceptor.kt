@@ -18,6 +18,6 @@ public data class FrameInterceptorConfiguration(
  * @see DefaultFrameInterceptor
  */
 @KordVoice
-public fun interface FrameInterceptor {
+public fun interface AudioFrameInterceptor {
     public fun Flow<AudioFrame?>.intercept(configuration: FrameInterceptorConfiguration): Flow<AudioFrame?>
 }

@@ -29,7 +29,7 @@ internal class UdpLifeCycleHandler(
             ssrc = it.ssrc
             server = InetSocketAddress(it.ip, it.port)
 
-            val ip: InetSocketAddress = connection.socket.discoverIp(server!!, ssrc!!.toInt())
+            val ip: InetSocketAddress = connection.voiceSocket.discoverIp(server!!, ssrc!!.toInt())
 
             udpLifeCycleLogger.trace { "ip discovered for voice successfully" }
 
@@ -38,7 +38,7 @@ internal class UdpLifeCycleHandler(
                 data = SelectProtocol.Data(
                     address = ip.hostname,
                     port = ip.port,
-                    mode = connection.encryption.mode
+                    mode = connection.voiceEncryption.mode
                 )
             )
 

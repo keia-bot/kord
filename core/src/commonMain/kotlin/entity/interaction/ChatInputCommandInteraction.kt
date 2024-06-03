@@ -12,7 +12,7 @@ import dev.kord.core.supplier.EntitySupplyStrategy
  *
  * Contains an [InteractionCommand].
  */
-feapublic sealed interface ChatInputCommandInteraction : ChatInputBasedInteraction, ApplicationCommandInteraction {
+public sealed interface ChatInputCommandInteraction : ChatInputBasedInteraction, ApplicationCommandInteraction {
 
     /** An [InteractionCommand] that contains the values the user submitted when using a [ChatInputCommandCommand]. */
     override val command: InteractionCommand get() = InteractionCommand(data.data, kord)
@@ -24,7 +24,7 @@ feapublic sealed interface ChatInputCommandInteraction : ChatInputBasedInteracti
 public class GuildChatInputCommandInteraction(
     override val data: InteractionData,
     override val kord: Kord,
-    override val supplier: EntitySupplier
+    override val supplier: EntitySupplier,
 ) : ChatInputCommandInteraction, GuildApplicationCommandInteraction {
 
     override fun withStrategy(strategy: EntitySupplyStrategy<*>): GuildChatInputCommandInteraction =
@@ -40,7 +40,7 @@ public class GuildChatInputCommandInteraction(
 public class GlobalChatInputCommandInteraction(
     override val data: InteractionData,
     override val kord: Kord,
-    override val supplier: EntitySupplier
+    override val supplier: EntitySupplier,
 ) : ChatInputCommandInteraction, GlobalApplicationCommandInteraction {
 
     override fun withStrategy(strategy: EntitySupplyStrategy<*>): GlobalChatInputCommandInteraction =

@@ -13,21 +13,22 @@ import kotlinx.coroutines.flow.onEach
  * @param speakingState the [SpeakingFlags] to be sent when there audio being sent. By default, it is [microphone-only][SpeakingFlag.Microphone].
  */
 public data class DefaultFrameInterceptorData(
-    val speakingState: SpeakingFlags = SpeakingFlags { +SpeakingFlag.Microphone }
+    val speakingState: SpeakingFlags = SpeakingFlags { +SpeakingFlag.Microphone },
 )
 
 private const val FRAMES_OF_SILENCE_TO_PLAY = 5
 
 @KordVoice
 /**
- * The default implementation for [FrameInterceptor].
+ * The default implementation for [AudioFrameInterceptor].
  * Any custom implementation should extend this and call the super [intercept] method, or else
  * the speaking flags will not be sent!
  *
  * @param data the data to configure this instance with.
  */
-public class DefaultFrameInterceptor(private val data: DefaultFrameInterceptorData = DefaultFrameInterceptorData()) :
-    FrameInterceptor {
+public class DefaultFrameInterceptor(
+    private val data: DefaultFrameInterceptorData = DefaultFrameInterceptorData(),
+) : AudioFrameInterceptor {
     override fun Flow<AudioFrame?>.intercept(configuration: FrameInterceptorConfiguration): Flow<AudioFrame?> {
         var framesOfSilence = 5
         var isSpeaking = false
@@ -51,7 +52,7 @@ public class DefaultFrameInterceptor(private val data: DefaultFrameInterceptorDa
             }
         }.map { frame ->
             when (framesOfSilence) {
-                0 -> frame
+                0    -> frame
                 else -> frame ?: AudioFrame.SILENCE
             }
         }

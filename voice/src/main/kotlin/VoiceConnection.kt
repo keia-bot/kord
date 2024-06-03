@@ -38,29 +38,27 @@ public data class VoiceConnectionData(
  * @param gateway the [Gateway] that handles events for the guild this [VoiceConnection] represents.
  * @param voiceGateway the underlying [VoiceGateway] for this voice connection.
  * @param data the data representing this [VoiceConnection].
- * @param voiceGatewayConfiguration the configuration used on each new [connect] for the [voiceGateway].
- * @param audioProvider a [AudioProvider] that will provide [AudioFrame] when required.
- * @param frameInterceptor a [FrameInterceptor] that will intercept all outgoing [AudioFrame]s.
+ * @param voiceGatewayConfig the configuration used on each new [connect] for the [voiceGateway].
+ * @param frameProvider a [AudioFrameProvider] that will provide [AudioFrame] when required.
+ * @param frameInterceptor a [AudioFrameInterceptor] that will intercept all outgoing [AudioFrame]s.
  * @param frameSender the [AudioFrameSender] that will handle the sending of audio packets.
  * @param nonceStrategy the [NonceStrategy] that is used during encryption of audio.
  */
 @KordVoice
 public class VoiceConnection(
+    public val scope: CoroutineScope,
     public val data: VoiceConnectionData,
     public val gateway: Gateway,
-    public val voiceGateway: VoiceGateway,
-    public val socket: VoiceUdpSocket,
-    public var voiceGatewayConfiguration: VoiceGatewayConfiguration,
     public val streams: Streams,
-    public val audioProvider: AudioProvider,
-    public val frameInterceptor: FrameInterceptor,
+    public val frameProvider: AudioFrameProvider,
+    public val frameInterceptor: AudioFrameInterceptor,
     public val frameSender: AudioFrameSender,
-    public val encryption: VoiceEncryption,
-    connectionDetachDuration: Duration
+    public val voiceSocket: VoiceUdpSocket,
+    public val voiceGateway: VoiceGateway,
+    public val voiceEncryption: VoiceEncryption,
+    public var voiceGatewayConfig: VoiceGatewayConfiguration,
+    connectionDetachDuration: Duration,
 ) {
-    public val scope: CoroutineScope =
-        CoroutineScope(SupervisorJob() + CoroutineName("kord-voice-connection[${data.guildId.value}]"))
-
     init {
         with(scope) {
             launch { VoiceUpdateEventHandler(gateway.events, connectionDetachDuration, this@VoiceConnection).start() }
@@ -75,7 +73,7 @@ public class VoiceConnection(
      */
     public suspend fun connect(scope: CoroutineScope = this.scope) {
         scope.launch {
-            voiceGateway.start(voiceGatewayConfiguration)
+            voiceGateway.start(voiceGatewayConfig)
         }
     }
 
@@ -84,7 +82,7 @@ public class VoiceConnection(
      */
     public suspend fun disconnect() {
         voiceGateway.stop()
-        socket.stop()
+        voiceSocket.stop()
     }
 
     /**
@@ -149,7 +147,7 @@ public suspend inline fun VoiceConnection(
     selfId: Snowflake,
     channelId: Snowflake,
     guildId: Snowflake,
-    builder: VoiceConnectionBuilder.() -> Unit = {}
+    builder: VoiceConnectionBuilder.() -> Unit = {},
 ): VoiceConnection {
     contract { callsInPlace(builder, InvocationKind.EXACTLY_ONCE) }
     return VoiceConnectionBuilder(gateway, selfId, channelId, guildId).apply(builder).build()

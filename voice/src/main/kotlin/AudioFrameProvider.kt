@@ -9,11 +9,11 @@ import kotlin.math.max
 import kotlin.time.TimeSource
 
 /**
- * Implementations of [AudioProvider] should provide proper [AudioFrame]s representing the audio
+ * Implementations of [AudioFrameProvider] should provide proper [AudioFrame]s representing the audio
  * which should be transmitted to Discord.
  */
 @KordVoice
-public fun interface AudioProvider {
+public fun interface AudioFrameProvider {
     /**
      * Provides a single frame of audio, [AudioFrame].
      *
