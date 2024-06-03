@@ -25,31 +25,38 @@ public sealed class VoiceEvent {
             var d: JsonElement? = null
             while (true) {
                 when (val index = decodeElementIndex(descriptor)) {
-                    0 -> op = decodeSerializableElement(descriptor, index, OpCode.serializer(), op)
-                    1 -> d = decodeSerializableElement(descriptor, index, JsonElement.serializer(), d)
+                    0                            -> op =
+                        decodeSerializableElement(descriptor, index, OpCode.serializer(), op)
+
+                    1                            -> d =
+                        decodeSerializableElement(descriptor, index, JsonElement.serializer(), d)
+
                     CompositeDecoder.DECODE_DONE -> break
-                    else -> throw SerializationException("Unexpected index: $index")
+                    else                         -> throw SerializationException("Unexpected index: $index")
                 }
             }
             when (op) {
-                null ->
+                null                      ->
                     throw @OptIn(ExperimentalSerializationApi::class) MissingFieldException("op", descriptor.serialName)
-                OpCode.Ready -> decodeEvent(decoder, op, Ready.serializer(), d)
+
+                OpCode.Ready              -> decodeEvent(decoder, op, Ready.serializer(), d)
                 OpCode.SessionDescription -> decodeEvent(decoder, op, SessionDescription.serializer(), d)
-                OpCode.Speaking -> decodeEvent(decoder, op, Speaking.serializer(), d)
-                OpCode.HeartbeatAck -> decodeEvent(decoder, op, HeartbeatAck.serializer(), d)
-                OpCode.Hello -> decodeEvent(decoder, op, Hello.serializer(), d)
-                OpCode.Resumed -> {
+                OpCode.Speaking           -> decodeEvent(decoder, op, Speaking.serializer(), d)
+                OpCode.HeartbeatAck       -> decodeEvent(decoder, op, HeartbeatAck.serializer(), d)
+                OpCode.Hello              -> decodeEvent(decoder, op, Hello.serializer(), d)
+                OpCode.Resumed            -> {
                     // ignore the d field, Resumed is supposed to have null here:
                     // https://discord.com/developers/docs/topics/voice-connections#resuming-voice-connection-example-resumed-payload
                     Resumed
                 }
+
                 OpCode.Identify, OpCode.SelectProtocol, OpCode.Heartbeat, OpCode.Resume, OpCode.ClientDisconnect,
-                OpCode.Unknown,
-                -> {
+                OpCode.MediaSinkWants, OpCode.Unknown,
+                                          -> {
                     jsonLogger.debug { "Unknown voice gateway event with opcode $op : $d" }
                     null
                 }
+
             }
         }
 
@@ -71,7 +78,7 @@ public data class Ready(
     val ssrc: UInt,
     val ip: String,
     val port: Int,
-    val modes: List<EncryptionMode>
+    val modes: List<EncryptionMode>,
 ) : VoiceEvent()
 
 @Serializable
@@ -79,7 +86,7 @@ public data class Hello(
     @SerialName("v")
     val version: Short,
     @SerialName("heartbeat_interval")
-    val heartbeatInterval: Double
+    val heartbeatInterval: Double,
 ) : VoiceEvent()
 
 @Serializable(with = HeartbeatAck.Serializer::class)
@@ -95,7 +102,7 @@ public data class HeartbeatAck(val nonce: Long) : VoiceEvent() {
 public data class SessionDescription(
     val mode: EncryptionMode,
     @SerialName("secret_key")
-    val secretKey: List<UByte>
+    val secretKey: List<UByte>,
 ) : VoiceEvent()
 
 @Serializable
@@ -103,13 +110,13 @@ public data class Speaking(
     @SerialName("user_id")
     val userId: Snowflake,
     val ssrc: UInt,
-    val speaking: SpeakingFlags
+    val speaking: SpeakingFlags,
 ) : VoiceEvent()
 
 public object Resumed : VoiceEvent() {
     @Deprecated(
         "'Resumed' is no longer serializable, deserialize it with 'VoiceEvent.DeserializationStrategy' instead. " +
-            "Deprecated without a replacement.",
+        "Deprecated without a replacement.",
         level = DeprecationLevel.ERROR,
     )
     public fun serializer(): KSerializer<Resumed> = Serializer

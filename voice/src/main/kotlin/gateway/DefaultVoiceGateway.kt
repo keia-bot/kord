@@ -36,6 +36,7 @@ public data class DefaultVoiceGatewayData(
     val sessionId: String,
     val client: HttpClient,
     val reconnectRetry: Retry,
+    val isDeaf: Boolean,
     val eventFlow: MutableSharedFlow<VoiceEvent>,
 )
 
@@ -185,17 +186,17 @@ public class DefaultVoiceGateway(
         val json = Json.encodeToString(Command.SerializationStrategy, command)
         defaultVoiceGatewayLogger.trace {
             when (command) {
-                is Identify                              -> {
+                is Identify                                                 -> {
                     val copy = command.copy(token = "token")
                     "Voice Gateway >>> ${Json.encodeToString(Command.SerializationStrategy, copy)}"
                 }
 
-                is SelectProtocol                        -> {
+                is SelectProtocol                                           -> {
                     val copy = command.copy(data = command.data.copy(address = "ip"))
                     "Voice Gateway >>> ${Json.encodeToString(Command.SerializationStrategy, copy)}"
                 }
 
-                is Heartbeat, is Resume, is SendSpeaking -> "Voice Gateway >>> $json"
+                is SendSpeaking, is Resume, is MediaSinkWants, is Heartbeat -> "Voice Gateway >>> $json"
             }
         }
         socket.send(Frame.Text(json))
@@ -280,3 +281,4 @@ private fun <T> ReceiveChannel<T>.asFlow() = flow {
         //reading was stopped from somewhere else, ignore
     }
 }
+

@@ -25,6 +25,7 @@ public class DefaultVoiceGatewayBuilder(
     public var reconnectRetry: Retry? = null
 
     public var eventFlow: MutableSharedFlow<VoiceEvent> = MutableSharedFlow(extraBufferCapacity = Int.MAX_VALUE)
+    public var isDeaf: Boolean = false
 
     /**
      * The [CoroutineScope] to use.
@@ -54,6 +55,7 @@ public class DefaultVoiceGatewayBuilder(
             sessionId,
             client,
             retry,
+            isDeaf,
             eventFlow
         )
 
