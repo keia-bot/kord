@@ -16,7 +16,7 @@ import kotlinx.datetime.Instant
 public class VoiceState(
     public val data: VoiceStateData,
     override val kord: Kord,
-    override val supplier: EntitySupplier = kord.defaultSupplier
+    override val supplier: EntitySupplier = kord.defaultSupplier,
 ) : KordObject, Strategizable {
 
     /** The guild id this voice state is for. */
@@ -56,12 +56,25 @@ public class VoiceState(
     public val requestToSpeakTimestamp: Instant? get() = data.requestToSpeakTimestamp
 
     /**
+     * Requests to get the voice channel.
+     *
+     * @throws [RequestException] if anything went wrong during the request.
+     * @throws [EntityNotFoundException] if [channelId] is null or the channel wasn't present.
+     */
+    public suspend fun getChannel(): BaseVoiceChannelBehavior =
+        getChannelOrNull() ?: EntityNotFoundException.guildEntityNotFound(
+            "Channel for Voice State",
+            guildId,
+            channelId ?: Snowflake.min
+        )
+
+    /**
      * Requests to get the voice channel, returns null if the [VoiceChannel] isn't present.
      *
      * @throws [RequestException] if anything went wrong during the request.
      */
-    public suspend fun getChannelOrNull(): BaseVoiceChannelBehavior? = channelId?.let { supplier.getChannelOfOrNull(it) }
-
+    public suspend fun getChannelOrNull(): BaseVoiceChannelBehavior? =
+        channelId?.let { supplier.getChannelOfOrNull(it) }
 
     /**
      * Requests to get the guild of this voice state.

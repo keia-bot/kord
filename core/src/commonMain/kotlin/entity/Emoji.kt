@@ -8,26 +8,27 @@ import dev.kord.core.behavior.MemberBehavior
 import dev.kord.core.behavior.RoleBehavior
 import dev.kord.core.behavior.UserBehavior
 import dev.kord.core.cache.data.EmojiData
+import dev.kord.core.hash
 import dev.kord.core.supplier.EntitySupplier
 import dev.kord.core.supplier.EntitySupplyStrategy
 import dev.kord.rest.builder.guild.EmojiModifyBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filter
-import dev.kord.core.hash
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
+import kotlin.jvm.JvmInline
 
 /** Either a [StandardEmoji] or a [GuildEmoji]. */
 public sealed interface Emoji {
     /**
-     * Either the unicode representation of the emoji if it's a [StandardEmoji] or the emoji name if it's a
+     * Either the Unicode representation of the emoji if it's a [StandardEmoji] or the emoji name if it's a
      * [GuildEmoji].
      */
     public val name: String?
 
     /**
-     * Either the unicode representation of the emoji if it's a [StandardEmoji] or the
+     * Either the Unicode representation of the emoji if it's a [StandardEmoji] or the
      * [mention string](https://discord.com/developers/docs/reference#message-formatting) if it's a [GuildEmoji].
      */
     public val mention: String
@@ -37,13 +38,12 @@ public sealed interface Emoji {
  * An instance of a
  * [standard emoji](https://discord.com/developers/docs/resources/emoji#emoji-object-standard-emoji-example).
  *
- * @property name The unicode representation of this emoji.
+ * @property name The Unicode representation of this emoji.
  */
-public class StandardEmoji(override val name: String) : Emoji {
-    /** The unicode representation of this emoji. */
+@JvmInline
+public value class StandardEmoji(override val name: String) : Emoji {
+    /** The Unicode representation of this emoji. */
     override val mention: String get() = name
-    override fun equals(other: Any?): Boolean = other is StandardEmoji && this.name == other.name
-    override fun hashCode(): Int = name.hashCode()
     override fun toString(): String = "StandardEmoji(name=$name)"
 }
 
@@ -54,7 +54,7 @@ public class StandardEmoji(override val name: String) : Emoji {
 public class GuildEmoji(
     public val data: EmojiData,
     override val kord: Kord,
-    override val supplier: EntitySupplier = kord.defaultSupplier
+    override val supplier: EntitySupplier = kord.defaultSupplier,
 ) : Emoji, KordEntity, Strategizable {
 
     override val id: Snowflake
@@ -176,13 +176,14 @@ public class GuildEmoji(
     /**
      * Returns a new [GuildEmoji] with the given [strategy].
      */
-    override fun withStrategy(strategy: EntitySupplyStrategy<*>): GuildEmoji = GuildEmoji(data, kord, strategy.supply(kord))
+    override fun withStrategy(strategy: EntitySupplyStrategy<*>): GuildEmoji =
+        GuildEmoji(data, kord, strategy.supply(kord))
 
     override fun hashCode(): Int = hash(id, guildId)
 
     override fun equals(other: Any?): Boolean = when (other) {
         is GuildEmoji -> other.id == id && other.guildId == guildId
-        else -> super.equals(other)
+        else          -> super.equals(other)
     }
 
     override fun toString(): String {

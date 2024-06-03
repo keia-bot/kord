@@ -78,7 +78,7 @@ public final class dev/kord/core/Kord : kotlinx/coroutines/CoroutineScope {
 	public final fun getSelfId-4_xYDEk ()J
 	public final fun getSkus (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun getSticker-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getUnsafe ()Ldev/kord/core/Unsafe;
+	public final fun getUnsafe-q8QWGKE ()Ldev/kord/core/Kord;
 	public final fun getUser-9y3P_48 (JLdev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun getUser-9y3P_48$default (Ldev/kord/core/Kord;JLdev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun getWebhook-9y3P_48 (JLdev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -118,45 +118,53 @@ public abstract interface class dev/kord/core/KordObject {
 }
 
 public final class dev/kord/core/Unsafe {
-	public fun <init> (Ldev/kord/core/Kord;)V
-	public final fun applicationCommandInteraction-y0HsnCc (JJLjava/lang/String;J)Ldev/kord/core/behavior/interaction/ApplicationCommandInteractionBehavior;
-	public final fun autoModerationRule-Xcgsvs4 (JJ)Ldev/kord/core/behavior/automoderation/AutoModerationRuleBehavior;
-	public final fun categorizableChannel-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/CategorizableChannelBehavior;
-	public final fun channel-IO-hELI (J)Ldev/kord/core/behavior/channel/ChannelBehavior;
-	public final fun componentInteraction-y0HsnCc (JJLjava/lang/String;J)Ldev/kord/core/behavior/interaction/ComponentInteractionBehavior;
-	public static synthetic fun componentInteraction-y0HsnCc$default (Ldev/kord/core/Unsafe;JJLjava/lang/String;JILjava/lang/Object;)Ldev/kord/core/behavior/interaction/ComponentInteractionBehavior;
-	public final fun globalApplicationCommand-9IY7LyE (JJJ)Ldev/kord/core/behavior/GuildApplicationCommandBehavior;
-	public final fun globalApplicationCommand-U2evHYk (JJLdev/kord/rest/service/InteractionService;)Ldev/kord/core/behavior/GlobalApplicationCommandBehavior;
-	public static synthetic fun globalApplicationCommand-U2evHYk$default (Ldev/kord/core/Unsafe;JJLdev/kord/rest/service/InteractionService;ILjava/lang/Object;)Ldev/kord/core/behavior/GlobalApplicationCommandBehavior;
-	public final fun globalApplicationCommand-Xcgsvs4 (JJ)Ldev/kord/core/behavior/GlobalApplicationCommandBehavior;
-	public final fun guild-IO-hELI (J)Ldev/kord/core/behavior/GuildBehavior;
-	public final fun guildApplicationCommand-SmFlTYk (JJJLdev/kord/rest/service/InteractionService;)Ldev/kord/core/behavior/GuildApplicationCommandBehavior;
-	public static synthetic fun guildApplicationCommand-SmFlTYk$default (Ldev/kord/core/Unsafe;JJJLdev/kord/rest/service/InteractionService;ILjava/lang/Object;)Ldev/kord/core/behavior/GuildApplicationCommandBehavior;
-	public final fun guildChannel-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/GuildChannelBehavior;
-	public final fun guildEmoji-U2evHYk (JJLdev/kord/core/Kord;)Ldev/kord/core/behavior/GuildEmojiBehavior;
-	public final fun guildMessageChannel-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/GuildMessageChannelBehavior;
-	public final fun guildScheduledEvent-Xcgsvs4 (JJ)Ldev/kord/core/behavior/GuildScheduledEventBehavior;
-	public final fun keywordAutoModerationRule-Xcgsvs4 (JJ)Ldev/kord/core/behavior/automoderation/KeywordAutoModerationRuleBehavior;
-	public final fun keywordPresetAutoModerationRule-Xcgsvs4 (JJ)Ldev/kord/core/behavior/automoderation/KeywordPresetAutoModerationRuleBehavior;
-	public final fun member-Xcgsvs4 (JJ)Ldev/kord/core/behavior/MemberBehavior;
-	public final fun mentionSpamAutoModerationRule-Xcgsvs4 (JJ)Ldev/kord/core/behavior/automoderation/MentionSpamAutoModerationRuleBehavior;
-	public final fun message-Xcgsvs4 (JJ)Ldev/kord/core/behavior/MessageBehavior;
-	public final fun messageChannel-IO-hELI (J)Ldev/kord/core/behavior/channel/MessageChannelBehavior;
-	public final fun newsChannel-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/NewsChannelBehavior;
-	public final fun privateThreadParent-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/threads/PrivateThreadParentChannelBehavior;
-	public final fun publicThreadParent-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/threads/ThreadParentChannelBehavior;
-	public final fun role-Xcgsvs4 (JJ)Ldev/kord/core/behavior/RoleBehavior;
-	public final fun spamAutoModerationRule-Xcgsvs4 (JJ)Ldev/kord/core/behavior/automoderation/SpamAutoModerationRuleBehavior;
-	public final fun stageInstance-Xcgsvs4 (JJ)Ldev/kord/core/behavior/StageInstanceBehavior;
-	public final fun textChannel-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/TextChannelBehavior;
-	public final fun thread-9IY7LyE (JJJ)Ldev/kord/core/behavior/channel/threads/ThreadChannelBehavior;
-	public final fun threadMember-Xcgsvs4 (JJ)Ldev/kord/core/behavior/ThreadMemberBehavior;
+	public static final fun applicationCommandInteraction-y0HsnCc (Ldev/kord/core/Kord;JJLjava/lang/String;J)Ldev/kord/core/behavior/interaction/ApplicationCommandInteractionBehavior;
+	public static final fun autoModerationRule-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/automoderation/AutoModerationRuleBehavior;
+	public static final synthetic fun box-impl (Ldev/kord/core/Kord;)Ldev/kord/core/Unsafe;
+	public static final fun categorizableChannel-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/CategorizableChannelBehavior;
+	public static final fun channel-IO-hELI (Ldev/kord/core/Kord;J)Ldev/kord/core/behavior/channel/ChannelBehavior;
+	public static final fun componentInteraction-y0HsnCc (Ldev/kord/core/Kord;JJLjava/lang/String;J)Ldev/kord/core/behavior/interaction/ComponentInteractionBehavior;
+	public static synthetic fun componentInteraction-y0HsnCc$default (Ldev/kord/core/Kord;JJLjava/lang/String;JILjava/lang/Object;)Ldev/kord/core/behavior/interaction/ComponentInteractionBehavior;
+	public static fun constructor-impl (Ldev/kord/core/Kord;)Ldev/kord/core/Kord;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ldev/kord/core/Kord;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ldev/kord/core/Kord;Ldev/kord/core/Kord;)Z
+	public static final fun globalApplicationCommand-9IY7LyE (Ldev/kord/core/Kord;JJJ)Ldev/kord/core/behavior/GuildApplicationCommandBehavior;
+	public static final fun globalApplicationCommand-U2evHYk (Ldev/kord/core/Kord;JJLdev/kord/rest/service/InteractionService;)Ldev/kord/core/behavior/GlobalApplicationCommandBehavior;
+	public static synthetic fun globalApplicationCommand-U2evHYk$default (Ldev/kord/core/Kord;JJLdev/kord/rest/service/InteractionService;ILjava/lang/Object;)Ldev/kord/core/behavior/GlobalApplicationCommandBehavior;
+	public static final fun globalApplicationCommand-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/GlobalApplicationCommandBehavior;
+	public static final fun guild-IO-hELI (Ldev/kord/core/Kord;J)Ldev/kord/core/behavior/GuildBehavior;
+	public static final fun guildApplicationCommand-SmFlTYk (Ldev/kord/core/Kord;JJJLdev/kord/rest/service/InteractionService;)Ldev/kord/core/behavior/GuildApplicationCommandBehavior;
+	public static synthetic fun guildApplicationCommand-SmFlTYk$default (Ldev/kord/core/Kord;JJJLdev/kord/rest/service/InteractionService;ILjava/lang/Object;)Ldev/kord/core/behavior/GuildApplicationCommandBehavior;
+	public static final fun guildChannel-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/GuildChannelBehavior;
+	public static final fun guildEmoji-U2evHYk (Ldev/kord/core/Kord;JJLdev/kord/core/Kord;)Ldev/kord/core/behavior/GuildEmojiBehavior;
+	public static final fun guildMessageChannel-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/GuildMessageChannelBehavior;
+	public static final fun guildScheduledEvent-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/GuildScheduledEventBehavior;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ldev/kord/core/Kord;)I
+	public static final fun keywordAutoModerationRule-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/automoderation/KeywordAutoModerationRuleBehavior;
+	public static final fun keywordPresetAutoModerationRule-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/automoderation/KeywordPresetAutoModerationRuleBehavior;
+	public static final fun member-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/MemberBehavior;
+	public static final fun mentionSpamAutoModerationRule-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/automoderation/MentionSpamAutoModerationRuleBehavior;
+	public static final fun message-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/MessageBehavior;
+	public static final fun messageChannel-IO-hELI (Ldev/kord/core/Kord;J)Ldev/kord/core/behavior/channel/MessageChannelBehavior;
+	public static final fun newsChannel-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/NewsChannelBehavior;
+	public static final fun privateThreadParent-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/threads/PrivateThreadParentChannelBehavior;
+	public static final fun publicThreadParent-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/threads/ThreadParentChannelBehavior;
+	public static final fun role-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/RoleBehavior;
+	public static final fun spamAutoModerationRule-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/automoderation/SpamAutoModerationRuleBehavior;
+	public static final fun stageInstance-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/StageInstanceBehavior;
+	public static final fun textChannel-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/TextChannelBehavior;
+	public static final fun thread-9IY7LyE (Ldev/kord/core/Kord;JJJ)Ldev/kord/core/behavior/channel/threads/ThreadChannelBehavior;
+	public static final fun threadMember-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/ThreadMemberBehavior;
 	public fun toString ()Ljava/lang/String;
-	public final fun topGuildChannel-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/TopGuildChannelBehavior;
-	public final fun topGuildMessageChannel-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/TopGuildMessageChannelBehavior;
-	public final fun user-IO-hELI (J)Ldev/kord/core/behavior/UserBehavior;
-	public final fun voiceChannel-Xcgsvs4 (JJ)Ldev/kord/core/behavior/channel/VoiceChannelBehavior;
-	public final fun webhook-IO-hELI (J)Ldev/kord/core/behavior/WebhookBehavior;
+	public static fun toString-impl (Ldev/kord/core/Kord;)Ljava/lang/String;
+	public static final fun topGuildChannel-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/TopGuildChannelBehavior;
+	public static final fun topGuildMessageChannel-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/TopGuildMessageChannelBehavior;
+	public final synthetic fun unbox-impl ()Ldev/kord/core/Kord;
+	public static final fun user-IO-hELI (Ldev/kord/core/Kord;J)Ldev/kord/core/behavior/UserBehavior;
+	public static final fun voiceChannel-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Ldev/kord/core/behavior/channel/VoiceChannelBehavior;
+	public static final fun webhook-IO-hELI (Ldev/kord/core/Kord;J)Ldev/kord/core/behavior/WebhookBehavior;
 }
 
 public final class dev/kord/core/UtilKt {
@@ -2290,11 +2298,19 @@ public final class dev/kord/core/cache/QueryKt {
 }
 
 public final class dev/kord/core/cache/ViewKeys {
-	public fun <init> ()V
-	public fun <init> (Ljava/util/Set;)V
-	public synthetic fun <init> (Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun add (Ljava/lang/Object;)V
-	public final fun getKeys ()Ljava/util/Set;
+	public static final fun add-impl (Ljava/util/Set;Ljava/lang/Object;)V
+	public static final synthetic fun box-impl (Ljava/util/Set;)Ldev/kord/core/cache/ViewKeys;
+	public static fun constructor-impl (Ljava/util/Set;)Ljava/util/Set;
+	public static synthetic fun constructor-impl$default (Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)Ljava/util/Set;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/util/Set;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/util/Set;Ljava/util/Set;)Z
+	public static final fun getKeys-impl (Ljava/util/Set;)Ljava/util/Set;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/util/Set;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/util/Set;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/util/Set;
 }
 
 public final class dev/kord/core/cache/data/ActivityData {
@@ -5710,24 +5726,32 @@ public final class dev/kord/core/cache/data/WelcomeScreenData$Companion {
 }
 
 public final class dev/kord/core/entity/Activity {
-	public fun <init> (Ldev/kord/core/cache/data/ActivityData;)V
-	public final fun getApplicationId-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
-	public final fun getAssets ()Ldev/kord/core/entity/Activity$Assets;
-	public final fun getButtons ()Ljava/util/List;
+	public static final synthetic fun box-impl (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/core/entity/Activity;
+	public static fun constructor-impl (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/core/cache/data/ActivityData;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ldev/kord/core/cache/data/ActivityData;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ldev/kord/core/cache/data/ActivityData;Ldev/kord/core/cache/data/ActivityData;)Z
+	public static final fun getApplicationId-eUG9VGM (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/common/entity/Snowflake;
+	public static final fun getAssets-impl (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/core/entity/Activity$Assets;
+	public static final fun getButtons-impl (Ldev/kord/core/cache/data/ActivityData;)Ljava/util/List;
 	public final fun getData ()Ldev/kord/core/cache/data/ActivityData;
-	public final fun getDetails ()Ljava/lang/String;
-	public final fun getEmoji ()Ldev/kord/common/entity/DiscordActivityEmoji;
-	public final fun getEnd ()Lkotlinx/datetime/Instant;
-	public final fun getFlags-n4LzKNk ()Ldev/kord/common/entity/ActivityFlags;
-	public final fun getName ()Ljava/lang/String;
-	public final fun getParty ()Ldev/kord/core/entity/Activity$Party;
-	public final fun getSecrets ()Ldev/kord/core/entity/Activity$Secrets;
-	public final fun getStart ()Lkotlinx/datetime/Instant;
-	public final fun getState ()Ljava/lang/String;
-	public final fun getType ()Ldev/kord/common/entity/ActivityType;
-	public final fun getUrl ()Ljava/lang/String;
-	public final fun isInstance ()Ljava/lang/Boolean;
+	public static final fun getDetails-impl (Ldev/kord/core/cache/data/ActivityData;)Ljava/lang/String;
+	public static final fun getEmoji-impl (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/common/entity/DiscordActivityEmoji;
+	public static final fun getEnd-impl (Ldev/kord/core/cache/data/ActivityData;)Lkotlinx/datetime/Instant;
+	public static final fun getFlags-n4LzKNk (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/common/entity/ActivityFlags;
+	public static final fun getName-impl (Ldev/kord/core/cache/data/ActivityData;)Ljava/lang/String;
+	public static final fun getParty-impl (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/core/entity/Activity$Party;
+	public static final fun getSecrets-impl (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/core/entity/Activity$Secrets;
+	public static final fun getStart-impl (Ldev/kord/core/cache/data/ActivityData;)Lkotlinx/datetime/Instant;
+	public static final fun getState-impl (Ldev/kord/core/cache/data/ActivityData;)Ljava/lang/String;
+	public static final fun getType-impl (Ldev/kord/core/cache/data/ActivityData;)Ldev/kord/common/entity/ActivityType;
+	public static final fun getUrl-impl (Ldev/kord/core/cache/data/ActivityData;)Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ldev/kord/core/cache/data/ActivityData;)I
+	public static final fun isInstance-impl (Ldev/kord/core/cache/data/ActivityData;)Ljava/lang/Boolean;
 	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ldev/kord/core/cache/data/ActivityData;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ldev/kord/core/cache/data/ActivityData;
 }
 
 public final class dev/kord/core/entity/Activity$Assets {
@@ -7091,12 +7115,19 @@ public final class dev/kord/core/entity/StageInstance : dev/kord/core/behavior/S
 }
 
 public final class dev/kord/core/entity/StandardEmoji : dev/kord/core/entity/Emoji {
-	public fun <init> (Ljava/lang/String;)V
+	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kord/core/entity/StandardEmoji;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
 	public fun getMention ()Ljava/lang/String;
+	public static fun getMention-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun getName ()Ljava/lang/String;
 	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
 	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
 public class dev/kord/core/entity/Sticker : dev/kord/core/entity/KordEntity {
@@ -7256,6 +7287,7 @@ public final class dev/kord/core/entity/UserKt {
 public final class dev/kord/core/entity/VoiceState : dev/kord/core/KordObject, dev/kord/core/entity/Strategizable {
 	public fun <init> (Ldev/kord/core/cache/data/VoiceStateData;Ldev/kord/core/Kord;Ldev/kord/core/supplier/EntitySupplier;)V
 	public synthetic fun <init> (Ldev/kord/core/cache/data/VoiceStateData;Ldev/kord/core/Kord;Ldev/kord/core/supplier/EntitySupplier;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun getChannelId-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
 	public final fun getChannelOrNull (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun getData ()Ldev/kord/core/cache/data/VoiceStateData;
@@ -13923,109 +13955,202 @@ public final class dev/kord/core/supplier/FallbackEntitySupplierKt {
 }
 
 public final class dev/kord/core/supplier/RestEntitySupplier : dev/kord/core/supplier/EntitySupplier {
-	public fun <init> (Ldev/kord/core/Kord;)V
+	public static final synthetic fun box-impl (Ldev/kord/core/Kord;)Ldev/kord/core/supplier/RestEntitySupplier;
+	public static fun constructor-impl (Ldev/kord/core/Kord;)Ldev/kord/core/Kord;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ldev/kord/core/Kord;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ldev/kord/core/Kord;Ldev/kord/core/Kord;)Z
 	public fun getActiveThreads-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getActiveThreads-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getApplicationCommandPermissions-SmFlTYk (JJJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getApplicationCommandPermissions-SmFlTYk (Ldev/kord/core/Kord;JJJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getApplicationCommandPermissionsOrNull-SmFlTYk (JJJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getApplicationInfo (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getAuditLogEntries-wYKCHeA (JLdev/kord/rest/json/request/AuditLogGetRequest;)Lkotlinx/coroutines/flow/Flow;
-	public final fun getAuditLogEntries-wYKCHeA (JLkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/flow/Flow;
-	public static synthetic fun getAuditLogEntries-wYKCHeA$default (Ldev/kord/core/supplier/RestEntitySupplier;JLdev/kord/rest/json/request/AuditLogGetRequest;ILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getApplicationCommandPermissionsOrNull-SmFlTYk (Ldev/kord/core/Kord;JJJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun getApplicationInfo-impl (Ldev/kord/core/Kord;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun getAuditLogEntries-wYKCHeA (Ldev/kord/core/Kord;JLdev/kord/rest/json/request/AuditLogGetRequest;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun getAuditLogEntries-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/flow/Flow;
+	public static synthetic fun getAuditLogEntries-wYKCHeA$default (Ldev/kord/core/Kord;JLdev/kord/rest/json/request/AuditLogGetRequest;ILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
 	public fun getAutoModerationRule-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getAutoModerationRule-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getAutoModerationRuleOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getAutoModerationRuleOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getAutoModerationRules-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getAutoModerationRules-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getChannel-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getChannel-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getChannelOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getChannelOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getChannelPins-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getChannelPins-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getChannelWebhooks-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getChannelWebhooks-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getCurrentUserGuilds (Ljava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getCurrentUserGuilds-impl (Ldev/kord/core/Kord;Ljava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getEmoji-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getEmoji-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getEmojiOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getEmojiOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getEmojis-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getEmojis-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getEntitlement-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getEntitlement-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getEntitlementOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getEntitlementOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getEntitlements-fCr37UY (JLdev/kord/common/entity/Snowflake;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getEntitlements-fCr37UY (Ldev/kord/core/Kord;JLdev/kord/common/entity/Snowflake;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getFollowupMessage-IFX1TXc (JLjava/lang/String;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getFollowupMessage-IFX1TXc (Ldev/kord/core/Kord;JLjava/lang/String;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getFollowupMessageOrNull-IFX1TXc (JLjava/lang/String;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getFollowupMessageOrNull-IFX1TXc (Ldev/kord/core/Kord;JLjava/lang/String;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGlobalApplicationCommand-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGlobalApplicationCommand-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGlobalApplicationCommandOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGlobalApplicationCommandOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGlobalApplicationCommands-wYKCHeA (JLjava/lang/Boolean;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGlobalApplicationCommands-wYKCHeA (Ldev/kord/core/Kord;JLjava/lang/Boolean;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuild-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuild-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildApplicationCommand-SmFlTYk (JJJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildApplicationCommand-SmFlTYk (Ldev/kord/core/Kord;JJJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildApplicationCommandOrNull-SmFlTYk (JJJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildApplicationCommandOrNull-SmFlTYk (Ldev/kord/core/Kord;JJJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildApplicationCommandPermissions-Xcgsvs4 (JJ)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildApplicationCommandPermissions-Xcgsvs4 (Ldev/kord/core/Kord;JJ)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildApplicationCommands-U2evHYk (JJLjava/lang/Boolean;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildApplicationCommands-U2evHYk (Ldev/kord/core/Kord;JJLjava/lang/Boolean;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildBan-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildBan-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildBanOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildBanOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildBans-wYKCHeA (JLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildBans-wYKCHeA (Ldev/kord/core/Kord;JLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildChannels-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildChannels-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildMembers-wYKCHeA (JLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
-	public final fun getGuildOnboarding-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getGuildOnboardingOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildMembers-wYKCHeA (Ldev/kord/core/Kord;JLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun getGuildOnboarding-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun getGuildOnboardingOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildPreview-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildPreview-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildPreviewOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildPreviewOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildRoles-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildRoles-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildScheduledEvent-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildScheduledEvent-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildScheduledEventMembers-U2evHYk (JJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildScheduledEventMembers-U2evHYk (Ldev/kord/core/Kord;JJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildScheduledEventMembersAfter-SmFlTYk (JJJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildScheduledEventMembersAfter-SmFlTYk (Ldev/kord/core/Kord;JJJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildScheduledEventMembersBefore-SmFlTYk (JJJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildScheduledEventMembersBefore-SmFlTYk (Ldev/kord/core/Kord;JJJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildScheduledEventOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildScheduledEventOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildScheduledEventUsers-U2evHYk (JJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildScheduledEventUsers-U2evHYk (Ldev/kord/core/Kord;JJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildScheduledEventUsersAfter-SmFlTYk (JJJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildScheduledEventUsersAfter-SmFlTYk (Ldev/kord/core/Kord;JJJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildScheduledEventUsersBefore-SmFlTYk (JJJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildScheduledEventUsersBefore-SmFlTYk (Ldev/kord/core/Kord;JJJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildScheduledEvents-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildScheduledEvents-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildSticker-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildSticker-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildStickerOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildStickerOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildStickers-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildStickers-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildVoiceRegions-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getGuildVoiceRegions-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getGuildWebhooks-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
-	public final fun getGuildWelcomeScreen-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getGuildWelcomeScreenOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildWebhooks-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
+	public static final fun getGuildWelcomeScreen-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun getGuildWelcomeScreenOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildWidget-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildWidget-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuildWidgetOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getGuildWidgetOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getGuilds ()Lkotlinx/coroutines/flow/Flow;
-	public final fun getInvite-ReOCJwE (Ljava/lang/String;ZZLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static synthetic fun getInvite-ReOCJwE$default (Ldev/kord/core/supplier/RestEntitySupplier;Ljava/lang/String;ZZLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public final fun getInviteOrNull-ReOCJwE (Ljava/lang/String;ZZLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static synthetic fun getInviteOrNull-ReOCJwE$default (Ldev/kord/core/supplier/RestEntitySupplier;Ljava/lang/String;ZZLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static fun getGuilds-impl (Ldev/kord/core/Kord;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun getInvite-ReOCJwE (Ldev/kord/core/Kord;Ljava/lang/String;ZZLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun getInvite-ReOCJwE$default (Ldev/kord/core/Kord;Ljava/lang/String;ZZLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun getInviteOrNull-ReOCJwE (Ldev/kord/core/Kord;Ljava/lang/String;ZZLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun getInviteOrNull-ReOCJwE$default (Ldev/kord/core/Kord;Ljava/lang/String;ZZLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public fun getJoinedPrivateArchivedThreads-8GXc5so (JLdev/kord/common/entity/Snowflake;Ljava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getJoinedPrivateArchivedThreads-8GXc5so (Ldev/kord/core/Kord;JLdev/kord/common/entity/Snowflake;Ljava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public final fun getKord ()Ldev/kord/core/Kord;
 	public fun getMember-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getMember-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getMemberOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getMemberOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getMessage-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getMessage-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getMessageOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getMessageOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getMessagesAfter-U2evHYk (JJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getMessagesAfter-U2evHYk (Ldev/kord/core/Kord;JJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getMessagesAround-U2evHYk (JJI)Lkotlinx/coroutines/flow/Flow;
+	public static fun getMessagesAround-U2evHYk (Ldev/kord/core/Kord;JJI)Lkotlinx/coroutines/flow/Flow;
 	public fun getMessagesBefore-U2evHYk (JJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getMessagesBefore-U2evHYk (Ldev/kord/core/Kord;JJLjava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getNitroStickerPacks ()Lkotlinx/coroutines/flow/Flow;
-	public final fun getOriginalInteraction-9y3P_48 (JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getOriginalInteractionOrNull-9y3P_48 (JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getNitroStickerPacks-impl (Ldev/kord/core/Kord;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun getOriginalInteraction-9y3P_48 (Ldev/kord/core/Kord;JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun getOriginalInteractionOrNull-9y3P_48 (Ldev/kord/core/Kord;JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getPrivateArchivedThreads-9y3P_48 (JLkotlinx/datetime/Instant;Ljava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getPrivateArchivedThreads-9y3P_48 (Ldev/kord/core/Kord;JLkotlinx/datetime/Instant;Ljava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
 	public fun getPublicArchivedThreads-9y3P_48 (JLkotlinx/datetime/Instant;Ljava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
-	public final fun getReactors-U2evHYk (JJLdev/kord/core/entity/ReactionEmoji;)Lkotlinx/coroutines/flow/Flow;
+	public static fun getPublicArchivedThreads-9y3P_48 (Ldev/kord/core/Kord;JLkotlinx/datetime/Instant;Ljava/lang/Integer;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun getReactors-U2evHYk (Ldev/kord/core/Kord;JJLdev/kord/core/entity/ReactionEmoji;)Lkotlinx/coroutines/flow/Flow;
 	public fun getRegions ()Lkotlinx/coroutines/flow/Flow;
+	public static fun getRegions-impl (Ldev/kord/core/Kord;)Lkotlinx/coroutines/flow/Flow;
 	public fun getRole-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getRole-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getRoleOrNull-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getRoleOrNull-U2evHYk (Ldev/kord/core/Kord;JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getSelf (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getSelf-impl (Ldev/kord/core/Kord;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getSelfOrNull (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getSelfOrNull-impl (Ldev/kord/core/Kord;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getStageInstance-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getStageInstance-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getStageInstanceOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getStageInstanceOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getSticker-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getSticker-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getStickerOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getStickerOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getTemplate (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getTemplate-impl (Ldev/kord/core/Kord;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getTemplateOrNull (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getTemplateOrNull-impl (Ldev/kord/core/Kord;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getTemplates-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getTemplates-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getThreadMembers-IO-hELI (J)Lkotlinx/coroutines/flow/Flow;
+	public static fun getThreadMembers-IO-hELI (Ldev/kord/core/Kord;J)Lkotlinx/coroutines/flow/Flow;
 	public fun getUser-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getUser-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getUserOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getUserOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getWebhook-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getWebhook-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getWebhookMessage-k9QPuOU (JLjava/lang/String;JLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getWebhookMessage-k9QPuOU (Ldev/kord/core/Kord;JLjava/lang/String;JLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getWebhookMessageOrNull-k9QPuOU (JLjava/lang/String;JLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getWebhookMessageOrNull-k9QPuOU (Ldev/kord/core/Kord;JLjava/lang/String;JLdev/kord/common/entity/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getWebhookOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getWebhookOrNull-wYKCHeA (Ldev/kord/core/Kord;JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getWebhookWithToken-9y3P_48 (JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getWebhookWithToken-9y3P_48 (Ldev/kord/core/Kord;JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getWebhookWithTokenOrNull-9y3P_48 (JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun getWebhookWithTokenOrNull-9y3P_48 (Ldev/kord/core/Kord;JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ldev/kord/core/Kord;)I
 	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ldev/kord/core/Kord;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ldev/kord/core/Kord;
 }
 
 public final class dev/kord/core/supplier/StoreEntitySupplier : dev/kord/core/supplier/EntitySupplier {

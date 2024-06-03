@@ -16,6 +16,7 @@ kotlin {
         jvmMain {
             dependencies {
                 runtimeOnly(libs.slf4j.simple)
+                implementation(projects.coreVoice)
             }
         }
     }

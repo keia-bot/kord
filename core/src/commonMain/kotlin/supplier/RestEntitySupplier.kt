@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.datetime.Instant
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
+import kotlin.jvm.JvmInline
 import kotlin.math.min
 
 /**
@@ -37,7 +38,8 @@ import kotlin.math.min
  * This supplier will always be able to resolve entities if they exist according
  * to Discord, entities will always be up-to-date at the moment of the call.
  */
-public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
+@JvmInline
+public value class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
 
     // order like in docs:
 
@@ -64,7 +66,6 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
     // monetization
     private inline val sku get() = kord.rest.sku
     private inline val entitlement get() = kord.rest.entitlement
-
 
     // max batchSize/limit: see https://discord.com/developers/docs/resources/user#get-current-user-guilds
     override val guilds: Flow<Guild>
@@ -156,7 +157,7 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
 
     override suspend fun getRoleOrNull(guildId: Snowflake, roleId: Snowflake): Role? = catchNotFound {
         val response = guild.getGuildRoles(guildId)
-            .firstOrNull { it.id == roleId } ?: return@catchNotFound null
+                           .firstOrNull { it.id == roleId } ?: return@catchNotFound null
 
         Role(RoleData.from(guildId, response), kord)
     }
@@ -194,7 +195,6 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
             val memberData = it.toData(guildId = guildId, userId = it.user.value!!.id)
             Member(memberData, userData, kord)
         }
-
 
     override fun getGuildVoiceRegions(guildId: Snowflake): Flow<Region> = flow {
         for (region in guild.getGuildVoiceRegions(guildId)) {
@@ -286,7 +286,7 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
         withExpiration: Boolean = true,
         scheduledEventId: Snowflake? = null,
     ): Invite = getInviteOrNull(code, withCounts, withExpiration, scheduledEventId)
-        ?: EntityNotFoundException.inviteNotFound(code)
+                ?: EntityNotFoundException.inviteNotFound(code)
 
     /**
      * Requests to get the information of the current application.
@@ -316,10 +316,9 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
         }
     }
 
-
     public inline fun getAuditLogEntries(
         guildId: Snowflake,
-        builder: AuditLogGetRequestBuilder.() -> Unit
+        builder: AuditLogGetRequestBuilder.() -> Unit,
     ): Flow<DiscordAuditLogEntry> {
         contract { callsInPlace(builder, InvocationKind.EXACTLY_ONCE) }
         return getAuditLogEntries(guildId, AuditLogGetRequestBuilder().apply(builder).toRequest())
@@ -352,7 +351,6 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
      */
     public suspend fun getGuildOnboarding(guildId: Snowflake): GuildOnboarding =
         getGuildOnboardingOrNull(guildId) ?: EntityNotFoundException.onboardingNotFound(guildId)
-
 
     // maxBatchSize: see https://discord.com/developers/docs/resources/audit-log#get-guild-audit-log
     public fun getAuditLogEntries(
@@ -429,7 +427,7 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
     override fun getGuildApplicationCommands(
         applicationId: Snowflake,
         guildId: Snowflake,
-        withLocalizations: Boolean?
+        withLocalizations: Boolean?,
     ): Flow<GuildApplicationCommand> = flow {
         for (command in interaction.getGuildApplicationCommands(applicationId, guildId, withLocalizations)) {
             val data = ApplicationCommandData.from(command)
@@ -437,17 +435,19 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
         }
     }
 
-
     override suspend fun getGlobalApplicationCommandOrNull(
         applicationId: Snowflake,
-        commandId: Snowflake
+        commandId: Snowflake,
     ): GlobalApplicationCommand? = catchNotFound {
         val response = interaction.getGlobalCommand(applicationId, commandId)
         val data = ApplicationCommandData.from(response)
         GlobalApplicationCommand(data, interaction)
     }
 
-    override fun getGlobalApplicationCommands(applicationId: Snowflake, withLocalizations: Boolean?): Flow<GlobalApplicationCommand> = flow {
+    override fun getGlobalApplicationCommands(
+        applicationId: Snowflake,
+        withLocalizations: Boolean?,
+    ): Flow<GlobalApplicationCommand> = flow {
         for (command in interaction.getGlobalApplicationCommands(applicationId, withLocalizations)) {
             val data = ApplicationCommandData.from(command)
             emit(GlobalApplicationCommand(data, interaction))
@@ -637,22 +637,22 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
         return ApplicationCommandPermissions(data)
     }
 
-
     override suspend fun getGuildApplicationCommandOrNull(
         applicationId: Snowflake,
         guildId: Snowflake,
-        commandId: Snowflake
+        commandId: Snowflake,
     ): GuildApplicationCommand? = catchNotFound {
         val response = interaction.getGuildCommand(applicationId, guildId, commandId)
         val data = ApplicationCommandData.from(response)
         GuildApplicationCommand(data, interaction)
     }
 
-    override suspend fun getEntitlementOrNull(applicationId: Snowflake, entitlementId: Snowflake): Entitlement? = catchNotFound {
-        val response = entitlement.getEntitlement(applicationId, entitlementId)
-        val data = EntitlementData.from(response)
-        Entitlement(data, kord)
-    }
+    override suspend fun getEntitlementOrNull(applicationId: Snowflake, entitlementId: Snowflake): Entitlement? =
+        catchNotFound {
+            val response = entitlement.getEntitlement(applicationId, entitlementId)
+            val data = EntitlementData.from(response)
+            Entitlement(data, kord)
+        }
 
     // maxBatchSize: see https://discord.com/developers/docs/monetization/entitlements#list-entitlements
     override suspend fun getEntitlements(
@@ -660,7 +660,7 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
         skuId: Snowflake?,
         limit: Int?,
         userId: Snowflake?,
-        guildId: Snowflake?
+        guildId: Snowflake?,
     ): Flow<Entitlement> = limitedPagination(limit, maxBatchSize = 100) { batchSize ->
         paginateForwards(batchSize, idSelector = { it.id }) { position ->
             entitlement.listEntitlements(
@@ -681,7 +681,6 @@ public class RestEntitySupplier(public val kord: Kord) : EntitySupplier {
 
     override fun toString(): String = "RestEntitySupplier(rest=${kord.rest})"
 }
-
 
 private fun checkLimitAndGetBatchSize(limit: Int?, maxBatchSize: Int): Int {
     require(limit == null || limit > 0) { "At least 1 item should be requested, but got $limit." }

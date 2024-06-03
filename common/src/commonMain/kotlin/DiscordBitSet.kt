@@ -25,7 +25,8 @@ public class DiscordBitSet(internal var data: LongArray) { // data is in little-
     public val isEmpty: Boolean
         get() = data.all { it == 0L }
 
-    public val value: String get() = formatIntegerFromLittleEndianLongArray(data)
+    public val value: String
+        get() = formatIntegerFromLittleEndianLongArray(data)
 
     public val size: Int
         get() = data.size * WIDTH
@@ -100,13 +101,11 @@ public class DiscordBitSet(internal var data: LongArray) { // data is in little-
         }
     }
 
-
     public fun remove(another: DiscordBitSet) {
         for (i in 0..<min(data.size, another.data.size)) {
             data[i] = data[i] xor (data[i] and another.data[i])
         }
     }
-
 
     override fun toString(): String {
         return "DiscordBitSet($binary)"
@@ -149,7 +148,6 @@ public fun DiscordBitSet(value: String): DiscordBitSet {
 
     return DiscordBitSet(destination)
 }
-
 
 @Deprecated(
     "Replaced by 'DiscordBitSet.serializer()'.",
