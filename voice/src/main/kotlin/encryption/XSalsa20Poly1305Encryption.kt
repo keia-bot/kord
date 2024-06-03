@@ -3,6 +3,7 @@ package dev.kord.voice.encryption
 import com.iwebpp.crypto.TweetNaclFast
 import com.iwebpp.crypto.TweetNaclFast.SecretBox.boxzerobytesLength
 import com.iwebpp.crypto.TweetNaclFast.SecretBox.zerobytesLength
+import dev.kord.voice.io.ByteArrayView
 import dev.kord.voice.io.MutableByteArrayCursor
 
 // https://datatracker.ietf.org/doc/html/rfc6716#section-3.2.1
@@ -14,14 +15,14 @@ internal class XSalsa20Poly1305Encryption(private val key: ByteArray) {
     private val m: ByteArray = ByteArray(OPUS_MAX_LENGTH + zerobytesLength)
     private val c: ByteArray = ByteArray(OPUS_MAX_LENGTH + zerobytesLength)
 
-    fun box(message: ByteArray, mOffset: Int, mLength: Int, nonce: ByteArray, output: MutableByteArrayCursor): Boolean {
+    fun box(message: ByteArrayView, nonce: ByteArray, output: MutableByteArrayCursor): Boolean {
         m.fill(0)
         c.fill(0)
 
-        for (i in 0..<mLength)
-            m[i + zerobytesLength] = message[i + mOffset]
+        for (i in 0..<message.viewSize)
+            m[i + zerobytesLength] = message[i]
 
-        val messageBufferLength = mLength + zerobytesLength
+        val messageBufferLength = message.viewSize + zerobytesLength
 
         if (TweetNaclFast.crypto_secretbox(c, m, messageBufferLength, nonce, key) == 0) {
             output.resize(output.cursor + messageBufferLength - boxzerobytesLength)
@@ -34,14 +35,18 @@ internal class XSalsa20Poly1305Encryption(private val key: ByteArray) {
         return false
     }
 
-    fun open(box: ByteArray, boxOffset: Int, boxLength: Int, nonce: ByteArray, output: MutableByteArrayCursor): Boolean {
+    fun open(
+        box: ByteArrayView,
+        nonce: ByteArray,
+        output: MutableByteArrayCursor,
+    ): Boolean {
         c.fill(0)
         m.fill(0)
 
-        for (i in 0..<boxLength)
-            c[i + boxzerobytesLength] = box[i + boxOffset]
+        for (i in 0..<box.viewSize)
+            c[i + boxzerobytesLength] = box[i]
 
-        val cipherLength = boxLength + TweetNaclFast.Box.boxzerobytesLength
+        val cipherLength = box.viewSize + TweetNaclFast.Box.boxzerobytesLength
 
         if (TweetNaclFast.crypto_secretbox_open(m, c, cipherLength, nonce, key) == 0) {
             output.resize(output.cursor + cipherLength - zerobytesLength)

@@ -8,7 +8,9 @@ import dev.kord.gateway.Gateway
 import dev.kord.gateway.UpdateVoiceStatus
 import dev.kord.gateway.VoiceServerUpdate
 import dev.kord.gateway.VoiceStateUpdate
+import dev.kord.voice.encryption.AeadAes256Gcm
 import dev.kord.voice.encryption.VoiceEncryption
+import dev.kord.voice.encryption.XSalsa20Poly1305
 import dev.kord.voice.exception.VoiceConnectionInitializationException
 import dev.kord.voice.gateway.DefaultVoiceGateway
 import dev.kord.voice.gateway.DefaultVoiceGatewayBuilder
@@ -118,7 +120,7 @@ public class VoiceConnectionBuilder(
      */
     public fun frameProvider(
         duration: Duration,
-        provide: suspend () -> AudioFrame?
+        provide: suspend () -> AudioFrame?,
     ) {
         this.frameProvider = object : AudioFrameProvider.Callback(duration) {
             override suspend fun read(): AudioFrame? = provide()
@@ -218,9 +220,9 @@ public class VoiceConnectionBuilder(
 
         //
         val voiceEncryption = if ((receiveVoice || streams != null) && voiceEncryption?.supportsDecryption != true) {
-            VoiceEncryption.XSalsaPoly1305()
+            XSalsa20Poly1305()
         } else {
-            voiceEncryption ?: VoiceEncryption.AeadAes256Gcm
+            voiceEncryption ?: AeadAes256Gcm
         }
 
         val frameSender = frameSenderFactory.create(
