@@ -30,7 +30,7 @@ public data object AeadAes256Gcm : VoiceEncryption {
 
     override fun createUnbox(key: ByteArray): Unbox = UnboxImpl(key)
 
-    private abstract class Impl(key: ByteArray) {
+    private abstract class Common(key: ByteArray) {
         protected val iv = ByteArray(IV_LEN)
         protected val ivCursor = iv.mutableCursor()
 
@@ -41,26 +41,35 @@ public data object AeadAes256Gcm : VoiceEncryption {
         protected val cipherKey = SecretKeySpec(key, "AES")
         protected val cipher: Cipher = Cipher.getInstance("AES/GCM/NoPadding")
 
-        fun init(mode: Int) {
-            cipher.init(mode, cipherKey, GCMParameterSpec(AUTH_TAG_LEN * 8, iv, 0, IV_LEN))
-        }
-    }
-
-    private class BoxImpl(key: ByteArray) : Box, Impl(key) {
-        override val overhead: Int
-            get() = AUTH_TAG_LEN + NONCE_LEN
-
-        override fun apply(src: ByteArrayView, nonce: ByteArray, dst: MutableByteArrayCursor): Boolean {
+        fun apply(
+            mode: Int,
+            src: ByteArrayView,
+            dst: MutableByteArrayCursor,
+            nonce: ByteArray,
+            writeNonce: MutableByteArrayCursor.(nonce: ByteArray) -> Unit,
+        ): Boolean {
             iv.fill(0)
             ivCursor.reset()
-            ivCursor.writeByteArray(nonce)
+            ivCursor.apply { writeNonce(nonce) }
 
-            init(Cipher.ENCRYPT_MODE)
+            init(mode)
             cipher.updateAAD(dst.data.copyOfRange(0, dst.cursor))
             dst.cursor += cipher.doFinal(src.data, src.dataStart, src.viewSize, dst.data, dst.cursor)
 
             return true
         }
+
+        fun init(mode: Int) {
+            cipher.init(mode, cipherKey, GCMParameterSpec(AUTH_TAG_LEN * 8, iv, 0, IV_LEN))
+        }
+    }
+
+    private class BoxImpl(key: ByteArray) : Box, Common(key) {
+        override val overhead: Int
+            get() = AUTH_TAG_LEN + NONCE_LEN
+
+        override fun apply(src: ByteArrayView, nonce: ByteArray, dst: MutableByteArrayCursor): Boolean =
+            apply(Cipher.ENCRYPT_MODE, src, dst, nonce, MutableByteArrayCursor::writeByteArray)
 
         override fun appendNonce(nonce: ByteArrayView, dst: MutableByteArrayCursor) {
             dst.writeByteView(nonce)
@@ -73,27 +82,14 @@ public data object AeadAes256Gcm : VoiceEncryption {
         }
     }
 
-    private class UnboxImpl(key: ByteArray) : Unbox, Impl(key) {
+    private class UnboxImpl(key: ByteArray) : Unbox, Common(key) {
         // Since RTPPacket expects a container big enough to fit the entire header this will
         // need to be 12 bytes (or the min length of an RTP header). We will only use the
         // first NONCE_LEN bytes, though.
         override val nonceBuffer: ByteArray = ByteArray(12)
 
-        override fun apply(
-            src: ByteArrayView,
-            nonce: ByteArray,
-            dst: MutableByteArrayCursor,
-        ): Boolean {
-            iv.fill(0)
-            ivCursor.reset()
-            ivCursor.writeByteView(nonce.view(0, NONCE_LEN)!!) // only use first NONCE_LEN bytes.
-
-            init(Cipher.ENCRYPT_MODE)
-            cipher.init(Cipher.DECRYPT_MODE, cipherKey, GCMParameterSpec(AUTH_TAG_LEN * 8, iv, 0, IV_LEN))
-            dst.cursor += cipher.doFinal(src.data, src.dataStart, src.viewSize, dst.data, dst.cursor)
-
-            return true
-        }
+        override fun apply(src: ByteArrayView, nonce: ByteArray, dst: MutableByteArrayCursor): Boolean =
+            apply(Cipher.DECRYPT_MODE, src, dst, nonce) { writeByteView(it.view(0, NONCE_LEN)!!) }
 
         override fun getNonce(packet: RTPPacket): ByteArrayView {
             packet.writeHeader(nonceCursor)
