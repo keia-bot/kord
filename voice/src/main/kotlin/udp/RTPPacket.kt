@@ -33,12 +33,13 @@ public data class RTPPacket(
     val csrcIdentifiers: UIntArray,
     val hasMarker: Boolean,
     val hasExtension: Boolean,
+    val rawHeader: ByteArrayView?,
     val payload: ByteArrayView,
 ) {
     public companion object {
         internal const val VERSION = 2
 
-        public fun fromPacket(packet: ByteReadPacket): RTPPacket? = with(packet) base@{
+        public fun fromPacket(packet: ByteReadPacket): RTPPacket? = with(packet.copy()) base@{
             if (remaining <= 13) return@base null
 
             /*
@@ -78,11 +79,15 @@ public data class RTPPacket(
 
             // each csrc takes up 4 bytes, plus more data is required
             if (remaining <= csrcCount * 4 + 1) return@base null
+
             val csrcIdentifiers = UIntArray(csrcCount.toInt()) { readUInt() }
 
+            val bytes = packet.remaining - remaining
             val payload = readBytes().view()
 
-            val paddingBytes = if (hasPadding) { payload[payload.viewSize - 1] } else 0
+            val paddingBytes = if (hasPadding) {
+                payload[payload.viewSize - 1]
+            } else 0
 
             payload.resize(end = payload.dataStart + payload.viewSize - paddingBytes)
 
@@ -95,6 +100,7 @@ public data class RTPPacket(
                 csrcIdentifiers,
                 marker,
                 hasExtension,
+                packet.readBytes(bytes.toInt()).view(),
                 payload
             )
         }
@@ -110,6 +116,7 @@ public data class RTPPacket(
             csrcIdentifiers.copyOf(),
             hasMarker,
             hasExtension,
+            rawHeader?.toByteArray()?.view(),
             payload.toByteArray().view()
         )
     }
@@ -162,7 +169,7 @@ public data class RTPPacket(
         public var timestamp: UInt,
         public var sequence: UShort,
         public var payloadType: Byte,
-        public var payload: ByteArray
+        public var payload: ByteArray,
     ) {
         public var marker: Boolean = false
         public var paddingBytes: UByte = 0u
@@ -178,6 +185,7 @@ public data class RTPPacket(
             csrcIdentifiers,
             marker,
             hasExtension,
+            null,
             payload.view()
         )
     }
@@ -189,5 +197,5 @@ public fun RTPPacket(
     sequence: UShort,
     payloadType: Byte,
     payload: ByteArray,
-    builder: RTPPacket.Builder.() -> Unit = { }
+    builder: RTPPacket.Builder.() -> Unit = { },
 ): RTPPacket = RTPPacket.Builder(ssrc, timestamp, sequence, payloadType, payload).apply(builder).build()

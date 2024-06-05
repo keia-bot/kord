@@ -25,7 +25,7 @@ public data class XSalsa20Poly1305(public val nonceStrategyFactory: NonceStrateg
         override val overhead: Int
             get() = TweetNaclFast.SecretBox.boxzerobytesLength + nonceStrategyFactory.length
 
-        override fun apply(src: ByteArrayView, nonce: ByteArray, dst: MutableByteArrayCursor): Boolean =
+        override fun apply(src: ByteArrayView, dst: MutableByteArrayCursor, nonce: ByteArray, header: ByteArrayView): Boolean =
             codec.encrypt(src, nonce, dst)
 
         override fun generateNonce(header: () -> ByteArrayView): ByteArrayView =
@@ -39,7 +39,7 @@ public data class XSalsa20Poly1305(public val nonceStrategyFactory: NonceStrateg
         private val codec: XSalsa20Poly1305Codec = XSalsa20Poly1305Codec(key)
         private val nonceStrategy: NonceStrategy = nonceStrategyFactory.create()
 
-        override fun apply(src: ByteArrayView, nonce: ByteArray, dst: MutableByteArrayCursor): Boolean =
+        override fun apply(src: ByteArrayView, dst: MutableByteArrayCursor, nonce: ByteArray, header: ByteArrayView): Boolean =
             codec.decrypt(src, nonce, dst)
 
         override fun getNonce(packet: RTPPacket): ByteArrayView =

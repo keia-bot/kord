@@ -10,7 +10,6 @@ import dev.kord.gateway.VoiceServerUpdate
 import dev.kord.gateway.VoiceStateUpdate
 import dev.kord.voice.encryption.AeadAes256Gcm
 import dev.kord.voice.encryption.VoiceEncryption
-import dev.kord.voice.encryption.XSalsa20Poly1305
 import dev.kord.voice.exception.VoiceConnectionInitializationException
 import dev.kord.voice.gateway.DefaultVoiceGateway
 import dev.kord.voice.gateway.DefaultVoiceGatewayBuilder
@@ -219,11 +218,7 @@ public class VoiceConnectionBuilder(
         val voiceGateway = createVoiceGateway(voiceConnectionData)
 
         //
-        val voiceEncryption = if ((receiveVoice || streams != null) && voiceEncryption?.supportsDecryption != true) {
-            XSalsa20Poly1305()
-        } else {
-            voiceEncryption ?: AeadAes256Gcm
-        }
+        val voiceEncryption = voiceEncryption ?: AeadAes256Gcm
 
         val frameSender = frameSenderFactory.create(
             frameInterceptor,

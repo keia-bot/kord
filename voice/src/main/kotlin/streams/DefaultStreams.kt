@@ -98,7 +98,7 @@ private fun Flow<RTPPacket>.decrypt(encryption: VoiceEncryption, key: ByteArray)
 
         nonceBuffer.writeByteView(unbox.getNonce(packet))
 
-        val decrypted = unbox.apply(packet.payload, nonceBuffer.data, decryptedCursor)
+        val decrypted = unbox.apply(packet.payload, decryptedCursor, nonceBuffer.data, packet.rawHeader!!)
         if (!decrypted) {
             defaultStreamsLogger.trace { "failed to decrypt the packet with data ${packet.payload.data.contentToString()} at offset ${packet.payload.dataStart} and length ${packet.payload.viewSize - 4}" }
             return@mapNotNull null

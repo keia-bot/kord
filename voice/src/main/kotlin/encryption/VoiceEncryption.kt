@@ -20,7 +20,12 @@ public interface VoiceEncryption {
     public fun createUnbox(key: ByteArray): Unbox
 
     public sealed interface Method {
-        public fun apply(src: ByteArrayView, nonce: ByteArray, dst: MutableByteArrayCursor): Boolean
+        public fun apply(
+            src: ByteArrayView,
+            dst: MutableByteArrayCursor,
+            nonce: ByteArray,
+            header: ByteArrayView,
+        ): Boolean
     }
 
     /**
