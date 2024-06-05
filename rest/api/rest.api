@@ -2542,7 +2542,6 @@ public final class dev/kord/rest/json/JsonErrorCode : java/lang/Enum {
 	public static final field Companion Ldev/kord/rest/json/JsonErrorCode$Companion;
 	public static final field ConnectionRevoked Ldev/kord/rest/json/JsonErrorCode;
 	public static final field DisallowedName Ldev/kord/rest/json/JsonErrorCode;
-	public static final field EntitlementAlreadyGranted Ldev/kord/rest/json/JsonErrorCode;
 	public static final field EntityOfEventDifferentFromEventEntity Ldev/kord/rest/json/JsonErrorCode;
 	public static final field FailedToCreateStage Ldev/kord/rest/json/JsonErrorCode;
 	public static final field FailedToResizeAssetBelowMaximumSize Ldev/kord/rest/json/JsonErrorCode;
@@ -2570,7 +2569,6 @@ public final class dev/kord/rest/json/JsonErrorCode : java/lang/Enum {
 	public static final field InvalidRecipients Ldev/kord/rest/json/JsonErrorCode;
 	public static final field InvalidRequestOrigin Ldev/kord/rest/json/JsonErrorCode;
 	public static final field InvalidRole Ldev/kord/rest/json/JsonErrorCode;
-	public static final field InvalidSku Ldev/kord/rest/json/JsonErrorCode;
 	public static final field InvalidStickerFrameRate Ldev/kord/rest/json/JsonErrorCode;
 	public static final field InvalidStickerSent Ldev/kord/rest/json/JsonErrorCode;
 	public static final field InvalidThreadNotificationSettings Ldev/kord/rest/json/JsonErrorCode;
@@ -3588,28 +3586,6 @@ public synthetic class dev/kord/rest/json/request/EmojiModifyRequest$$serializer
 
 public final class dev/kord/rest/json/request/EmojiModifyRequest$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/kord/rest/json/request/EntitlementsListRequest {
-	public synthetic fun <init> (Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
-	public final fun component2 ()Ljava/util/List;
-	public final fun component3 ()Ldev/kord/rest/route/Position$BeforeOrAfter;
-	public final fun component4 ()Ljava/lang/Integer;
-	public final fun component5-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
-	public final fun component6 ()Ljava/lang/Boolean;
-	public final fun copy-cWTPKEo (Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;)Ldev/kord/rest/json/request/EntitlementsListRequest;
-	public static synthetic fun copy-cWTPKEo$default (Ldev/kord/rest/json/request/EntitlementsListRequest;Ldev/kord/common/entity/Snowflake;Ljava/util/List;Ldev/kord/rest/route/Position$BeforeOrAfter;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ljava/lang/Boolean;ILjava/lang/Object;)Ldev/kord/rest/json/request/EntitlementsListRequest;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getExcludeEnded ()Ljava/lang/Boolean;
-	public final fun getGuildId-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
-	public final fun getLimit ()Ljava/lang/Integer;
-	public final fun getPosition ()Ldev/kord/rest/route/Position$BeforeOrAfter;
-	public final fun getSkuIds ()Ljava/util/List;
-	public final fun getUserId-eUG9VGM ()Ldev/kord/common/entity/Snowflake;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kord/rest/json/request/FollowupMessageCreateRequest {
@@ -5286,37 +5262,6 @@ public final class dev/kord/rest/json/request/StartThreadRequest$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class dev/kord/rest/json/request/TestEntitlementCreateRequest {
-	public static final field Companion Ldev/kord/rest/json/request/TestEntitlementCreateRequest$Companion;
-	public synthetic fun <init> (JJLdev/kord/common/entity/EntitlementOwnerType;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-4_xYDEk ()J
-	public final fun component2-4_xYDEk ()J
-	public final fun component3 ()Ldev/kord/common/entity/EntitlementOwnerType;
-	public final fun copy-U2evHYk (JJLdev/kord/common/entity/EntitlementOwnerType;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
-	public static synthetic fun copy-U2evHYk$default (Ldev/kord/rest/json/request/TestEntitlementCreateRequest;JJLdev/kord/common/entity/EntitlementOwnerType;ILjava/lang/Object;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getOwnerId-4_xYDEk ()J
-	public final fun getOwnerType ()Ldev/kord/common/entity/EntitlementOwnerType;
-	public final fun getSkuId-4_xYDEk ()J
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public synthetic class dev/kord/rest/json/request/TestEntitlementCreateRequest$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Ldev/kord/rest/json/request/TestEntitlementCreateRequest$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/kord/rest/json/request/TestEntitlementCreateRequest;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/kord/rest/json/request/TestEntitlementCreateRequest;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class dev/kord/rest/json/request/TestEntitlementCreateRequest$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
 public final class dev/kord/rest/json/request/UserAddDMRequest {
 	public static final field Companion Ldev/kord/rest/json/request/UserAddDMRequest$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
@@ -6527,18 +6472,6 @@ public final class dev/kord/rest/route/Route$EmojiId : dev/kord/rest/route/Route
 	public static final field INSTANCE Ldev/kord/rest/route/Route$EmojiId;
 }
 
-public final class dev/kord/rest/route/Route$EntitlementGet : dev/kord/rest/route/Route {
-	public static final field INSTANCE Ldev/kord/rest/route/Route$EntitlementGet;
-}
-
-public final class dev/kord/rest/route/Route$EntitlementId : dev/kord/rest/route/Route$Key {
-	public static final field INSTANCE Ldev/kord/rest/route/Route$EntitlementId;
-}
-
-public final class dev/kord/rest/route/Route$EntitlementsList : dev/kord/rest/route/Route {
-	public static final field INSTANCE Ldev/kord/rest/route/Route$EntitlementsList;
-}
-
 public final class dev/kord/rest/route/Route$ExecuteGithubWebhookPost : dev/kord/rest/route/Route {
 	public static final field INSTANCE Ldev/kord/rest/route/Route$ExecuteGithubWebhookPost;
 }
@@ -7063,10 +6996,6 @@ public final class dev/kord/rest/route/Route$SelfVoiceStatePatch : dev/kord/rest
 	public static final field INSTANCE Ldev/kord/rest/route/Route$SelfVoiceStatePatch;
 }
 
-public final class dev/kord/rest/route/Route$SkusList : dev/kord/rest/route/Route {
-	public static final field INSTANCE Ldev/kord/rest/route/Route$SkusList;
-}
-
 public final class dev/kord/rest/route/Route$StageInstanceDelete : dev/kord/rest/route/Route {
 	public static final field INSTANCE Ldev/kord/rest/route/Route$StageInstanceDelete;
 }
@@ -7117,14 +7046,6 @@ public final class dev/kord/rest/route/Route$TemplatePatch : dev/kord/rest/route
 
 public final class dev/kord/rest/route/Route$TemplateSyncPut : dev/kord/rest/route/Route {
 	public static final field INSTANCE Ldev/kord/rest/route/Route$TemplateSyncPut;
-}
-
-public final class dev/kord/rest/route/Route$TestEntitlementCreate : dev/kord/rest/route/Route {
-	public static final field INSTANCE Ldev/kord/rest/route/Route$TestEntitlementCreate;
-}
-
-public final class dev/kord/rest/route/Route$TestEntitlementDelete : dev/kord/rest/route/Route {
-	public static final field INSTANCE Ldev/kord/rest/route/Route$TestEntitlementDelete;
 }
 
 public final class dev/kord/rest/route/Route$ThreadMembersGet : dev/kord/rest/route/Route {
@@ -7320,14 +7241,6 @@ public final class dev/kord/rest/service/EmojiService : dev/kord/rest/service/Re
 	public final fun modifyEmoji-Lfpyfds (JJLkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class dev/kord/rest/service/EntitlementService : dev/kord/rest/service/RestService {
-	public fun <init> (Ldev/kord/rest/request/RequestHandler;)V
-	public final fun createTestEntitlement-9y3P_48 (JLdev/kord/rest/json/request/TestEntitlementCreateRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun deleteTestEntitlement-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getEntitlement-U2evHYk (JJLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun listEntitlements-9y3P_48 (JLdev/kord/rest/json/request/EntitlementsListRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
 public final class dev/kord/rest/service/GuildService : dev/kord/rest/service/RestService {
 	public fun <init> (Ldev/kord/rest/request/RequestHandler;)V
 	public final fun addGuildBan-Lfpyfds (JJLkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -7517,11 +7430,9 @@ public final class dev/kord/rest/service/RestClient : dev/kord/rest/service/Rest
 	public final fun getAutoModeration ()Ldev/kord/rest/service/AutoModerationService;
 	public final fun getChannel ()Ldev/kord/rest/service/ChannelService;
 	public final fun getEmoji ()Ldev/kord/rest/service/EmojiService;
-	public final fun getEntitlement ()Ldev/kord/rest/service/EntitlementService;
 	public final fun getGuild ()Ldev/kord/rest/service/GuildService;
 	public final fun getInteraction ()Ldev/kord/rest/service/InteractionService;
 	public final fun getInvite ()Ldev/kord/rest/service/InviteService;
-	public final fun getSku ()Ldev/kord/rest/service/SkuService;
 	public final fun getStageInstance ()Ldev/kord/rest/service/StageInstanceService;
 	public final fun getSticker ()Ldev/kord/rest/service/StickerService;
 	public final fun getTemplate ()Ldev/kord/rest/service/TemplateService;
@@ -7540,11 +7451,6 @@ public abstract class dev/kord/rest/service/RestService {
 	public final fun call (Ldev/kord/rest/route/Route;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun call$default (Ldev/kord/rest/service/RestService;Ldev/kord/rest/route/Route;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun getRequestHandler ()Ldev/kord/rest/request/RequestHandler;
-}
-
-public final class dev/kord/rest/service/SkuService : dev/kord/rest/service/RestService {
-	public fun <init> (Ldev/kord/rest/request/RequestHandler;)V
-	public final fun listSkus-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/kord/rest/service/StageInstanceService : dev/kord/rest/service/RestService {

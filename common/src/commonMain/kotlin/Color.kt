@@ -3,8 +3,8 @@ package dev.kord.common
 import kotlin.jvm.JvmInline
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
@@ -47,9 +47,8 @@ public value class Color(private val packedRGB: Int) {
     }
 
     internal object Serializer : KSerializer<Color> {
-        private val delegate = Int.serializer()
-        override val descriptor: SerialDescriptor = delegate.descriptor
-        override fun deserialize(decoder: Decoder): Color = Color(delegate.deserialize(decoder))
-        override fun serialize(encoder: Encoder, value: Color) = delegate.serialize(encoder, value.rgb)
+        override val descriptor = PrimitiveSerialDescriptor("dev.kord.common.Color", PrimitiveKind.INT)
+        override fun deserialize(decoder: Decoder): Color = Color(decoder.decodeInt())
+        override fun serialize(encoder: Encoder, value: Color) = encoder.encodeInt(value.rgb)
     }
 }

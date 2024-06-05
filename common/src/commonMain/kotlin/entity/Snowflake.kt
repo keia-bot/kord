@@ -2,16 +2,11 @@ package dev.kord.common.entity
 
 import dev.kord.common.entity.Snowflake.Companion.validValues
 import kotlin.jvm.JvmInline
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 import kotlin.time.Duration
 import kotlin.time.TimeMark
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.serialization.Serializable
 
 /**
  * A unique identifier for entities [used by Discord](https://discord.com/developers/docs/reference#snowflakes).
@@ -20,14 +15,14 @@ import kotlin.time.TimeMark
  *
  * @param value The raw value of this Snowflake as specified by the
  * [Discord Developer Documentation](https://discord.com/developers/docs/reference#snowflakes).
- * @throws IllegalStateException if provided value isn't in [validValues]
+ * @throws IllegalArgumentException if provided value isn't in [validValues]
  */
 @JvmInline
 @Serializable
 public value class Snowflake(public val value: ULong) : Comparable<Snowflake> {
 
     init {
-        check(value in validValues) {
+        require(value in validValues) {
             "Value must be in $validValues, but gave $value"
         }
     }
@@ -35,7 +30,7 @@ public value class Snowflake(public val value: ULong) : Comparable<Snowflake> {
     /**
      * Creates a Snowflake from a given String [value], parsing it as a [ULong] value.
      *
-     * @throws IllegalStateException if provided value isn't in [validValues]
+     * @throws IllegalArgumentException if provided value isn't in [validValues]
      */
     public constructor(value: String) : this(value.toULong())
 

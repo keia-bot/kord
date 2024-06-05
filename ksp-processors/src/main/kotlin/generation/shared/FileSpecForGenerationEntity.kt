@@ -41,7 +41,6 @@ internal fun GenerationEntity.fileSpecForGenerationEntity(
                 "ReplaceArrayOfWithLiteral",
                 "SpellCheckingInspection",
                 "GrazieInspection",
-                "MemberVisibilityCanBePrivate",
             )
         )
         block(context, this)
