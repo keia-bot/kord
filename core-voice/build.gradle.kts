@@ -1,9 +1,11 @@
 plugins {
-    `kord-module`
+    `kord-multiplatform-module`
     `kord-publishing`
 }
 
-dependencies {
-    api(projects.core)
-    api(projects.voice)
+kotlin {
+    sourceSets.commonMain.dependencies {
+        api(projects.core)
+        api(projects.voice)
+    }
 }

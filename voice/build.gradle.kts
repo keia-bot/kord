@@ -1,21 +1,32 @@
 plugins {
-    java // for TweetNaclFast
-    `kord-module`
-    `kord-sampled-module`
+    `kord-multiplatform-module`
     `kord-publishing`
 }
 
-dependencies {
-    api(projects.common)
-    api(projects.gateway)
+kotlin {
+    jvm {
+        withJava()
+    }
 
-    implementation(libs.kotlin.logging)
-    implementation(libs.slf4j.api)
+    sourceSets.commonMain.dependencies {
+        api(projects.common)
+        api(projects.gateway)
 
-    // TODO remove when voiceGatewayOnLogger is removed
-    implementation(libs.kotlin.logging.old)
+        implementation(libs.kotlin.logging)
 
-    compileOnly(projects.kspAnnotations)
+        compileOnly(projects.kspAnnotations)
+    }
 
-    api(libs.ktor.network)
+    sourceSets.jsMain.dependencies {
+        implementation(libs.kotlin.node)
+    }
+
+    sourceSets.nonJvmMain.dependencies {
+        implementation(libs.libsodium)
+    }
+
+    sourceSets.jvmMain.dependencies {
+        api(libs.ktor.network)
+        implementation(libs.slf4j.api)
+    }
 }

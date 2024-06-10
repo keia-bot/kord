@@ -1,7 +1,7 @@
 package dev.kord.gateway.retry
 
 /**
- * A strategy for retrying after after a failed action.
+ * A strategy for retrying after a failed action.
  */
 public interface Retry {
     /**

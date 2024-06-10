@@ -2,7 +2,7 @@
 
 # api dependencies
 kotlin = "2.0.0" # https://github.com/JetBrains/kotlin
-ktor = "2.3.11" # https://github.com/ktorio/ktor
+ktor = "3.0.0-keia" # https://github.com/ktorio/ktor
 kotlinx-coroutines = "1.8.1" # https://github.com/Kotlin/kotlinx.coroutines
 kotlinx-serialization = "1.6.3" # https://github.com/Kotlin/kotlinx.serialization
 kotlinx-datetime = "0.6.0" # https://github.com/Kotlin/kotlinx-datetime
@@ -16,6 +16,7 @@ kotlin-node = "20.11.30-pre.751" # https://github.com/JetBrains/kotlin-wrappers
 bignum = "0.3.9" # https://github.com/ionspin/kotlin-multiplatform-bignum
 stately = "2.0.7" # https://github.com/touchlab/Stately
 fastZlib = "2.0.1" # https://github.com/timotejroiko/fast-zlib
+sodium = "0.9.0" # https://github.com/ionspin/kotlin-multiplatform-libsodium
 
 # code generation
 ksp = "2.0.0-1.0.21" # https://github.com/google/ksp
@@ -67,6 +68,7 @@ kotlin-node = { module = "org.jetbrains.kotlin-wrappers:kotlin-node", version.re
 # JDK replacements
 bignum = { module = "com.ionspin.kotlin:bignum", version.ref = "bignum" }
 stately-collections = { module = "co.touchlab:stately-concurrent-collections", version.ref = "stately" }
+libsodium = { module = "com.ionspin.kotlin:multiplatform-crypto-libsodium-bindings", version.ref = "sodium" }
 
 # code generation
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
