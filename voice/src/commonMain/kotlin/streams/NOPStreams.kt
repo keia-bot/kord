@@ -3,6 +3,7 @@ package dev.kord.voice.streams
 import dev.kord.common.annotation.KordVoice
 import dev.kord.common.entity.Snowflake
 import dev.kord.voice.AudioFrame
+import dev.kord.voice.udp.SocketAddress
 import dev.kord.voice.udp.RTPPacket
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

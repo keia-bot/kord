@@ -8,18 +8,28 @@ import dev.kord.voice.io.view
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
 
+<<<<<<<< HEAD:voice/src/commonMain/kotlin/udp/AudioPacketProvider.kt
 public abstract class AudioPacketProvider(public val key: ByteArray, public val encryption: VoiceEncryption) {
     public abstract fun provide(sequence: UShort, timestamp: UInt, ssrc: UInt, data: ByteArray): ByteArrayView
 }
+========
+@Suppress("FunctionName")
+public actual fun DefaultAudioPacketProvider(key: ByteArray, nonceStrategy: NonceStrategy) : AudioPacketProvider =
+    DefaultJvmAudioPacketProvider(key, nonceStrategy)
+>>>>>>>> mainline/feature/native:voice/src/jvmMain/kotlin/dev/kord/voice/udp/DefaultAudioPacketProvider.kt
 
-private class CouldNotEncryptDataException(data: ByteArray) :
-    RuntimeException("Couldn't encrypt the following data: [${data.joinToString(", ")}]")
 
+<<<<<<<< HEAD:voice/src/commonMain/kotlin/udp/AudioPacketProvider.kt
 public class DefaultAudioPacketProvider(
     key: ByteArray,
     encryption: VoiceEncryption,
 ) : AudioPacketProvider(key, encryption) {
     private val box = encryption.createBox(key)
+========
+public class DefaultJvmAudioPacketProvider(key: ByteArray, nonceStrategy: NonceStrategy) :
+    AudioPacketProvider(key, nonceStrategy) {
+    private val codec = XSalsa20Poly1305Codec(key)
+>>>>>>>> mainline/feature/native:voice/src/jvmMain/kotlin/dev/kord/voice/udp/DefaultAudioPacketProvider.kt
 
     private val packetBuffer = ByteArray(2048)
     private val packetBufferCursor: MutableByteArrayCursor = packetBuffer.mutableCursor()
@@ -30,14 +40,6 @@ public class DefaultAudioPacketProvider(
     private val nonceBuffer: MutableByteArrayCursor = ByteArray(encryption.nonceLength).mutableCursor()
 
     private val lock: SynchronizedObject = SynchronizedObject()
-
-    private fun MutableByteArrayCursor.writeHeader(sequence: Short, timestamp: Int, ssrc: Int) {
-        writeByte(((2 shl 6) or (0x0) or (0x0)).toByte()) // first 2 bytes are version. the rest
-        writeByte(PayloadType.Audio.raw)
-        writeShort(sequence)
-        writeInt(timestamp)
-        writeInt(ssrc)
-    }
 
     override fun provide(sequence: UShort, timestamp: UInt, ssrc: UInt, data: ByteArray): ByteArrayView =
         synchronized(lock) {

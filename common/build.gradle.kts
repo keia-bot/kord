@@ -1,3 +1,6 @@
+import dev.kord.gradle.tools.util.commitHash
+import dev.kord.gradle.tools.util.shortCommitHash
+
 plugins {
     `kord-multiplatform-module`
     `kord-publishing`
@@ -5,36 +8,65 @@ plugins {
 }
 
 kotlin {
-    sourceSets.commonMain.dependencies {
-        api(libs.kotlinx.coroutines.core)
-        api(libs.kotlinx.serialization.json)
-        api(libs.kotlinx.datetime)
-        api(libs.ktor.client.core)
+    sourceSets {
+        commonMain {
+            dependencies {
+                api(libs.kotlinx.coroutines.core)
+                api(libs.kotlinx.serialization.json)
+                api(libs.kotlinx.datetime)
+                api(libs.ktor.client.core)
 
-        compileOnly(projects.kspAnnotations)
-    }
+                compileOnly(projects.kspAnnotations)
+            }
+        }
+        jvmMain {
+            dependencies {
+                api(libs.ktor.client.okhttp)
+            }
+        }
+        nonJvmMain {
+            dependencies {
+                implementation(libs.ktor.utils)
+                implementation(libs.bignum)
+                implementation(libs.stately.collections)
+            }
+        }
+        jsMain {
+            dependencies {
+                api(libs.ktor.client.js)
 
-    sourceSets.jvmMain.dependencies {
-        api(libs.ktor.client.java)
-    }
-
-    sourceSets.nonJvmMain.dependencies {
-        implementation(libs.ktor.utils)
-        implementation(libs.bignum)
-        implementation(libs.stately.collections)
-    }
-
-    sourceSets.jsMain.dependencies {
-        api(libs.ktor.client.js)
-
-        // workaround for https://youtrack.jetbrains.com/issue/KT-43500
-        // (intended to be compileOnly in commonMain only)
-        implementation(projects.kspAnnotations)
-    }
-
-    sourceSets.jvmTest.dependencies {
-        implementation(libs.bson)
-        implementation(libs.kbson)
+                // workaround for https://youtrack.jetbrains.com/issue/KT-43500
+                // (intended to be compileOnly in commonMain only)
+                implementation(projects.kspAnnotations)
+            }
+        }
+        nativeMain {
+            dependencies {
+                // Native does not have compileOnly
+                implementation(projects.kspAnnotations)
+            }
+        }
+        mingwMain {
+            dependencies {
+                api(libs.ktor.client.winhttp)
+            }
+        }
+        appleMain {
+            dependencies {
+                api(libs.ktor.client.darwin)
+            }
+        }
+        linuxMain {
+            dependencies {
+                api(libs.ktor.client.curl)
+            }
+        }
+        jvmTest {
+            dependencies {
+                implementation(libs.bson)
+                implementation(libs.kbson)
+            }
+        }
     }
 }
 
@@ -56,7 +88,7 @@ buildConfig {
         internalVisibility = true
     }
 
-    buildConfigField("BUILD_CONFIG_GENERATED_LIBRARY_VERSION", libraryVersion)
+    buildConfigField("BUILD_CONFIG_GENERATED_LIBRARY_VERSION", provider { project.version.toString() })
     buildConfigField("BUILD_CONFIG_GENERATED_COMMIT_HASH", commitHash)
     buildConfigField("BUILD_CONFIG_GENERATED_SHORT_COMMIT_HASH", shortCommitHash)
 }

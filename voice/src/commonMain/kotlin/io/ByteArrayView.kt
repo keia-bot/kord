@@ -24,7 +24,7 @@ public class ByteArrayView private constructor(public val data: ByteArray, start
 
     public operator fun get(index: Int): Byte {
         if (dataStart + index > dataEnd) {
-            throw IndexOutOfBoundsException("$index is out of range [0, $viewSize]")
+            throw IndexOutOfBoundsException("Index is out of bounds: $index")
         }
 
         return data[dataStart + index]
