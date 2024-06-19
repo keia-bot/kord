@@ -21,8 +21,8 @@ fun KotlinMultiplatformExtension.targets() {
     linuxX64()
     linuxArm64()
 
-    mingwX64()
-
+//    mingwX64()
+//
 //    macosArm64()
 //    macosX64()
 //

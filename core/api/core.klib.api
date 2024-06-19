@@ -1,5 +1,5 @@
 // Klib ABI Dump
-// Targets: [js]
+// Targets: [js, linuxArm64, linuxX64]
 // Rendering settings:
 // - Signature version: 2
 // - Show manifest properties: true
@@ -9251,10 +9251,16 @@ final class dev.kord.core/Kord : kotlinx.coroutines/CoroutineScope { // dev.kord
     }
     final suspend fun <#A1: kotlin/Any?> getGlobalApplicationCommandOf(dev.kord.common.entity/Snowflake): #A1 // dev.kord.core/Kord.getGlobalApplicationCommandOf|getGlobalApplicationCommandOf(dev.kord.common.entity.Snowflake){0§<kotlin.Any?>}[0]
     final suspend fun <#A1: kotlin/Any?> getGlobalApplicationCommandOfOrNull(dev.kord.common.entity/Snowflake): #A1? // dev.kord.core/Kord.getGlobalApplicationCommandOfOrNull|getGlobalApplicationCommandOfOrNull(dev.kord.common.entity.Snowflake){0§<kotlin.Any?>}[0]
+    final suspend fun createTestEntitlement(dev.kord.common.entity/Snowflake, dev.kord.common.entity/Snowflake, dev.kord.common.entity/EntitlementOwnerType): dev.kord.core.entity/Entitlement // dev.kord.core/Kord.createTestEntitlement|createTestEntitlement(dev.kord.common.entity.Snowflake;dev.kord.common.entity.Snowflake;dev.kord.common.entity.EntitlementOwnerType){}[0]
+    final suspend fun createTestEntitlement(dev.kord.common.entity/Snowflake, dev.kord.core.behavior/GuildBehavior): dev.kord.core.entity/Entitlement // dev.kord.core/Kord.createTestEntitlement|createTestEntitlement(dev.kord.common.entity.Snowflake;dev.kord.core.behavior.GuildBehavior){}[0]
+    final suspend fun createTestEntitlement(dev.kord.common.entity/Snowflake, dev.kord.core.behavior/UserBehavior): dev.kord.core.entity/Entitlement // dev.kord.core/Kord.createTestEntitlement|createTestEntitlement(dev.kord.common.entity.Snowflake;dev.kord.core.behavior.UserBehavior){}[0]
     final suspend fun editSelf(kotlin/Function1<dev.kord.rest.builder.user/CurrentUserModifyBuilder, kotlin/Unit>): dev.kord.core.entity/User // dev.kord.core/Kord.editSelf|editSelf(kotlin.Function1<dev.kord.rest.builder.user.CurrentUserModifyBuilder,kotlin.Unit>){}[0]
     final suspend fun getApplicationInfo(): dev.kord.core.entity/Application // dev.kord.core/Kord.getApplicationInfo|getApplicationInfo(){}[0]
     final suspend fun getApplicationRoleConnectionMetadataRecords(): kotlin.collections/List<dev.kord.core.entity.application/ApplicationRoleConnectionMetadata> // dev.kord.core/Kord.getApplicationRoleConnectionMetadataRecords|getApplicationRoleConnectionMetadataRecords(){}[0]
     final suspend fun getChannel(dev.kord.common.entity/Snowflake, dev.kord.core.supplier/EntitySupplyStrategy<*> = ...): dev.kord.core.entity.channel/Channel? // dev.kord.core/Kord.getChannel|getChannel(dev.kord.common.entity.Snowflake;dev.kord.core.supplier.EntitySupplyStrategy<*>){}[0]
+    final suspend fun getEntitlement(dev.kord.common.entity/Snowflake): dev.kord.core.entity/Entitlement // dev.kord.core/Kord.getEntitlement|getEntitlement(dev.kord.common.entity.Snowflake){}[0]
+    final suspend fun getEntitlementOrNull(dev.kord.common.entity/Snowflake): dev.kord.core.entity/Entitlement? // dev.kord.core/Kord.getEntitlementOrNull|getEntitlementOrNull(dev.kord.common.entity.Snowflake){}[0]
+    final suspend fun getEntitlements(kotlin/Int? = ..., dev.kord.common.entity/Snowflake? = ..., dev.kord.common.entity/Snowflake? = ..., dev.kord.common.entity/Snowflake? = ..., dev.kord.core.supplier/EntitySupplyStrategy<*> = ...): kotlinx.coroutines.flow/Flow<dev.kord.core.entity/Entitlement> // dev.kord.core/Kord.getEntitlements|getEntitlements(kotlin.Int?;dev.kord.common.entity.Snowflake?;dev.kord.common.entity.Snowflake?;dev.kord.common.entity.Snowflake?;dev.kord.core.supplier.EntitySupplyStrategy<*>){}[0]
     final suspend fun getGlobalApplicationCommand(dev.kord.common.entity/Snowflake): dev.kord.core.entity.application/GlobalApplicationCommand // dev.kord.core/Kord.getGlobalApplicationCommand|getGlobalApplicationCommand(dev.kord.common.entity.Snowflake){}[0]
     final suspend fun getGlobalApplicationCommandOrNull(dev.kord.common.entity/Snowflake): dev.kord.core.entity.application/GlobalApplicationCommand? // dev.kord.core/Kord.getGlobalApplicationCommandOrNull|getGlobalApplicationCommandOrNull(dev.kord.common.entity.Snowflake){}[0]
     final suspend fun getGuild(dev.kord.common.entity/Snowflake, dev.kord.core.supplier/EntitySupplyStrategy<*> = ...): dev.kord.core.entity/Guild // dev.kord.core/Kord.getGuild|getGuild(dev.kord.common.entity.Snowflake;dev.kord.core.supplier.EntitySupplyStrategy<*>){}[0]
@@ -9266,6 +9272,7 @@ final class dev.kord.core/Kord : kotlinx.coroutines/CoroutineScope { // dev.kord
     final suspend fun getInvite(kotlin/String, kotlin/Boolean = ..., kotlin/Boolean = ..., dev.kord.common.entity/Snowflake? = ...): dev.kord.core.entity/Invite // dev.kord.core/Kord.getInvite|getInvite(kotlin.String;kotlin.Boolean;kotlin.Boolean;dev.kord.common.entity.Snowflake?){}[0]
     final suspend fun getInviteOrNull(kotlin/String, kotlin/Boolean = ..., kotlin/Boolean = ..., dev.kord.common.entity/Snowflake? = ...): dev.kord.core.entity/Invite? // dev.kord.core/Kord.getInviteOrNull|getInviteOrNull(kotlin.String;kotlin.Boolean;kotlin.Boolean;dev.kord.common.entity.Snowflake?){}[0]
     final suspend fun getSelf(dev.kord.core.supplier/EntitySupplyStrategy<*> = ...): dev.kord.core.entity/User // dev.kord.core/Kord.getSelf|getSelf(dev.kord.core.supplier.EntitySupplyStrategy<*>){}[0]
+    final suspend fun getSkus(): kotlin.collections/List<dev.kord.core.entity/Sku> // dev.kord.core/Kord.getSkus|getSkus(){}[0]
     final suspend fun getSticker(dev.kord.common.entity/Snowflake): dev.kord.core.entity/Sticker // dev.kord.core/Kord.getSticker|getSticker(dev.kord.common.entity.Snowflake){}[0]
     final suspend fun getUser(dev.kord.common.entity/Snowflake, dev.kord.core.supplier/EntitySupplyStrategy<*> = ...): dev.kord.core.entity/User? // dev.kord.core/Kord.getUser|getUser(dev.kord.common.entity.Snowflake;dev.kord.core.supplier.EntitySupplyStrategy<*>){}[0]
     final suspend fun getWebhook(dev.kord.common.entity/Snowflake, dev.kord.core.supplier/EntitySupplyStrategy<*> = ...): dev.kord.core.entity/Webhook // dev.kord.core/Kord.getWebhook|getWebhook(dev.kord.common.entity.Snowflake;dev.kord.core.supplier.EntitySupplyStrategy<*>){}[0]
