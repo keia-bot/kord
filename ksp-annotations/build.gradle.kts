@@ -9,7 +9,12 @@ plugins {
 
 kotlin {
     targets()
+
+//    sourceSets.commonMain.dependencies {
+//        implementation(kotlin("stdlib", "2.0.0"))
+//    }
 }
+
 
 tasks.withType<AbstractDokkaLeafTask>().configureEach {
     dokkaSourceSets.configureEach {

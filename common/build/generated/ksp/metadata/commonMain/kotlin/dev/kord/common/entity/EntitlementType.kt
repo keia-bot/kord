@@ -69,7 +69,6 @@ public sealed class EntitlementType(
             )
         }
 
-
         /**
          * Returns an instance of [EntitlementType] with [EntitlementType.value] equal to the
          * specified [value].

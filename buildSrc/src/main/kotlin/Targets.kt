@@ -23,22 +23,23 @@ fun KotlinMultiplatformExtension.targets() {
 
     mingwX64()
 
-    macosArm64()
-    macosX64()
-
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
-
-    watchosArm64()
-    watchosSimulatorArm64()
-
-    tvosX64()
-    tvosArm64()
-    tvosSimulatorArm64()
+//    macosArm64()
+//    macosX64()
+//
+//    iosArm64()
+//    iosX64()
+//    iosSimulatorArm64()
+//
+//    watchosArm64()
+//    watchosSimulatorArm64()
+//
+//    tvosX64()
+//    tvosArm64()
+//    tvosSimulatorArm64()
 
     targets.all {
         compilations.all {
+            @Suppress("DEPRECATION")
             compilerOptions.options.applyKordCompilerOptions()
         }
     }

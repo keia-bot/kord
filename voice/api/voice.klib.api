@@ -1084,6 +1084,7 @@ sealed class dev.kord.voice.udp/PayloadType { // dev.kord.voice.udp/PayloadType|
     constructor <init>(kotlin/Byte) // dev.kord.voice.udp/PayloadType.<init>|<init>(kotlin.Byte){}[0]
     final class Unknown : dev.kord.voice.udp/PayloadType { // dev.kord.voice.udp/PayloadType.Unknown|null[0]
         constructor <init>(kotlin/Byte) // dev.kord.voice.udp/PayloadType.Unknown.<init>|<init>(kotlin.Byte){}[0]
+        final fun toString(): kotlin/String // dev.kord.voice.udp/PayloadType.Unknown.toString|toString(){}[0]
     }
     final object Alive : dev.kord.voice.udp/PayloadType // dev.kord.voice.udp/PayloadType.Alive|null[0]
     final object Audio : dev.kord.voice.udp/PayloadType // dev.kord.voice.udp/PayloadType.Audio|null[0]

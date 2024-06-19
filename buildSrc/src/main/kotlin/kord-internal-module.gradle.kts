@@ -9,8 +9,15 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(Jvm.target)
+    jvmToolchain(Jvm.targetInt)
     compilerOptions {
+        jvmTarget = Jvm.targetVal
         applyKordCompilerOptions()
     }
+}
+
+tasks.compileJava {
+    sourceCompatibility = Jvm.targetInt.toString()
+
+    targetCompatibility = Jvm.targetInt.toString()
 }

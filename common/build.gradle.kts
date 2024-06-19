@@ -8,65 +8,53 @@ plugins {
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(libs.kotlinx.coroutines.core)
-                api(libs.kotlinx.serialization.json)
-                api(libs.kotlinx.datetime)
-                api(libs.ktor.client.core)
+    sourceSets.commonMain.dependencies {
+        api(libs.kotlinx.coroutines.core)
+        api(libs.kotlinx.serialization.json)
+        api(libs.kotlinx.datetime)
+        api(libs.ktor.client.core)
 
-                compileOnly(projects.kspAnnotations)
-            }
-        }
-        jvmMain {
-            dependencies {
-                api(libs.ktor.client.okhttp)
-            }
-        }
-        nonJvmMain {
-            dependencies {
-                implementation(libs.ktor.utils)
-                implementation(libs.bignum)
-                implementation(libs.stately.collections)
-            }
-        }
-        jsMain {
-            dependencies {
-                api(libs.ktor.client.js)
+        compileOnly(projects.kspAnnotations)
+    }
 
-                // workaround for https://youtrack.jetbrains.com/issue/KT-43500
-                // (intended to be compileOnly in commonMain only)
-                implementation(projects.kspAnnotations)
-            }
-        }
-        nativeMain {
-            dependencies {
-                // Native does not have compileOnly
-                implementation(projects.kspAnnotations)
-            }
-        }
-        mingwMain {
-            dependencies {
-                api(libs.ktor.client.winhttp)
-            }
-        }
-        appleMain {
-            dependencies {
-                api(libs.ktor.client.darwin)
-            }
-        }
-        linuxMain {
-            dependencies {
-                api(libs.ktor.client.curl)
-            }
-        }
-        jvmTest {
-            dependencies {
-                implementation(libs.bson)
-                implementation(libs.kbson)
-            }
-        }
+    sourceSets.jvmMain.dependencies {
+        api(libs.ktor.client.java)
+    }
+
+    sourceSets.nonJvmMain.dependencies {
+        implementation(libs.ktor.utils)
+        implementation(libs.bignum)
+        implementation(libs.stately.collections)
+    }
+
+    sourceSets.jsMain.dependencies {
+        api(libs.ktor.client.js)
+
+        // workaround for https://youtrack.jetbrains.com/issue/KT-43500
+        // (intended to be compileOnly in commonMain only)
+        implementation(projects.kspAnnotations)
+    }
+
+    sourceSets.nativeMain.dependencies {
+        // Native does not have compileOnly
+        implementation(projects.kspAnnotations)
+    }
+
+    sourceSets.mingwMain.dependencies {
+        api(libs.ktor.client.winhttp)
+    }
+
+    sourceSets.appleMain.dependencies {
+        api(libs.ktor.client.darwin)
+    }
+
+    sourceSets.linuxMain.dependencies {
+        api(libs.ktor.client.curl)
+    }
+
+    sourceSets.jvmTest.dependencies {
+        implementation(libs.bson)
+        implementation(libs.kbson)
     }
 }
 

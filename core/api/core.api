@@ -27,9 +27,6 @@ public final class dev/kord/core/Kord : kotlinx/coroutines/CoroutineScope {
 	public static synthetic fun createGuildMessageCommand-9VmEaQQ$default (Ldev/kord/core/Kord;JLjava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun createGuildUserCommand-9VmEaQQ (JLjava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun createGuildUserCommand-9VmEaQQ$default (Ldev/kord/core/Kord;JLjava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public final fun createTestEntitlement-9y3P_48 (JLdev/kord/core/behavior/GuildBehavior;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun createTestEntitlement-9y3P_48 (JLdev/kord/core/behavior/UserBehavior;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun createTestEntitlement-Lfpyfds (JJLdev/kord/common/entity/EntitlementOwnerType;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun editPresence (Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun editSelf (Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun equals (Ljava/lang/Object;)Z
@@ -40,10 +37,6 @@ public final class dev/kord/core/Kord : kotlinx/coroutines/CoroutineScope {
 	public static synthetic fun getChannel-9y3P_48$default (Ldev/kord/core/Kord;JLdev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public fun getCoroutineContext ()Lkotlin/coroutines/CoroutineContext;
 	public final fun getDefaultSupplier ()Ldev/kord/core/supplier/EntitySupplier;
-	public final fun getEntitlement-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getEntitlementOrNull-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getEntitlements-dIZauys (Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Ldev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static synthetic fun getEntitlements-dIZauys$default (Ldev/kord/core/Kord;Ljava/lang/Integer;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Ldev/kord/common/entity/Snowflake;Ldev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun getEvents ()Lkotlinx/coroutines/flow/SharedFlow;
 	public final fun getGateway ()Ldev/kord/core/gateway/MasterGateway;
 	public final fun getGlobalApplicationCommand-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -76,7 +69,6 @@ public final class dev/kord/core/Kord : kotlinx/coroutines/CoroutineScope {
 	public final fun getSelf (Ldev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun getSelf$default (Ldev/kord/core/Kord;Ldev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun getSelfId-4_xYDEk ()J
-	public final fun getSkus (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun getSticker-wYKCHeA (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun getUnsafe-q8QWGKE ()Ldev/kord/core/Kord;
 	public final fun getUser-9y3P_48 (JLdev/kord/core/supplier/EntitySupplyStrategy;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -109,7 +101,6 @@ public final class dev/kord/core/Kord$Companion {
 public final class dev/kord/core/KordKt {
 	public static final fun Kord (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun Kord$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public static final synthetic fun getKordLogger ()Lmu/KLogger;
 	public static final fun logCaughtThrowable (Ljava/lang/Throwable;)V
 }
 
@@ -1560,6 +1551,7 @@ public final class dev/kord/core/behavior/channel/TopGuildMessageChannelBehavior
 public abstract interface class dev/kord/core/behavior/channel/VoiceChannelBehavior : dev/kord/core/behavior/channel/BaseVoiceChannelBehavior, dev/kord/core/behavior/channel/TopGuildMessageChannelBehavior {
 	public abstract fun asChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun asChannelOrNull (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun editVoiceStatus (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun fetchChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun fetchChannelOrNull (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun withStrategy (Ldev/kord/core/supplier/EntitySupplyStrategy;)Ldev/kord/core/behavior/channel/VoiceChannelBehavior;
@@ -1574,6 +1566,7 @@ public final class dev/kord/core/behavior/channel/VoiceChannelBehavior$DefaultIm
 	public static fun createMessage (Ldev/kord/core/behavior/channel/VoiceChannelBehavior;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun delete (Ldev/kord/core/behavior/channel/VoiceChannelBehavior;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun deleteMessage-9y3P_48 (Ldev/kord/core/behavior/channel/VoiceChannelBehavior;JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun editVoiceStatus (Ldev/kord/core/behavior/channel/VoiceChannelBehavior;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun fetchChannel (Ldev/kord/core/behavior/channel/VoiceChannelBehavior;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun fetchChannelOrNull (Ldev/kord/core/behavior/channel/VoiceChannelBehavior;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun getGuild (Ldev/kord/core/behavior/channel/VoiceChannelBehavior;)Ldev/kord/core/behavior/GuildBehavior;
@@ -8709,6 +8702,7 @@ public final class dev/kord/core/entity/channel/VoiceChannel : dev/kord/core/beh
 	public fun createMessage (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun delete (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun deleteMessage-9y3P_48 (JLjava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun editVoiceStatus (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun fetchChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun fetchChannelOrNull (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;

@@ -1,6 +1,8 @@
 package dev.kord.rest.builder.interaction
 
 import dev.kord.common.Locale
+import dev.kord.common.entity.ApplicationIntegrationType
+import dev.kord.common.entity.InteractionContextType
 import dev.kord.common.entity.Permissions
 import dev.kord.common.entity.optional.Optional
 import dev.kord.common.entity.optional.OptionalBoolean
@@ -30,4 +32,8 @@ internal class ApplicationCommandModifyStateHolder {
     var defaultPermission: OptionalBoolean = OptionalBoolean.Missing
 
     var nsfw: OptionalBoolean = OptionalBoolean.Missing
+
+    var integrationTypes: Optional<List<ApplicationIntegrationType>> = Optional.Missing()
+
+    var contexts: Optional<List<InteractionContextType>> = Optional.Missing()
 }

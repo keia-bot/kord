@@ -1300,6 +1300,7 @@ public final class dev/kord/voice/udp/PayloadType$Companion {
 
 public final class dev/kord/voice/udp/PayloadType$Unknown : dev/kord/voice/udp/PayloadType {
 	public fun <init> (B)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kord/voice/udp/RTPPacket {
@@ -1436,7 +1437,7 @@ public final class dev/kord/voice/udp/VoiceUdpSocketKt {
 	public static final fun recv (Ldev/kord/voice/udp/VoiceUdpSocket;Lio/ktor/network/sockets/InetSocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class dev/kord/voice/udp/VoiceUdpSocket_jvmKt {
+public final class dev/kord/voice/udp/VoiceUdpSocket_ktorKt {
 	public static final fun connectVoiceUdpSocket (Lio/ktor/network/sockets/InetSocketAddress;)Ldev/kord/voice/udp/VoiceUdpSocket;
 	public static final fun getGlobalVoiceUdpSocket ()Ldev/kord/voice/udp/VoiceUdpSocket;
 }

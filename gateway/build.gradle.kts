@@ -4,33 +4,27 @@ plugins {
 }
 
 kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(projects.common)
+    sourceSets.commonMain.dependencies {
+        api(projects.common)
 
-                api(libs.bundles.ktor.client.serialization)
-                api(libs.ktor.client.websockets)
+        api(libs.bundles.ktor.client.serialization)
+        api(libs.ktor.client.websockets)
 
-                implementation(libs.kotlin.logging)
+        implementation(libs.kotlin.logging)
 
-                compileOnly(projects.kspAnnotations)
-            }
-        }
-        jvmMain {
-            dependencies {
-                implementation(libs.slf4j.api)
-            }
-        }
-        jsMain {
-            dependencies {
-                implementation(libs.kotlin.node)
-                implementation(npm("fast-zlib", libs.versions.fastZlib.get()))
+        compileOnly(projects.kspAnnotations)
+    }
 
-                // workaround for https://youtrack.jetbrains.com/issue/KT-43500
-                // (intended to be compileOnly in commonMain only)
-                implementation(projects.kspAnnotations)
-            }
-        }
+    sourceSets.jvmMain.dependencies {
+        implementation(libs.slf4j.api)
+    }
+
+    sourceSets.jsMain.dependencies {
+        implementation(libs.kotlin.node)
+        implementation(npm("fast-zlib", libs.versions.fastZlib.get()))
+
+        // workaround for https://youtrack.jetbrains.com/issue/KT-43500
+        // (intended to be compileOnly in commonMain only)
+        implementation(projects.kspAnnotations)
     }
 }

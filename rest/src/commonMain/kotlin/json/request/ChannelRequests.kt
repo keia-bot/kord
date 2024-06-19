@@ -114,3 +114,6 @@ public data class ForumTagRequest(
     @SerialName("emoji_name")
     val emojiName: Optional<String?> = Optional.Missing()
 )
+
+@Serializable
+public data class VoiceChannelStatusUpdateRequest(val status: String)

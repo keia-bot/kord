@@ -1,18 +1,16 @@
 package dev.kord.core.behavior.channel
 
 import dev.kord.common.entity.Snowflake
-import dev.kord.common.exception.RequestException
 import dev.kord.core.Kord
 import dev.kord.core.cache.data.ChannelData
 import dev.kord.core.entity.channel.Channel
 import dev.kord.core.entity.channel.VoiceChannel
-import dev.kord.core.exception.EntityNotFoundException
+import dev.kord.core.hash
 import dev.kord.core.supplier.EntitySupplier
 import dev.kord.core.supplier.EntitySupplyStrategy
 import dev.kord.rest.builder.channel.VoiceChannelModifyBuilder
-import dev.kord.rest.request.RestRequestException
+import dev.kord.rest.json.request.VoiceChannelStatusUpdateRequest
 import dev.kord.rest.service.patchVoiceChannel
-import dev.kord.core.hash
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
@@ -22,7 +20,7 @@ import kotlin.contracts.contract
 public interface VoiceChannelBehavior : TopGuildMessageChannelBehavior, BaseVoiceChannelBehavior {
 
     /**
-     * Requests to get the this behavior as a [VoiceChannel].
+     * Requests to get this behavior as a [VoiceChannel].
      *
      * @throws [RequestException] if anything went wrong during the request.
      * @throws [EntityNotFoundException] if the channel wasn't present.
@@ -36,7 +34,8 @@ public interface VoiceChannelBehavior : TopGuildMessageChannelBehavior, BaseVoic
      *
      * @throws [RequestException] if anything went wrong during the request.
      */
-    override suspend fun asChannelOrNull(): VoiceChannel? = super<BaseVoiceChannelBehavior>.asChannelOrNull() as? VoiceChannel
+    override suspend fun asChannelOrNull(): VoiceChannel? =
+        super<BaseVoiceChannelBehavior>.asChannelOrNull() as? VoiceChannel
 
     /**
      * Retrieve the [VoiceChannel] associated with this behaviour from the provided [EntitySupplier]
@@ -53,13 +52,24 @@ public interface VoiceChannelBehavior : TopGuildMessageChannelBehavior, BaseVoic
      *
      * @throws [RequestException] if anything went wrong during the request.
      */
-    override suspend fun fetchChannelOrNull(): VoiceChannel? = super<BaseVoiceChannelBehavior>.fetchChannelOrNull() as? VoiceChannel
+    override suspend fun fetchChannelOrNull(): VoiceChannel? =
+        super<BaseVoiceChannelBehavior>.fetchChannelOrNull() as? VoiceChannel
 
     /**
      * Returns a new [VoiceChannelBehavior] with the given [strategy].
      */
     override fun withStrategy(strategy: EntitySupplyStrategy<*>): VoiceChannelBehavior =
         VoiceChannelBehavior(guildId, id, kord, strategy)
+
+    /**
+     * Edit the status of this [VoiceChannel].
+     *
+     * @param content The new status of the channel, or an empty string to remove the status.
+     * @throws [RestRequestException] if something went wrong during the request.
+     */
+    public suspend fun editVoiceStatus(content: String) {
+        kord.rest.channel.editVoiceChannelStatus(id, VoiceChannelStatusUpdateRequest(content))
+    }
 }
 
 public fun VoiceChannelBehavior(

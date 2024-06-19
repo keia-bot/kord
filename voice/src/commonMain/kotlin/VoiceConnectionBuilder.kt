@@ -24,6 +24,9 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
+
+internal expect val isSupported: Boolean
+
 @KordVoice
 public class VoiceConnectionBuilder(
     public var gateway: Gateway,
@@ -31,6 +34,15 @@ public class VoiceConnectionBuilder(
     public var channelId: Snowflake,
     public var guildId: Snowflake,
 ) {
+    init {
+        if(!isSupported) {
+            throw UnsupportedOperationException("""
+                Voice is currently not supported on Windows, if you're developing on Windows we recommend using
+                WSL: https://aka.ms/wsl
+            """.trimIndent())
+        }
+    }
+
     private var voiceGatewayBuilder: DefaultVoiceGatewayBuilder.() -> Unit = {}
 
     private var rtcBuilder: RealTimeConnectionConfiguration.Builder.() -> Unit = {}

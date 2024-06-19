@@ -3,8 +3,11 @@ package dev.kord.rest.builder.interaction
 import dev.kord.common.Locale
 import dev.kord.common.annotation.KordDsl
 import dev.kord.common.entity.ApplicationCommandType
+import dev.kord.common.entity.ApplicationIntegrationType
+import dev.kord.common.entity.InteractionContextType
 import dev.kord.common.entity.Permissions
 import dev.kord.common.entity.optional.delegate.delegate
+import dev.kord.common.entity.optional.delegate.delegateList
 import dev.kord.rest.json.request.ApplicationCommandCreateRequest
 import dev.kord.rest.json.request.ApplicationCommandModifyRequest
 
@@ -68,6 +71,10 @@ internal class MessageCommandCreateBuilderImpl(override var name: String) : Glob
     override var defaultPermission: Boolean? by @Suppress("DEPRECATION") state::defaultPermission.delegate()
 
     override var nsfw: Boolean? by state::nsfw.delegate()
+
+    override var integrationTypes: List<ApplicationIntegrationType> by state::integrationTypes.delegateList()
+
+    override var contexts: List<InteractionContextType> by state::contexts.delegateList()
 
     override fun toRequest(): ApplicationCommandCreateRequest {
         return ApplicationCommandCreateRequest(

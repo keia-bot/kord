@@ -79,6 +79,25 @@
     ],
 )
 
+@file:Generate(
+    INT_KORD_ENUM, name = "ApplicationIntegrationType",
+    docUrl = "https://discord.com/developers/docs/resources/application#application-object-application-integration-types",
+    entries = [
+        Entry("GuildInstall", intValue = 0),
+        Entry("UserInstall", intValue = 1),
+    ]
+)
+
+@file:Generate(
+    INT_KORD_ENUM, name = "InteractionContextType",
+    docUrl = "https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object-interaction-context-types",
+    entries = [
+        Entry("Guild", intValue = 0),
+        Entry("BotDM", intValue = 1),
+        Entry("PrivateChannel", intValue = 2),
+    ]
+)
+
 package dev.kord.common.entity
 
 import dev.kord.common.Locale
@@ -348,8 +367,10 @@ public sealed class Option {
                         2 -> jsonOptions = decodeSerializableElement(descriptor, index, JsonArray.serializer())
                         3 -> type =
                             decodeSerializableElement(descriptor, index, ApplicationCommandOptionType.serializer())
+
                         4 -> focused =
                             decodeSerializableElement(descriptor, index, OptionalBoolean.serializer())
+
                         CompositeDecoder.DECODE_DONE -> return@decodeStructure
                         else -> throw SerializationException("unknown index: $index")
                     }
@@ -376,6 +397,7 @@ public sealed class Option {
 
                     CommandGroup(name, options)
                 }
+
                 ApplicationCommandOptionType.Boolean,
                 ApplicationCommandOptionType.Channel,
                 ApplicationCommandOptionType.Integer,
@@ -387,7 +409,9 @@ public sealed class Option {
                 ApplicationCommandOptionType.User -> CommandArgument.Serializer.deserialize(
                     json, jsonValue!!, name, type!!, focused
                 )
+
                 is ApplicationCommandOptionType.Unknown -> error("unknown ApplicationCommandOptionType $type")
+                else -> TODO("unreachable")
             }
         }
 
@@ -406,6 +430,7 @@ public sealed class Option {
                         descriptor, 3, ApplicationCommandOptionType.serializer(), value.type
                     )
                 }
+
                 is SubCommand -> encoder.encodeStructure(descriptor) {
                     encodeSerializableElement(
                         descriptor, 0, String.serializer(), value.name
@@ -555,24 +580,28 @@ public sealed class CommandArgument<out T> : Option() {
                         Snowflake.serializer(),
                         value.value
                     )
+
                     is RoleArgument -> encodeSerializableElement(
                         descriptor,
                         1,
                         Snowflake.serializer(),
                         value.value
                     )
+
                     is MentionableArgument -> encodeSerializableElement(
                         descriptor,
                         1,
                         Snowflake.serializer(),
                         value.value
                     )
+
                     is UserArgument -> encodeSerializableElement(
                         descriptor,
                         1,
                         Snowflake.serializer(),
                         value.value
                     )
+
                     is IntegerArgument -> encodeLongElement(descriptor, 1, value.value)
                     is NumberArgument -> encodeDoubleElement(descriptor, 1, value.value)
                     is AttachmentArgument -> encodeSerializableElement(
@@ -581,10 +610,11 @@ public sealed class CommandArgument<out T> : Option() {
                         Snowflake.serializer(),
                         value.value
                     )
+
                     is AutoCompleteArgument, is StringArgument -> encodeStringElement(
                         descriptor,
                         1,
-                        value.value
+                        value.value as String
                     )
                 }
             }
@@ -608,9 +638,11 @@ public sealed class CommandArgument<out T> : Option() {
                 ApplicationCommandOptionType.Boolean -> BooleanArgument(
                     name, json.decodeFromJsonElement(Boolean.serializer(), element), focused
                 )
+
                 ApplicationCommandOptionType.String -> StringArgument(
                     name, json.decodeFromJsonElement(String.serializer(), element), focused
                 )
+
                 ApplicationCommandOptionType.Integer -> IntegerArgument(
                     name, json.decodeFromJsonElement(Long.serializer(), element), focused
                 )
@@ -618,21 +650,27 @@ public sealed class CommandArgument<out T> : Option() {
                 ApplicationCommandOptionType.Number -> NumberArgument(
                     name, json.decodeFromJsonElement(Double.serializer(), element), focused
                 )
+
                 ApplicationCommandOptionType.Channel -> ChannelArgument(
                     name, json.decodeFromJsonElement(Snowflake.serializer(), element), focused
                 )
+
                 ApplicationCommandOptionType.Mentionable -> MentionableArgument(
                     name, json.decodeFromJsonElement(Snowflake.serializer(), element), focused
                 )
+
                 ApplicationCommandOptionType.Role -> RoleArgument(
                     name, json.decodeFromJsonElement(Snowflake.serializer(), element), focused
                 )
+
                 ApplicationCommandOptionType.User -> UserArgument(
                     name, json.decodeFromJsonElement(Snowflake.serializer(), element), focused
                 )
+
                 ApplicationCommandOptionType.Attachment -> AttachmentArgument(
                     name, json.decodeFromJsonElement(Snowflake.serializer(), element), focused
                 )
+
                 ApplicationCommandOptionType.SubCommand,
                 ApplicationCommandOptionType.SubCommandGroup,
                 is ApplicationCommandOptionType.Unknown -> error("unknown CommandArgument type ${type.type}")

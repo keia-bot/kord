@@ -1,6 +1,7 @@
 import org.gradle.configurationcache.extensions.capitalized
 import org.jetbrains.dokka.gradle.AbstractDokkaLeafTask
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 
@@ -14,6 +15,7 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -43,7 +45,13 @@ kotlin {
 
     targets()
     explicitApi()
-    jvmToolchain(Jvm.target)
+    jvmToolchain(Jvm.targetInt)
+
+    jvm {
+//        compilerOptions {
+//            jvmTarget = Jvm.targetVal
+//        }
+    }
 
     sourceSets {
         all {

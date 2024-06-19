@@ -414,6 +414,14 @@ public class ChannelService(requestHandler: RequestHandler) : RestService(reques
     ): ListThreadsResponse = call(Route.JoinedPrivateArchivedThreadsGet) {
         listThreadsConfig(channelId, request.before, request.limit)
     }
+
+    public suspend fun editVoiceChannelStatus(
+        channelId: Snowflake,
+        request: VoiceChannelStatusUpdateRequest
+    ): Unit = call(Route.EditVoiceChannelStatusPut) {
+        keys[Route.ChannelId] = channelId
+        body(VoiceChannelStatusUpdateRequest.serializer(), request)
+    }
 }
 
 private fun RequestBuilder<ListThreadsResponse>.listThreadsConfig(channelId: Snowflake, before: Any?, limit: Int?) {
