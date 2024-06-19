@@ -114,6 +114,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.*
 import kotlinx.serialization.json.*
+import kotlin.jvm.JvmInline
 
 @Serializable
 public data class DiscordApplicationCommand(
@@ -260,6 +261,75 @@ public data class ResolvedObjects(
     val attachments: Optional<Map<Snowflake, DiscordAttachment>> = Optional.Missing()
 )
 
+@Serializable(with = AuthorizingIntegrationOwners.Serializer::class)
+public sealed interface AuthorizingIntegrationOwners {
+    /**
+     * The interaction was triggered in a DM with the Bot.
+     */
+    public data object BotDM : AuthorizingIntegrationOwners
+
+    /**
+     * The interaction was triggered in a Guild that has the application installed.
+     */
+    @JvmInline
+    public value class Guild(public val id: Snowflake) : AuthorizingIntegrationOwners
+
+    /**
+     * The interaction was triggered by a User that has the application installed.
+     */
+    @JvmInline
+    public value class User(public val id: Snowflake) : AuthorizingIntegrationOwners
+
+    public object Serializer : KSerializer<AuthorizingIntegrationOwners> {
+
+        override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Kord.AuthorizationIntegrationOwners") {
+            element("GUILD_INSTALL", String.serializer().descriptor, isOptional = true)
+            element("USER_INSTALL", String.serializer().descriptor, isOptional = true)
+        }
+
+        override fun deserialize(decoder: Decoder): AuthorizingIntegrationOwners {
+            var guildInstall: String? = null
+            var userInstall: Snowflake? = null
+            decoder.decodeStructure(descriptor) {
+                while (true) {
+                    when (val index = decodeElementIndex(descriptor)) {
+                        0 -> guildInstall = decodeStringElement(descriptor, index)
+                        1 -> userInstall = decodeSerializableElement(descriptor, index, Snowflake.serializer())
+                        CompositeDecoder.DECODE_DONE -> return@decodeStructure
+                        else -> throw SerializationException("unknown index: $index")
+                    }
+                }
+            }
+
+            val guildId = guildInstall
+                ?.takeUnless { it == "0" }
+                ?.let { Snowflake(it) }
+
+            return when {
+                userInstall != null -> User(userInstall!!)
+                guildId != null -> Guild(guildId)
+                else -> BotDM
+            }
+        }
+
+        override fun serialize(encoder: Encoder, value: AuthorizingIntegrationOwners) {
+            when (value) {
+                is BotDM -> encoder.encodeStructure(descriptor) {
+                    encodeStringElement(descriptor, 0, "0")
+                }
+
+                is Guild -> encoder.encodeStructure(descriptor) {
+                    encodeSerializableElement(descriptor, 0, Snowflake.serializer(), value.id)
+                }
+
+                is User -> encoder.encodeStructure(descriptor) {
+                    encodeSerializableElement(descriptor, 1, Snowflake.serializer(), value.id)
+                }
+            }
+        }
+    }
+}
+
 @Serializable
 public data class DiscordInteraction(
     val id: Snowflake,
@@ -283,7 +353,9 @@ public data class DiscordInteraction(
     val locale: Optional<Locale> = Optional.Missing(),
     @SerialName("guild_locale")
     val guildLocale: Optional<Locale> = Optional.Missing(),
-    val entitlements: List<DiscordEntitlement>
+    val entitlements: List<DiscordEntitlement>,
+    val authorizingIntegrationOwners: AuthorizingIntegrationOwners,
+    val context: Optional<InteractionContextType> = Optional.Missing()
 ) {
 
     /**
@@ -310,8 +382,6 @@ public data class DiscordInteraction(
                 )
             }
         }
-
-
     }
 }
 
