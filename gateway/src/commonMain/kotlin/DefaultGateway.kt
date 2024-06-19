@@ -1,5 +1,3 @@
-@file:Suppress("t")
-
 package dev.kord.gateway
 
 import dev.kord.common.entity.optional.optional
@@ -35,9 +33,9 @@ private val defaultGatewayLogger = KotlinLogging.logger { }
 internal expect fun Throwable.isTimeout(): Boolean
 
 private sealed class State(val retry: Boolean) {
-    data object Stopped : State(false)
+    object Stopped : State(false)
     class Running(retry: Boolean) : State(retry)
-    data object Detached : State(false)
+    object Detached : State(false)
 }
 
 /**
@@ -159,8 +157,8 @@ public class DefaultGateway(private val data: DefaultGatewayData) : Gateway {
     private suspend fun resetState(configuration: GatewayConfiguration) = stateMutex.withLock {
         when (state.value) {
             is State.Running -> throw IllegalStateException(gatewayRunningError)
-            State.Detached   -> throw IllegalStateException(gatewayDetachedError)
-            State.Stopped    -> Unit
+            State.Detached -> throw IllegalStateException(gatewayDetachedError)
+            State.Stopped -> Unit
         }
 
         handshakeHandler.configuration = configuration
@@ -168,31 +166,30 @@ public class DefaultGateway(private val data: DefaultGatewayData) : Gateway {
         state.update { State.Running(true) } //resetting state
     }
 
+
     private suspend fun readSocket() {
-        socket.incoming.asFlow().buffer(Channel.UNLIMITED).collect {
-            when (it) {
-                is Frame.Binary, is Frame.Text -> read(it)
-                else                           -> { /*ignore*/
+        val frames = socket.incoming.asFlow()
+            .buffer(Channel.UNLIMITED)
+            .onEach { frame -> defaultGatewayLogger.trace { "Received raw frame: $frame" } }
+        val eventsJson = if (compression) {
+            frames.decompressFrames(inflater)
+        } else {
+            frames.mapNotNull { frame ->
+                when (frame) {
+                    is Frame.Binary, is Frame.Text -> frame.data.decodeToString()
+                    else -> null // ignore other frame types
                 }
             }
         }
-    }
-
-    private suspend fun read(frame: Frame) {
-        defaultGatewayLogger.trace { "Received raw frame: $frame" }
-        val json = when {
-            compression -> with(inflater) { frame.inflateData() }
-            else        -> frame.data.decodeToString()
+        eventsJson.collect { json ->
+            try {
+                defaultGatewayLogger.trace { "Gateway <<< $json" }
+                val event = jsonParser.decodeFromString(Event.DeserializationStrategy, json)
+                data.eventFlow.emit(event)
+            } catch (exception: Exception) {
+                defaultGatewayLogger.error(exception) { "" }
+            }
         }
-
-        try {
-            defaultGatewayLogger.trace { "Gateway <<< $json" }
-            val event = jsonParser.decodeFromString(Event.DeserializationStrategy, json)
-            data.eventFlow.emit(event)
-        } catch (exception: Exception) {
-            defaultGatewayLogger.error(exception) { "" }
-        }
-
     }
 
     private suspend fun handleClose() {
@@ -208,11 +205,10 @@ public class DefaultGateway(private val data: DefaultGatewayData) : Gateway {
         data.eventFlow.emit(Close.DiscordClose(discordReason, discordReason.retry))
 
         when {
-            !discordReason.retry       -> {
+            !discordReason.retry -> {
                 state.update { State.Stopped }
                 throw IllegalStateException("Gateway closed: ${reason.code} ${reason.message}")
             }
-
             discordReason.resetSession -> {
                 setStopped()
             }
@@ -310,40 +306,41 @@ internal val GatewayConfiguration.identify
         intents
     )
 
+
 internal expect val os: String
 
 internal val GatewayCloseCode.retry
     get() = when (this) { //this statement is intentionally structured to ensure we consider the retry for every new code
-        Unknown              -> true
-        UnknownOpCode        -> true
-        DecodeError          -> true
-        NotAuthenticated     -> true
+        Unknown -> true
+        UnknownOpCode -> true
+        DecodeError -> true
+        NotAuthenticated -> true
         AuthenticationFailed -> false
         AlreadyAuthenticated -> true
-        InvalidSeq           -> true
-        RateLimited          -> true
-        SessionTimeout       -> true
-        InvalidShard         -> false
-        ShardingRequired     -> false
-        InvalidApiVersion    -> false
-        InvalidIntents       -> false
-        DisallowedIntents    -> false
+        InvalidSeq -> true
+        RateLimited -> true
+        SessionTimeout -> true
+        InvalidShard -> false
+        ShardingRequired -> false
+        InvalidApiVersion -> false
+        InvalidIntents -> false
+        DisallowedIntents -> false
     }
 
 internal val GatewayCloseCode.resetSession
     get() = when (this) { //this statement is intentionally structured to ensure we consider the reset for every new code
-        Unknown              -> false
-        UnknownOpCode        -> false
-        DecodeError          -> false
-        NotAuthenticated     -> false
+        Unknown -> false
+        UnknownOpCode -> false
+        DecodeError -> false
+        NotAuthenticated -> false
         AuthenticationFailed -> false
         AlreadyAuthenticated -> false
-        InvalidSeq           -> true
-        RateLimited          -> false
-        SessionTimeout       -> false
-        InvalidShard         -> false
-        ShardingRequired     -> false
-        InvalidApiVersion    -> false
-        InvalidIntents       -> false
-        DisallowedIntents    -> false
+        InvalidSeq -> true
+        RateLimited -> false
+        SessionTimeout -> false
+        InvalidShard -> false
+        ShardingRequired -> false
+        InvalidApiVersion -> false
+        InvalidIntents -> false
+        DisallowedIntents -> false
     }

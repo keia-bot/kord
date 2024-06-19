@@ -1,5 +1,5 @@
 // Klib ABI Dump
-// Targets: [js]
+// Targets: [js, linuxArm64, linuxX64]
 // Rendering settings:
 // - Signature version: 2
 // - Show manifest properties: true
@@ -310,6 +310,7 @@ abstract interface dev.kord.core.behavior.channel/VoiceChannelBehavior : dev.kor
     open fun withStrategy(dev.kord.core.supplier/EntitySupplyStrategy<*>): dev.kord.core.behavior.channel/VoiceChannelBehavior // dev.kord.core.behavior.channel/VoiceChannelBehavior.withStrategy|withStrategy(dev.kord.core.supplier.EntitySupplyStrategy<*>){}[0]
     open suspend fun asChannel(): dev.kord.core.entity.channel/VoiceChannel // dev.kord.core.behavior.channel/VoiceChannelBehavior.asChannel|asChannel(){}[0]
     open suspend fun asChannelOrNull(): dev.kord.core.entity.channel/VoiceChannel? // dev.kord.core.behavior.channel/VoiceChannelBehavior.asChannelOrNull|asChannelOrNull(){}[0]
+    open suspend fun editVoiceStatus(kotlin/String) // dev.kord.core.behavior.channel/VoiceChannelBehavior.editVoiceStatus|editVoiceStatus(kotlin.String){}[0]
     open suspend fun fetchChannel(): dev.kord.core.entity.channel/VoiceChannel // dev.kord.core.behavior.channel/VoiceChannelBehavior.fetchChannel|fetchChannel(){}[0]
     open suspend fun fetchChannelOrNull(): dev.kord.core.entity.channel/VoiceChannel? // dev.kord.core.behavior.channel/VoiceChannelBehavior.fetchChannelOrNull|fetchChannelOrNull(){}[0]
 }
@@ -9591,8 +9592,6 @@ final val dev.kord.core.cache.data/id // dev.kord.core.cache.data/id|@dev.kord.c
     final fun (dev.kord.core.cache.data/VoiceStateData).<get-id>(): kotlin/String // dev.kord.core.cache.data/id.<get-id>|<get-id>@dev.kord.core.cache.data.VoiceStateData(){}[0]
 final val dev.kord.core.entity/effectiveName // dev.kord.core.entity/effectiveName|@dev.kord.core.entity.User{}effectiveName[0]
     final fun (dev.kord.core.entity/User).<get-effectiveName>(): kotlin/String // dev.kord.core.entity/effectiveName.<get-effectiveName>|<get-effectiveName>@dev.kord.core.entity.User(){}[0]
-final val dev.kord.core/kordLogger // dev.kord.core/kordLogger|{}kordLogger[0]
-    final fun <get-kordLogger>(): mu/KLogger // dev.kord.core/kordLogger.<get-kordLogger>|<get-kordLogger>(){}[0]
 final value class dev.kord.core.cache/ViewKeys { // dev.kord.core.cache/ViewKeys|null[0]
     constructor <init>(kotlin.collections/MutableSet<kotlin/Any> = ...) // dev.kord.core.cache/ViewKeys.<init>|<init>(kotlin.collections.MutableSet<kotlin.Any>){}[0]
     final fun add(kotlin/Any) // dev.kord.core.cache/ViewKeys.add|add(kotlin.Any){}[0]

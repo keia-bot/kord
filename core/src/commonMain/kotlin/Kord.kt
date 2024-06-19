@@ -44,9 +44,6 @@ import kotlin.contracts.contract
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.channels.Channel as CoroutineChannel
 
-@Deprecated("Use your own logger instead, this will be removed in the future.", level = DeprecationLevel.HIDDEN)
-public val kordLogger: mu.KLogger = mu.KotlinLogging.logger { }
-
 private val logger = KotlinLogging.logger { }
 
 @PublishedApi
@@ -417,10 +414,12 @@ public class Kord(
         ownerId: Snowflake,
         ownerType: EntitlementOwnerType,
     ): Entitlement {
-        val response = rest.entitlement.createTestEntitlement(selfId, TestEntitlementCreateRequest(skuId, ownerId, ownerType))
-        val data = EntitlementData.from(response)
+        val response = rest.entitlement.createTestEntitlement(
+            selfId,
+            TestEntitlementCreateRequest(skuId, ownerId, ownerType)
+        )
 
-        return Entitlement(data, this)
+        return Entitlement(EntitlementData.from(response), this)
     }
 
     public suspend fun createTestEntitlement(skuId: Snowflake, user: UserBehavior): Entitlement =
@@ -430,7 +429,6 @@ public class Kord(
         createTestEntitlement(skuId, guild.id, EntitlementOwnerType.Guild)
 
     public suspend fun getSticker(id: Snowflake): Sticker = defaultSupplier.getSticker(id)
-
 
     /**
      * Requests to edit the presence of the bot user configured by the [builder].

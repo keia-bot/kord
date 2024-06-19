@@ -2,6 +2,8 @@ package dev.kord.rest.builder.interaction
 
 import dev.kord.common.annotation.KordDsl
 import dev.kord.common.entity.ApplicationCommandType
+import dev.kord.common.entity.ApplicationIntegrationType
+import dev.kord.common.entity.InteractionContextType
 import dev.kord.common.entity.Permissions
 import dev.kord.rest.builder.RequestBuilder
 import dev.kord.rest.json.request.ApplicationCommandCreateRequest
@@ -26,8 +28,40 @@ public interface ApplicationCommandCreateBuilder : LocalizedNameCreateBuilder,
         defaultMemberPermissions = Permissions()
     }
 
+    /**
+     * [Installation context(s)] where the command is available.
+     */
+    public var integrationTypes: List<ApplicationIntegrationType>
+
+    /**
+     * [Interaction context(s)][InteractionContextType] where the command can be used.
+     */
+    public var contexts: List<InteractionContextType>
+
     /** Indicates whether the command is age-restricted. Defaults to `false`. */
     public var nsfw: Boolean?
+}
+
+public fun ApplicationCommandCreateBuilder.allowGuildInstall() {
+    integrationTypes += ApplicationIntegrationType.GuildInstall
+}
+
+public fun ApplicationCommandCreateBuilder.allowUserInstall() {
+    integrationTypes += ApplicationIntegrationType.UserInstall
+}
+
+public fun ApplicationCommandCreateBuilder.allowInBotDMs() {
+    contexts += InteractionContextType.BotDM
+}
+
+public fun ApplicationCommandCreateBuilder.allowInGuilds() {
+    allowGuildInstall()
+    contexts += InteractionContextType.Guild
+}
+
+public fun ApplicationCommandCreateBuilder.allowInUserDMs() {
+    allowUserInstall()
+    contexts += InteractionContextType.PrivateChannel
 }
 
 @KordDsl

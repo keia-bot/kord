@@ -148,12 +148,15 @@ public final class com/iwebpp/crypto/TweetNaclFast$poly1305 {
 
 public final class dev/kord/voice/AudioFrame {
 	public static final field Companion Ldev/kord/voice/AudioFrame$Companion;
+	public static final field NUM_CHANNELS I
+	public static final field SAMPLE_RATE I
 	public static final synthetic fun box-impl ([B)Ldev/kord/voice/AudioFrame;
 	public static fun constructor-impl ([B)[B
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl ([BLjava/lang/Object;)Z
 	public static final fun equals-impl0 ([B[B)Z
 	public final fun getData ()[B
+	public static final fun getSampleCount-Mh2AYeg ([B)S
 	public fun hashCode ()I
 	public static fun hashCode-impl ([B)I
 	public fun toString ()Ljava/lang/String;
@@ -163,19 +166,29 @@ public final class dev/kord/voice/AudioFrame {
 
 public final class dev/kord/voice/AudioFrame$Companion {
 	public final fun fromData-aSqDgro ([B)[B
+	public final fun getPacketSampleCount (I[B)I
 	public final fun getSILENCE-kgrP3dY ()[B
 }
 
-public abstract interface class dev/kord/voice/AudioProvider {
-	public abstract fun provide-aSqDgro (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun provideFrames (Lkotlinx/coroutines/CoroutineScope;Lkotlinx/coroutines/channels/SendChannel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+public abstract interface class dev/kord/voice/AudioFrameInterceptor {
+	public abstract fun intercept (Lkotlinx/coroutines/flow/Flow;Ldev/kord/voice/FrameInterceptorConfiguration;)Lkotlinx/coroutines/flow/Flow;
 }
 
-public final class dev/kord/voice/AudioProvider$DefaultImpls {
-	public static fun provideFrames (Ldev/kord/voice/AudioProvider;Lkotlinx/coroutines/CoroutineScope;Lkotlinx/coroutines/channels/SendChannel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+public abstract interface class dev/kord/voice/AudioFrameProvider {
+	public abstract fun provide (Lkotlinx/coroutines/CoroutineScope;)Lkotlinx/coroutines/flow/Flow;
 }
 
-public final class dev/kord/voice/DefaultFrameInterceptor : dev/kord/voice/FrameInterceptor {
+public abstract class dev/kord/voice/AudioFrameProvider$Callback : dev/kord/voice/AudioFrameProvider {
+	public static final field Companion Ldev/kord/voice/AudioFrameProvider$Callback$Companion;
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun provide (Lkotlinx/coroutines/CoroutineScope;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun read-aSqDgro (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/kord/voice/AudioFrameProvider$Callback$Companion {
+}
+
+public final class dev/kord/voice/DefaultFrameInterceptor : dev/kord/voice/AudioFrameInterceptor {
 	public fun <init> ()V
 	public fun <init> (Ldev/kord/voice/DefaultFrameInterceptorData;)V
 	public synthetic fun <init> (Ldev/kord/voice/DefaultFrameInterceptorData;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -203,6 +216,14 @@ public abstract class dev/kord/voice/EncryptionMode {
 	public final fun toString ()Ljava/lang/String;
 }
 
+public final class dev/kord/voice/EncryptionMode$AeadAes256Gcm : dev/kord/voice/EncryptionMode {
+	public static final field INSTANCE Ldev/kord/voice/EncryptionMode$AeadAes256Gcm;
+}
+
+public final class dev/kord/voice/EncryptionMode$AeadAes256GcmRtpSize : dev/kord/voice/EncryptionMode {
+	public static final field INSTANCE Ldev/kord/voice/EncryptionMode$AeadAes256GcmRtpSize;
+}
+
 public final class dev/kord/voice/EncryptionMode$Companion {
 	public final fun from (Ljava/lang/String;)Ldev/kord/voice/EncryptionMode;
 	public final fun getEntries ()Ljava/util/List;
@@ -222,10 +243,6 @@ public final class dev/kord/voice/EncryptionMode$XSalsa20Poly1305Lite : dev/kord
 
 public final class dev/kord/voice/EncryptionMode$XSalsa20Poly1305Suffix : dev/kord/voice/EncryptionMode {
 	public static final field INSTANCE Ldev/kord/voice/EncryptionMode$XSalsa20Poly1305Suffix;
-}
-
-public abstract interface class dev/kord/voice/FrameInterceptor {
-	public abstract fun intercept (Lkotlinx/coroutines/flow/Flow;Ldev/kord/voice/FrameInterceptorConfiguration;)Lkotlinx/coroutines/flow/Flow;
 }
 
 public final class dev/kord/voice/FrameInterceptorConfiguration {
@@ -332,63 +349,62 @@ public final class dev/kord/voice/SpeakingFlags$Companion {
 }
 
 public final class dev/kord/voice/VoiceConnection {
-	public synthetic fun <init> (Ldev/kord/voice/VoiceConnectionData;Ldev/kord/gateway/Gateway;Ldev/kord/voice/gateway/VoiceGateway;Ldev/kord/voice/udp/VoiceUdpSocket;Ldev/kord/voice/gateway/VoiceGatewayConfiguration;Ldev/kord/voice/streams/Streams;Ldev/kord/voice/AudioProvider;Ldev/kord/voice/FrameInterceptor;Ldev/kord/voice/udp/AudioFrameSender;Ldev/kord/voice/encryption/strategies/NonceStrategy;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlinx/coroutines/CoroutineScope;Ldev/kord/voice/VoiceConnectionData;Ldev/kord/gateway/Gateway;Ldev/kord/voice/streams/Streams;Ldev/kord/voice/AudioFrameProvider;Ldev/kord/voice/AudioFrameInterceptor;Ldev/kord/voice/udp/AudioFrameSender;Ldev/kord/voice/gateway/VoiceGateway;Ldev/kord/voice/gateway/VoiceGatewayConfiguration;Ldev/kord/voice/udp/RealTimeConnectionConfiguration;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun connect (Lkotlinx/coroutines/CoroutineScope;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun connect$default (Ldev/kord/voice/VoiceConnection;Lkotlinx/coroutines/CoroutineScope;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun disconnect (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getAudioProvider ()Ldev/kord/voice/AudioProvider;
 	public final fun getData ()Ldev/kord/voice/VoiceConnectionData;
-	public final fun getFrameInterceptor ()Ldev/kord/voice/FrameInterceptor;
+	public final fun getFrameInterceptor ()Ldev/kord/voice/AudioFrameInterceptor;
+	public final fun getFrameProvider ()Ldev/kord/voice/AudioFrameProvider;
 	public final fun getFrameSender ()Ldev/kord/voice/udp/AudioFrameSender;
 	public final fun getGateway ()Ldev/kord/gateway/Gateway;
-	public final fun getNonceStrategy ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
+	public final fun getRtcConfig ()Ldev/kord/voice/udp/RealTimeConnectionConfiguration;
 	public final fun getScope ()Lkotlinx/coroutines/CoroutineScope;
-	public final fun getSocket ()Ldev/kord/voice/udp/VoiceUdpSocket;
 	public final fun getStreams ()Ldev/kord/voice/streams/Streams;
 	public final fun getVoiceGateway ()Ldev/kord/voice/gateway/VoiceGateway;
-	public final fun getVoiceGatewayConfiguration ()Ldev/kord/voice/gateway/VoiceGatewayConfiguration;
+	public final fun getVoiceGatewayConfig ()Ldev/kord/voice/gateway/VoiceGatewayConfiguration;
 	public final fun leave (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun move-9VmEaQQ (JZZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun move-9VmEaQQ$default (Ldev/kord/voice/VoiceConnection;JZZLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public final fun setVoiceGatewayConfiguration (Ldev/kord/voice/gateway/VoiceGatewayConfiguration;)V
+	public final fun setVoiceGatewayConfig (Ldev/kord/voice/gateway/VoiceGatewayConfiguration;)V
 	public final fun shutdown (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/kord/voice/VoiceConnectionBuilder {
 	public synthetic fun <init> (Ldev/kord/gateway/Gateway;JJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun audioProvider (Ldev/kord/voice/AudioProvider;)V
 	public final fun build (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun frameInterceptor (Ldev/kord/voice/FrameInterceptor;)V
-	public final fun getAudioProvider ()Ldev/kord/voice/AudioProvider;
-	public final fun getAudioSender ()Ldev/kord/voice/udp/AudioFrameSender;
+	public final fun frameInterceptor (Ldev/kord/voice/AudioFrameInterceptor;)V
+	public final fun frameProvider-VtjQ1oo (JLkotlin/jvm/functions/Function1;)V
+	public final fun frameSender (Ldev/kord/voice/udp/AudioFrameSenderFactory;)V
 	public final fun getChannelId-4_xYDEk ()J
-	public final fun getConnectionDetachDuration-UwyO8pc ()J
-	public final fun getFrameInterceptor ()Ldev/kord/voice/FrameInterceptor;
+	public final fun getDetachTimeout-UwyO8pc ()J
+	public final fun getDispatcher ()Lkotlinx/coroutines/CoroutineDispatcher;
+	public final fun getFrameInterceptor ()Ldev/kord/voice/AudioFrameInterceptor;
+	public final fun getFrameProvider ()Ldev/kord/voice/AudioFrameProvider;
+	public final fun getFrameSenderFactory ()Ldev/kord/voice/udp/AudioFrameSenderFactory;
 	public final fun getGateway ()Ldev/kord/gateway/Gateway;
 	public final fun getGuildId-4_xYDEk ()J
-	public final fun getNonceStrategy ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
 	public final fun getReceiveVoice ()Z
 	public final fun getSelfDeaf ()Z
 	public final fun getSelfId-4_xYDEk ()J
 	public final fun getSelfMute ()Z
 	public final fun getStreams ()Ldev/kord/voice/streams/Streams;
-	public final fun getTimeout ()J
-	public final fun getUdpSocket ()Ldev/kord/voice/udp/VoiceUdpSocket;
-	public final fun setAudioProvider (Ldev/kord/voice/AudioProvider;)V
-	public final fun setAudioSender (Ldev/kord/voice/udp/AudioFrameSender;)V
+	public final fun getTimeout-UwyO8pc ()J
+	public final fun rtc (Lkotlin/jvm/functions/Function1;)V
 	public final fun setChannelId-IO-hELI (J)V
-	public final fun setConnectionDetachDuration-LRDsOJo (J)V
-	public final fun setFrameInterceptor (Ldev/kord/voice/FrameInterceptor;)V
+	public final fun setDetachTimeout-LRDsOJo (J)V
+	public final fun setDispatcher (Lkotlinx/coroutines/CoroutineDispatcher;)V
+	public final fun setFrameInterceptor (Ldev/kord/voice/AudioFrameInterceptor;)V
+	public final fun setFrameProvider (Ldev/kord/voice/AudioFrameProvider;)V
+	public final fun setFrameSenderFactory (Ldev/kord/voice/udp/AudioFrameSenderFactory;)V
 	public final fun setGateway (Ldev/kord/gateway/Gateway;)V
 	public final fun setGuildId-IO-hELI (J)V
-	public final fun setNonceStrategy (Ldev/kord/voice/encryption/strategies/NonceStrategy;)V
 	public final fun setReceiveVoice (Z)V
 	public final fun setSelfDeaf (Z)V
 	public final fun setSelfId-IO-hELI (J)V
 	public final fun setSelfMute (Z)V
 	public final fun setStreams (Ldev/kord/voice/streams/Streams;)V
-	public final fun setTimeout (J)V
-	public final fun setUdpSocket (Ldev/kord/voice/udp/VoiceUdpSocket;)V
+	public final fun setTimeout-LRDsOJo (J)V
 	public final fun voiceGateway (Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -412,51 +428,88 @@ public final class dev/kord/voice/VoiceConnectionKt {
 	public static synthetic fun VoiceConnection-vnAI47A$default (Ldev/kord/gateway/Gateway;JJJLkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class dev/kord/voice/encryption/XSalsa20Poly1305Codec {
-	public fun <init> ([B)V
-	public final fun decrypt ([BII[BLdev/kord/voice/io/MutableByteArrayCursor;)Z
-	public static synthetic fun decrypt$default (Ldev/kord/voice/encryption/XSalsa20Poly1305Codec;[BII[BLdev/kord/voice/io/MutableByteArrayCursor;ILjava/lang/Object;)Z
-	public final fun encrypt ([BII[BLdev/kord/voice/io/MutableByteArrayCursor;)Z
-	public static synthetic fun encrypt$default (Ldev/kord/voice/encryption/XSalsa20Poly1305Codec;[BII[BLdev/kord/voice/io/MutableByteArrayCursor;ILjava/lang/Object;)Z
-	public final fun getKey ()[B
+public final class dev/kord/voice/encryption/AeadAes256GcmKt {
+	public static final fun getAeadAes256Gcm ()Ldev/kord/voice/encryption/VoiceEncryption;
 }
 
-public final class dev/kord/voice/encryption/XSalsa20Poly1305CodecKt {
-	public static final fun decrypt (Ldev/kord/voice/encryption/XSalsa20Poly1305Codec;[BII[B)[B
-	public static synthetic fun decrypt$default (Ldev/kord/voice/encryption/XSalsa20Poly1305Codec;[BII[BILjava/lang/Object;)[B
-	public static final fun encrypt (Ldev/kord/voice/encryption/XSalsa20Poly1305Codec;[BII[B)[B
-	public static synthetic fun encrypt$default (Ldev/kord/voice/encryption/XSalsa20Poly1305Codec;[BII[BILjava/lang/Object;)[B
+public abstract interface class dev/kord/voice/encryption/VoiceEncryption {
+	public abstract fun createBox ([B)Ldev/kord/voice/encryption/VoiceEncryption$Box;
+	public abstract fun createUnbox ([B)Ldev/kord/voice/encryption/VoiceEncryption$Unbox;
+	public abstract fun getMode ()Ldev/kord/voice/EncryptionMode;
+	public abstract fun getNonceLength ()I
+}
+
+public abstract interface class dev/kord/voice/encryption/VoiceEncryption$Box : dev/kord/voice/encryption/VoiceEncryption$Method {
+	public abstract fun appendNonce (Ldev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/MutableByteArrayCursor;)V
+	public abstract fun generateNonce (Lkotlin/jvm/functions/Function0;)Ldev/kord/voice/io/ByteArrayView;
+	public abstract fun getOverhead ()I
+}
+
+public abstract interface class dev/kord/voice/encryption/VoiceEncryption$Method {
+	public abstract fun apply (Ldev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/MutableByteArrayCursor;Ldev/kord/voice/io/ByteArrayView;[B)Z
+}
+
+public abstract interface class dev/kord/voice/encryption/VoiceEncryption$Unbox : dev/kord/voice/encryption/VoiceEncryption$Method {
+	public abstract fun getNonce (Ldev/kord/voice/udp/RTPPacket;)Ldev/kord/voice/io/ByteArrayView;
+}
+
+public final class dev/kord/voice/encryption/XSalsa20Poly1305Kt {
+	public static final fun XSalsa20Poly1305 (Ldev/kord/voice/encryption/strategies/NonceStrategy$Factory;)Ldev/kord/voice/encryption/VoiceEncryption;
+	public static synthetic fun XSalsa20Poly1305$default (Ldev/kord/voice/encryption/strategies/NonceStrategy$Factory;ILjava/lang/Object;)Ldev/kord/voice/encryption/VoiceEncryption;
 }
 
 public final class dev/kord/voice/encryption/strategies/LiteNonceStrategy : dev/kord/voice/encryption/strategies/NonceStrategy {
+	public static final field Factory Ldev/kord/voice/encryption/strategies/LiteNonceStrategy$Factory;
 	public fun <init> ()V
 	public fun append (Ldev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/MutableByteArrayCursor;)V
 	public fun generate (Lkotlin/jvm/functions/Function0;)Ldev/kord/voice/io/ByteArrayView;
-	public fun getNonceLength ()I
 	public fun strip (Ldev/kord/voice/udp/RTPPacket;)Ldev/kord/voice/io/ByteArrayView;
+}
+
+public final class dev/kord/voice/encryption/strategies/LiteNonceStrategy$Factory : dev/kord/voice/encryption/strategies/NonceStrategy$Factory {
+	public fun create ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
+	public fun getLength ()I
+	public fun getMode ()Ldev/kord/voice/EncryptionMode;
 }
 
 public abstract interface class dev/kord/voice/encryption/strategies/NonceStrategy {
 	public abstract fun append (Ldev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/MutableByteArrayCursor;)V
 	public abstract fun generate (Lkotlin/jvm/functions/Function0;)Ldev/kord/voice/io/ByteArrayView;
-	public abstract fun getNonceLength ()I
 	public abstract fun strip (Ldev/kord/voice/udp/RTPPacket;)Ldev/kord/voice/io/ByteArrayView;
 }
 
+public abstract interface class dev/kord/voice/encryption/strategies/NonceStrategy$Factory {
+	public abstract fun create ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
+	public abstract fun getLength ()I
+	public abstract fun getMode ()Ldev/kord/voice/EncryptionMode;
+}
+
 public final class dev/kord/voice/encryption/strategies/NormalNonceStrategy : dev/kord/voice/encryption/strategies/NonceStrategy {
+	public static final field Factory Ldev/kord/voice/encryption/strategies/NormalNonceStrategy$Factory;
 	public fun <init> ()V
 	public fun append (Ldev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/MutableByteArrayCursor;)V
 	public fun generate (Lkotlin/jvm/functions/Function0;)Ldev/kord/voice/io/ByteArrayView;
-	public fun getNonceLength ()I
 	public fun strip (Ldev/kord/voice/udp/RTPPacket;)Ldev/kord/voice/io/ByteArrayView;
 }
 
+public final class dev/kord/voice/encryption/strategies/NormalNonceStrategy$Factory : dev/kord/voice/encryption/strategies/NonceStrategy$Factory {
+	public fun create ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
+	public fun getLength ()I
+	public fun getMode ()Ldev/kord/voice/EncryptionMode;
+}
+
 public final class dev/kord/voice/encryption/strategies/SuffixNonceStrategy : dev/kord/voice/encryption/strategies/NonceStrategy {
+	public static final field Factory Ldev/kord/voice/encryption/strategies/SuffixNonceStrategy$Factory;
 	public fun <init> ()V
 	public fun append (Ldev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/MutableByteArrayCursor;)V
 	public fun generate (Lkotlin/jvm/functions/Function0;)Ldev/kord/voice/io/ByteArrayView;
-	public fun getNonceLength ()I
 	public fun strip (Ldev/kord/voice/udp/RTPPacket;)Ldev/kord/voice/io/ByteArrayView;
+}
+
+public final class dev/kord/voice/encryption/strategies/SuffixNonceStrategy$Factory : dev/kord/voice/encryption/strategies/NonceStrategy$Factory {
+	public fun create ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
+	public fun getLength ()I
+	public fun getMode ()Ldev/kord/voice/EncryptionMode;
 }
 
 public final class dev/kord/voice/exception/VoiceConnectionInitializationException : java/lang/Exception {
@@ -508,7 +561,7 @@ public final class dev/kord/voice/gateway/Command$SerializationStrategy : kotlin
 }
 
 public final class dev/kord/voice/gateway/DefaultVoiceGateway : dev/kord/voice/gateway/VoiceGateway {
-	public fun <init> (Ldev/kord/voice/gateway/DefaultVoiceGatewayData;)V
+	public fun <init> (Lkotlinx/coroutines/CoroutineScope;Ldev/kord/voice/gateway/DefaultVoiceGatewayData;)V
 	public fun detach (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getEvents ()Lkotlinx/coroutines/flow/SharedFlow;
 	public fun getPing ()Lkotlinx/coroutines/flow/StateFlow;
@@ -522,26 +575,31 @@ public final class dev/kord/voice/gateway/DefaultVoiceGatewayBuilder {
 	public synthetic fun <init> (JJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun build ()Ldev/kord/voice/gateway/DefaultVoiceGateway;
 	public final fun getClient ()Lio/ktor/client/HttpClient;
+	public final fun getDispatcher ()Lkotlinx/coroutines/CoroutineDispatcher;
 	public final fun getEventFlow ()Lkotlinx/coroutines/flow/MutableSharedFlow;
 	public final fun getGuildId-4_xYDEk ()J
 	public final fun getReconnectRetry ()Ldev/kord/gateway/retry/Retry;
 	public final fun getSelfId-4_xYDEk ()J
 	public final fun getSessionId ()Ljava/lang/String;
+	public final fun isDeaf ()Z
 	public final fun setClient (Lio/ktor/client/HttpClient;)V
+	public final fun setDeaf (Z)V
+	public final fun setDispatcher (Lkotlinx/coroutines/CoroutineDispatcher;)V
 	public final fun setEventFlow (Lkotlinx/coroutines/flow/MutableSharedFlow;)V
 	public final fun setReconnectRetry (Ldev/kord/gateway/retry/Retry;)V
 }
 
 public final class dev/kord/voice/gateway/DefaultVoiceGatewayData {
-	public synthetic fun <init> (JJLjava/lang/String;Lio/ktor/client/HttpClient;Ldev/kord/gateway/retry/Retry;Lkotlinx/coroutines/flow/MutableSharedFlow;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJLjava/lang/String;Lio/ktor/client/HttpClient;Ldev/kord/gateway/retry/Retry;ZLkotlinx/coroutines/flow/MutableSharedFlow;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-4_xYDEk ()J
 	public final fun component2-4_xYDEk ()J
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Lio/ktor/client/HttpClient;
 	public final fun component5 ()Ldev/kord/gateway/retry/Retry;
-	public final fun component6 ()Lkotlinx/coroutines/flow/MutableSharedFlow;
-	public final fun copy-huMQfDM (JJLjava/lang/String;Lio/ktor/client/HttpClient;Ldev/kord/gateway/retry/Retry;Lkotlinx/coroutines/flow/MutableSharedFlow;)Ldev/kord/voice/gateway/DefaultVoiceGatewayData;
-	public static synthetic fun copy-huMQfDM$default (Ldev/kord/voice/gateway/DefaultVoiceGatewayData;JJLjava/lang/String;Lio/ktor/client/HttpClient;Ldev/kord/gateway/retry/Retry;Lkotlinx/coroutines/flow/MutableSharedFlow;ILjava/lang/Object;)Ldev/kord/voice/gateway/DefaultVoiceGatewayData;
+	public final fun component6 ()Z
+	public final fun component7 ()Lkotlinx/coroutines/flow/MutableSharedFlow;
+	public final fun copy-9ZctG1k (JJLjava/lang/String;Lio/ktor/client/HttpClient;Ldev/kord/gateway/retry/Retry;ZLkotlinx/coroutines/flow/MutableSharedFlow;)Ldev/kord/voice/gateway/DefaultVoiceGatewayData;
+	public static synthetic fun copy-9ZctG1k$default (Ldev/kord/voice/gateway/DefaultVoiceGatewayData;JJLjava/lang/String;Lio/ktor/client/HttpClient;Ldev/kord/gateway/retry/Retry;ZLkotlinx/coroutines/flow/MutableSharedFlow;ILjava/lang/Object;)Ldev/kord/voice/gateway/DefaultVoiceGatewayData;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getClient ()Lio/ktor/client/HttpClient;
 	public final fun getEventFlow ()Lkotlinx/coroutines/flow/MutableSharedFlow;
@@ -550,6 +608,7 @@ public final class dev/kord/voice/gateway/DefaultVoiceGatewayData {
 	public final fun getSelfId-4_xYDEk ()J
 	public final fun getSessionId ()Ljava/lang/String;
 	public fun hashCode ()I
+	public final fun isDeaf ()Z
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -658,6 +717,39 @@ public final class dev/kord/voice/gateway/Identify$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
+public final class dev/kord/voice/gateway/MediaSinkWants : dev/kord/voice/gateway/Command {
+	public static final field Serializer Ldev/kord/voice/gateway/MediaSinkWants$Serializer;
+	public fun <init> (ZLjava/util/Map;)V
+	public synthetic fun <init> (ZLjava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Ljava/util/Map;
+	public final fun copy (ZLjava/util/Map;)Ldev/kord/voice/gateway/MediaSinkWants;
+	public static synthetic fun copy$default (Ldev/kord/voice/gateway/MediaSinkWants;ZLjava/util/Map;ILjava/lang/Object;)Ldev/kord/voice/gateway/MediaSinkWants;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSsrcs ()Ljava/util/Map;
+	public final fun getWants ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class dev/kord/voice/gateway/MediaSinkWants$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/kord/voice/gateway/MediaSinkWants$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/kord/voice/gateway/MediaSinkWants;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/kord/voice/gateway/MediaSinkWants;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/kord/voice/gateway/MediaSinkWants$Serializer : kotlinx/serialization/SerializationStrategy {
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/kord/voice/gateway/MediaSinkWants;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public final class dev/kord/voice/gateway/OpCode : java/lang/Enum {
 	public static final field ClientDisconnect Ldev/kord/voice/gateway/OpCode;
 	public static final field Companion Ldev/kord/voice/gateway/OpCode$Companion;
@@ -665,6 +757,7 @@ public final class dev/kord/voice/gateway/OpCode : java/lang/Enum {
 	public static final field HeartbeatAck Ldev/kord/voice/gateway/OpCode;
 	public static final field Hello Ldev/kord/voice/gateway/OpCode;
 	public static final field Identify Ldev/kord/voice/gateway/OpCode;
+	public static final field MediaSinkWants Ldev/kord/voice/gateway/OpCode;
 	public static final field Ready Ldev/kord/voice/gateway/OpCode;
 	public static final field Resume Ldev/kord/voice/gateway/OpCode;
 	public static final field Resumed Ldev/kord/voice/gateway/OpCode;
@@ -1003,7 +1096,7 @@ public final class dev/kord/voice/gateway/VoiceGatewayConfiguration {
 }
 
 public final class dev/kord/voice/gateway/VoiceGatewayKt {
-	public static final synthetic fun getVoiceGatewayOnLogger ()Lmu/KLogger;
+	public static final synthetic fun getVoiceGatewayOnLogger ()Lio/github/oshai/kotlinlogging/KLogger;
 	public static final fun logCaughtThrowable (Ljava/lang/Throwable;)V
 }
 
@@ -1077,14 +1170,14 @@ public final class dev/kord/voice/io/ReadableByteArrayCursor {
 }
 
 public final class dev/kord/voice/streams/DefaultStreams : dev/kord/voice/streams/Streams {
-	public fun <init> (Ldev/kord/voice/gateway/VoiceGateway;Ldev/kord/voice/udp/VoiceUdpSocket;Ldev/kord/voice/encryption/strategies/NonceStrategy;)V
+	public fun <init> (Ldev/kord/voice/gateway/VoiceGateway;Ldev/kord/voice/encryption/VoiceEncryption;)V
 	public fun getIncomingAudioFrames ()Lkotlinx/coroutines/flow/Flow;
 	public synthetic fun getIncomingAudioPackets ()Lkotlinx/coroutines/flow/Flow;
 	public fun getIncomingAudioPackets ()Lkotlinx/coroutines/flow/SharedFlow;
 	public synthetic fun getIncomingUserStreams ()Lkotlinx/coroutines/flow/Flow;
 	public fun getIncomingUserStreams ()Lkotlinx/coroutines/flow/SharedFlow;
 	public fun getSsrcToUser ()Ljava/util/Map;
-	public fun listen ([BLio/ktor/network/sockets/SocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun listen (Ldev/kord/voice/streams/StreamsConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class dev/kord/voice/streams/NOPStreams : dev/kord/voice/streams/Streams {
@@ -1093,7 +1186,7 @@ public final class dev/kord/voice/streams/NOPStreams : dev/kord/voice/streams/St
 	public fun getIncomingAudioPackets ()Lkotlinx/coroutines/flow/Flow;
 	public fun getIncomingUserStreams ()Lkotlinx/coroutines/flow/Flow;
 	public fun getSsrcToUser ()Ljava/util/Map;
-	public fun listen ([BLio/ktor/network/sockets/SocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun listen (Ldev/kord/voice/streams/StreamsConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public abstract interface class dev/kord/voice/streams/Streams {
@@ -1101,7 +1194,22 @@ public abstract interface class dev/kord/voice/streams/Streams {
 	public abstract fun getIncomingAudioPackets ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun getIncomingUserStreams ()Lkotlinx/coroutines/flow/Flow;
 	public abstract fun getSsrcToUser ()Ljava/util/Map;
-	public abstract fun listen ([BLio/ktor/network/sockets/SocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun listen (Ldev/kord/voice/streams/StreamsConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/kord/voice/streams/StreamsConfig {
+	public fun <init> ([BLio/ktor/network/sockets/InetSocketAddress;Ldev/kord/voice/udp/VoiceUdpSocket;)V
+	public final fun component1 ()[B
+	public final fun component2 ()Lio/ktor/network/sockets/InetSocketAddress;
+	public final fun component3 ()Ldev/kord/voice/udp/VoiceUdpSocket;
+	public final fun copy ([BLio/ktor/network/sockets/InetSocketAddress;Ldev/kord/voice/udp/VoiceUdpSocket;)Ldev/kord/voice/streams/StreamsConfig;
+	public static synthetic fun copy$default (Ldev/kord/voice/streams/StreamsConfig;[BLio/ktor/network/sockets/InetSocketAddress;Ldev/kord/voice/udp/VoiceUdpSocket;ILjava/lang/Object;)Ldev/kord/voice/streams/StreamsConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()[B
+	public final fun getServer ()Lio/ktor/network/sockets/InetSocketAddress;
+	public final fun getSocket ()Ldev/kord/voice/udp/VoiceUdpSocket;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class dev/kord/voice/udp/AudioFrameSender {
@@ -1109,63 +1217,67 @@ public abstract interface class dev/kord/voice/udp/AudioFrameSender {
 }
 
 public final class dev/kord/voice/udp/AudioFrameSenderConfiguration {
-	public synthetic fun <init> (Lio/ktor/network/sockets/SocketAddress;I[BLdev/kord/voice/FrameInterceptorConfiguration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/ktor/network/sockets/SocketAddress;
-	public final fun component2-pVg5ArA ()I
-	public final fun component3 ()[B
-	public final fun component4 ()Ldev/kord/voice/FrameInterceptorConfiguration;
-	public final fun copy-Yuhug_o (Lio/ktor/network/sockets/SocketAddress;I[BLdev/kord/voice/FrameInterceptorConfiguration;)Ldev/kord/voice/udp/AudioFrameSenderConfiguration;
-	public static synthetic fun copy-Yuhug_o$default (Ldev/kord/voice/udp/AudioFrameSenderConfiguration;Lio/ktor/network/sockets/SocketAddress;I[BLdev/kord/voice/FrameInterceptorConfiguration;ILjava/lang/Object;)Ldev/kord/voice/udp/AudioFrameSenderConfiguration;
+	public synthetic fun <init> (Lio/ktor/network/sockets/InetSocketAddress;Ldev/kord/voice/udp/VoiceUdpSocket;I[BLdev/kord/voice/FrameInterceptorConfiguration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/ktor/network/sockets/InetSocketAddress;
+	public final fun component2 ()Ldev/kord/voice/udp/VoiceUdpSocket;
+	public final fun component3-pVg5ArA ()I
+	public final fun component4 ()[B
+	public final fun component5 ()Ldev/kord/voice/FrameInterceptorConfiguration;
+	public final fun copy-k571xdo (Lio/ktor/network/sockets/InetSocketAddress;Ldev/kord/voice/udp/VoiceUdpSocket;I[BLdev/kord/voice/FrameInterceptorConfiguration;)Ldev/kord/voice/udp/AudioFrameSenderConfiguration;
+	public static synthetic fun copy-k571xdo$default (Ldev/kord/voice/udp/AudioFrameSenderConfiguration;Lio/ktor/network/sockets/InetSocketAddress;Ldev/kord/voice/udp/VoiceUdpSocket;I[BLdev/kord/voice/FrameInterceptorConfiguration;ILjava/lang/Object;)Ldev/kord/voice/udp/AudioFrameSenderConfiguration;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getInterceptorConfiguration ()Ldev/kord/voice/FrameInterceptorConfiguration;
 	public final fun getKey ()[B
-	public final fun getServer ()Lio/ktor/network/sockets/SocketAddress;
+	public final fun getServer ()Lio/ktor/network/sockets/InetSocketAddress;
+	public final fun getSocket ()Ldev/kord/voice/udp/VoiceUdpSocket;
 	public final fun getSsrc-pVg5ArA ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract interface class dev/kord/voice/udp/AudioFrameSenderFactory {
+	public static final field Companion Ldev/kord/voice/udp/AudioFrameSenderFactory$Companion;
+	public abstract fun create (Ldev/kord/voice/AudioFrameInterceptor;Ldev/kord/voice/AudioFrameProvider;Ldev/kord/voice/encryption/VoiceEncryption;)Ldev/kord/voice/udp/AudioFrameSender;
+}
+
+public final class dev/kord/voice/udp/AudioFrameSenderFactory$Companion {
+	public final fun getDefault ()Ldev/kord/voice/udp/AudioFrameSenderFactory;
+}
+
 public abstract class dev/kord/voice/udp/AudioPacketProvider {
-	public fun <init> ([BLdev/kord/voice/encryption/strategies/NonceStrategy;)V
+	public fun <init> ([BLdev/kord/voice/encryption/VoiceEncryption;)V
+	public final fun getEncryption ()Ldev/kord/voice/encryption/VoiceEncryption;
 	public final fun getKey ()[B
-	public final fun getNonceStrategy ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
 	public abstract fun provide-jfaDVJw (SII[B)Ldev/kord/voice/io/ByteArrayView;
 }
 
 public final class dev/kord/voice/udp/DefaultAudioFrameSender : dev/kord/voice/udp/AudioFrameSender {
-	public fun <init> (Ldev/kord/voice/udp/DefaultAudioFrameSenderData;)V
-	public final fun getData ()Ldev/kord/voice/udp/DefaultAudioFrameSenderData;
-	public fun start (Ldev/kord/voice/udp/AudioFrameSenderConfiguration;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class dev/kord/voice/udp/DefaultAudioFrameSenderData {
-	public fun <init> (Ldev/kord/voice/udp/VoiceUdpSocket;Ldev/kord/voice/FrameInterceptor;Ldev/kord/voice/AudioProvider;Ldev/kord/voice/encryption/strategies/NonceStrategy;)V
-	public final fun component1 ()Ldev/kord/voice/udp/VoiceUdpSocket;
-	public final fun component2 ()Ldev/kord/voice/FrameInterceptor;
-	public final fun component3 ()Ldev/kord/voice/AudioProvider;
-	public final fun component4 ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
-	public final fun copy (Ldev/kord/voice/udp/VoiceUdpSocket;Ldev/kord/voice/FrameInterceptor;Ldev/kord/voice/AudioProvider;Ldev/kord/voice/encryption/strategies/NonceStrategy;)Ldev/kord/voice/udp/DefaultAudioFrameSenderData;
-	public static synthetic fun copy$default (Ldev/kord/voice/udp/DefaultAudioFrameSenderData;Ldev/kord/voice/udp/VoiceUdpSocket;Ldev/kord/voice/FrameInterceptor;Ldev/kord/voice/AudioProvider;Ldev/kord/voice/encryption/strategies/NonceStrategy;ILjava/lang/Object;)Ldev/kord/voice/udp/DefaultAudioFrameSenderData;
+	public static final field Companion Ldev/kord/voice/udp/DefaultAudioFrameSender$Companion;
+	public fun <init> (Ldev/kord/voice/AudioFrameInterceptor;Ldev/kord/voice/AudioFrameProvider;Ldev/kord/voice/encryption/VoiceEncryption;)V
+	public final fun component1 ()Ldev/kord/voice/AudioFrameInterceptor;
+	public final fun component2 ()Ldev/kord/voice/AudioFrameProvider;
+	public final fun component3 ()Ldev/kord/voice/encryption/VoiceEncryption;
+	public final fun copy (Ldev/kord/voice/AudioFrameInterceptor;Ldev/kord/voice/AudioFrameProvider;Ldev/kord/voice/encryption/VoiceEncryption;)Ldev/kord/voice/udp/DefaultAudioFrameSender;
+	public static synthetic fun copy$default (Ldev/kord/voice/udp/DefaultAudioFrameSender;Ldev/kord/voice/AudioFrameInterceptor;Ldev/kord/voice/AudioFrameProvider;Ldev/kord/voice/encryption/VoiceEncryption;ILjava/lang/Object;)Ldev/kord/voice/udp/DefaultAudioFrameSender;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getInterceptor ()Ldev/kord/voice/FrameInterceptor;
-	public final fun getNonceStrategy ()Ldev/kord/voice/encryption/strategies/NonceStrategy;
-	public final fun getProvider ()Ldev/kord/voice/AudioProvider;
-	public final fun getUdp ()Ldev/kord/voice/udp/VoiceUdpSocket;
+	public final fun getFrameInterceptor ()Ldev/kord/voice/AudioFrameInterceptor;
+	public final fun getFrameProvider ()Ldev/kord/voice/AudioFrameProvider;
+	public final fun getVoiceEncryption ()Ldev/kord/voice/encryption/VoiceEncryption;
 	public fun hashCode ()I
+	public fun start (Ldev/kord/voice/udp/AudioFrameSenderConfiguration;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class dev/kord/voice/udp/DefaultAudioFrameSender$Companion {
+}
+
 public final class dev/kord/voice/udp/DefaultAudioPacketProvider : dev/kord/voice/udp/AudioPacketProvider {
-	public fun <init> ([BLdev/kord/voice/encryption/strategies/NonceStrategy;)V
+	public fun <init> ([BLdev/kord/voice/encryption/VoiceEncryption;)V
 	public fun provide-jfaDVJw (SII[B)Ldev/kord/voice/io/ByteArrayView;
 }
 
-public final class dev/kord/voice/udp/GlobalVoiceUdpSocket : dev/kord/voice/udp/VoiceUdpSocket {
-	public static final field INSTANCE Ldev/kord/voice/udp/GlobalVoiceUdpSocket;
-	public fun discoverIp (Lio/ktor/network/sockets/InetSocketAddress;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun getIncoming ()Lkotlinx/coroutines/flow/SharedFlow;
-	public fun send (Lio/ktor/network/sockets/Datagram;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun stop (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+public final class dev/kord/voice/udp/IpDiscoveryKt {
+	public static final fun discoverIP (Ldev/kord/voice/udp/VoiceUdpSocket;Ldev/kord/voice/udp/RealTimeConnectionConfiguration;Lio/ktor/network/sockets/InetSocketAddress;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public abstract class dev/kord/voice/udp/PayloadType {
@@ -1188,15 +1300,17 @@ public final class dev/kord/voice/udp/PayloadType$Companion {
 
 public final class dev/kord/voice/udp/PayloadType$Unknown : dev/kord/voice/udp/PayloadType {
 	public fun <init> (B)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kord/voice/udp/RTPPacket {
 	public static final field Companion Ldev/kord/voice/udp/RTPPacket$Companion;
-	public synthetic fun <init> (BBSII[IZZLdev/kord/voice/io/ByteArrayView;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (BBSII[IZZLdev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/ByteArrayView;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun asByteArray ()[B
 	public final fun asByteArrayView (Ldev/kord/voice/io/MutableByteArrayCursor;)Ldev/kord/voice/io/ByteArrayView;
 	public final fun clone ()Ldev/kord/voice/udp/RTPPacket;
 	public final fun component1-w2LRezQ ()B
+	public final fun component10 ()Ldev/kord/voice/io/ByteArrayView;
 	public final fun component2 ()B
 	public final fun component3-Mh2AYeg ()S
 	public final fun component4-pVg5ArA ()I
@@ -1205,8 +1319,8 @@ public final class dev/kord/voice/udp/RTPPacket {
 	public final fun component7 ()Z
 	public final fun component8 ()Z
 	public final fun component9 ()Ldev/kord/voice/io/ByteArrayView;
-	public final fun copy-NLpkr08 (BBSII[IZZLdev/kord/voice/io/ByteArrayView;)Ldev/kord/voice/udp/RTPPacket;
-	public static synthetic fun copy-NLpkr08$default (Ldev/kord/voice/udp/RTPPacket;BBSII[IZZLdev/kord/voice/io/ByteArrayView;ILjava/lang/Object;)Ldev/kord/voice/udp/RTPPacket;
+	public final fun copy-LNsOfNY (BBSII[IZZLdev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/ByteArrayView;)Ldev/kord/voice/udp/RTPPacket;
+	public static synthetic fun copy-LNsOfNY$default (Ldev/kord/voice/udp/RTPPacket;BBSII[IZZLdev/kord/voice/io/ByteArrayView;Ldev/kord/voice/io/ByteArrayView;ILjava/lang/Object;)Ldev/kord/voice/udp/RTPPacket;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCsrcIdentifiers--hP7Qyg ()[I
 	public final fun getHasExtension ()Z
@@ -1214,6 +1328,7 @@ public final class dev/kord/voice/udp/RTPPacket {
 	public final fun getPaddingBytes-w2LRezQ ()B
 	public final fun getPayload ()Ldev/kord/voice/io/ByteArrayView;
 	public final fun getPayloadType ()B
+	public final fun getRawHeader ()Ldev/kord/voice/io/ByteArrayView;
 	public final fun getSequence-Mh2AYeg ()S
 	public final fun getSsrc-pVg5ArA ()I
 	public final fun getTimestamp-pVg5ArA ()I
@@ -1255,11 +1370,42 @@ public final class dev/kord/voice/udp/RTPPacketKt {
 	public static synthetic fun RTPPacket-8HA8-nw$default (IISB[BLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kord/voice/udp/RTPPacket;
 }
 
+public final class dev/kord/voice/udp/RealTimeConnectionConfiguration {
+	public synthetic fun <init> (Ldev/kord/gateway/retry/Retry;JLdev/kord/voice/encryption/VoiceEncryption;Ldev/kord/voice/udp/VoiceUdpSocketFactory;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ldev/kord/gateway/retry/Retry;
+	public final fun component2-UwyO8pc ()J
+	public final fun component3 ()Ldev/kord/voice/encryption/VoiceEncryption;
+	public final fun component4 ()Ldev/kord/voice/udp/VoiceUdpSocketFactory;
+	public final fun copy-dWUq8MI (Ldev/kord/gateway/retry/Retry;JLdev/kord/voice/encryption/VoiceEncryption;Ldev/kord/voice/udp/VoiceUdpSocketFactory;)Ldev/kord/voice/udp/RealTimeConnectionConfiguration;
+	public static synthetic fun copy-dWUq8MI$default (Ldev/kord/voice/udp/RealTimeConnectionConfiguration;Ldev/kord/gateway/retry/Retry;JLdev/kord/voice/encryption/VoiceEncryption;Ldev/kord/voice/udp/VoiceUdpSocketFactory;ILjava/lang/Object;)Ldev/kord/voice/udp/RealTimeConnectionConfiguration;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIpDiscoveryRetry ()Ldev/kord/gateway/retry/Retry;
+	public final fun getIpDiscoveryTimeout-UwyO8pc ()J
+	public final fun getVoiceEncryption ()Ldev/kord/voice/encryption/VoiceEncryption;
+	public final fun getVoiceSocketFactory ()Ldev/kord/voice/udp/VoiceUdpSocketFactory;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/kord/voice/udp/RealTimeConnectionConfiguration$Builder {
+	public fun <init> ()V
+	public final fun build ()Ldev/kord/voice/udp/RealTimeConnectionConfiguration;
+	public final fun getIpDiscoveryRetry ()Ldev/kord/gateway/retry/Retry;
+	public final fun getIpDiscoveryTimeout-UwyO8pc ()J
+	public final fun getVoiceEncryption ()Ldev/kord/voice/encryption/VoiceEncryption;
+	public final fun getVoiceSocketFactory ()Ldev/kord/voice/udp/VoiceUdpSocketFactory;
+	public final fun setIpDiscoveryRetry (Ldev/kord/gateway/retry/Retry;)V
+	public final fun setIpDiscoveryTimeout-LRDsOJo (J)V
+	public final fun setVoiceEncryption (Ldev/kord/voice/encryption/VoiceEncryption;)V
+	public final fun setVoiceSocketFactory (Ldev/kord/voice/udp/VoiceUdpSocketFactory;)V
+	public final fun voiceSocket (Lkotlin/jvm/functions/Function2;)V
+}
+
 public abstract interface class dev/kord/voice/udp/VoiceUdpSocket {
 	public static final field Companion Ldev/kord/voice/udp/VoiceUdpSocket$Companion;
-	public abstract fun discoverIp (Lio/ktor/network/sockets/InetSocketAddress;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun getIncoming ()Lkotlinx/coroutines/flow/SharedFlow;
-	public abstract fun send (Lio/ktor/network/sockets/Datagram;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun all (Lio/ktor/network/sockets/InetSocketAddress;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getScope ()Lkotlinx/coroutines/CoroutineScope;
+	public abstract fun send (Lio/ktor/network/sockets/InetSocketAddress;Ldev/kord/voice/io/ByteArrayView;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun stop (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
@@ -1267,7 +1413,32 @@ public final class dev/kord/voice/udp/VoiceUdpSocket$Companion {
 	public final fun none ()Ldev/kord/voice/udp/VoiceUdpSocket;
 }
 
+public abstract interface class dev/kord/voice/udp/VoiceUdpSocketFactory {
+	public abstract fun connect (Lio/ktor/network/sockets/InetSocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/kord/voice/udp/VoiceUdpSocketFactory$Default : dev/kord/voice/udp/VoiceUdpSocketFactory {
+	public static final field INSTANCE Ldev/kord/voice/udp/VoiceUdpSocketFactory$Default;
+	public fun connect (Lio/ktor/network/sockets/InetSocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/kord/voice/udp/VoiceUdpSocketFactory$Global : dev/kord/voice/udp/VoiceUdpSocketFactory {
+	public static final field INSTANCE Ldev/kord/voice/udp/VoiceUdpSocketFactory$Global;
+	public fun connect (Lio/ktor/network/sockets/InetSocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class dev/kord/voice/udp/VoiceUdpSocketKt {
-	public static final fun receiveFrom (Ldev/kord/voice/udp/VoiceUdpSocket;Lio/ktor/network/sockets/InetSocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun recv (Ldev/kord/voice/udp/VoiceUdpSocket;Lio/ktor/network/sockets/InetSocketAddress;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/kord/voice/udp/VoiceUdpSocket_ktorKt {
+	public static final fun connectVoiceUdpSocket (Lio/ktor/network/sockets/InetSocketAddress;)Ldev/kord/voice/udp/VoiceUdpSocket;
+	public static final fun getGlobalVoiceUdpSocket ()Ldev/kord/voice/udp/VoiceUdpSocket;
 }
 

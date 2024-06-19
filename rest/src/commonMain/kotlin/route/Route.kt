@@ -351,6 +351,8 @@ public sealed class Route<T>(
             ListThreadsResponse.serializer()
         )
 
+    public object EditVoiceChannelStatusPut :
+        Route<Unit>(HttpMethod.Put, "/channels/$ChannelId/voice-status", NoStrategy)
 
     /*
      * Emoji:

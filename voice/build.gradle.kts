@@ -1,21 +1,60 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
-    java // for TweetNaclFast
-    `kord-module`
-    `kord-sampled-module`
+    `kord-multiplatform-module`
     `kord-publishing`
 }
 
-dependencies {
-    api(projects.common)
-    api(projects.gateway)
+kotlin {
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    applyDefaultHierarchyTemplate {
+        common {
+            group("ktor") {
+                withJvm()
+                withApple()
+                withLinux()
+            }
 
-    implementation(libs.kotlin.logging)
-    implementation(libs.slf4j.api)
+            group("nonKtor") {
+                withJs()
+                withMingw()
+            }
+        }
+    }
 
-    // TODO remove when voiceGatewayOnLogger is removed
-    implementation(libs.kotlin.logging.old)
+    jvm {
+        withJava()
+    }
 
-    compileOnly(projects.kspAnnotations)
+    sourceSets.commonMain.dependencies {
+        api(projects.common)
+        api(projects.gateway)
 
-    api(libs.ktor.network)
+        implementation(libs.kotlin.logging)
+
+        compileOnly(projects.kspAnnotations)
+    }
+
+    sourceSets.named("ktorMain").dependencies {
+        implementation(libs.ktor.network)
+    }
+
+    sourceSets.jsMain.dependencies {
+        implementation(libs.kotlin.node)
+    }
+
+    sourceSets.nonJvmMain.dependencies {
+        implementation(libs.libsodium)
+    }
+
+    sourceSets.jvmMain.dependencies {
+        implementation(libs.slf4j.api)
+    }
 }
+
+//
+//tasks.withType<JavaCompile> {
+//    sourceCompatibility = Jvm.targetInt.toString()
+//
+//    targetCompatibility = Jvm.targetInt.toString()
+//}

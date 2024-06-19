@@ -1,15 +1,13 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
-    `kord-internal-multiplatform-module`
+    org.jetbrains.kotlin.multiplatform
 }
 
 kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        optIn.addAll(kordOptIns)
-    }
+    targets()
     sourceSets {
+        all {
+            applyKordOptIns()
+        }
         commonTest {
             dependencies {
                 implementation(projects.core)
@@ -23,4 +21,8 @@ tasks {
     withType<AbstractTestTask>().configureEach {
         enabled = !System.getenv("KORD_TEST_TOKEN").isNullOrBlank()
     }
+    withType<Test>().configureEach {
+        useJUnitPlatform()
+    }
+    disableLinuxLinkTestTasksOnWindows()
 }

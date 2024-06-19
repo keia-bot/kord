@@ -1,3 +1,6 @@
+import dev.kord.gradle.tools.util.commitHash
+import dev.kord.gradle.tools.util.shortCommitHash
+
 plugins {
     `kord-multiplatform-module`
     `kord-publishing`
@@ -32,6 +35,23 @@ kotlin {
         implementation(projects.kspAnnotations)
     }
 
+    sourceSets.nativeMain.dependencies {
+        // Native does not have compileOnly
+        implementation(projects.kspAnnotations)
+    }
+
+    sourceSets.mingwMain.dependencies {
+        api(libs.ktor.client.winhttp)
+    }
+
+    sourceSets.appleMain.dependencies {
+        api(libs.ktor.client.darwin)
+    }
+
+    sourceSets.linuxMain.dependencies {
+        api(libs.ktor.client.curl)
+    }
+
     sourceSets.jvmTest.dependencies {
         implementation(libs.bson)
         implementation(libs.kbson)
@@ -56,7 +76,7 @@ buildConfig {
         internalVisibility = true
     }
 
-    buildConfigField("BUILD_CONFIG_GENERATED_LIBRARY_VERSION", libraryVersion)
+    buildConfigField("BUILD_CONFIG_GENERATED_LIBRARY_VERSION", provider { project.version.toString() })
     buildConfigField("BUILD_CONFIG_GENERATED_COMMIT_HASH", commitHash)
     buildConfigField("BUILD_CONFIG_GENERATED_SHORT_COMMIT_HASH", shortCommitHash)
 }

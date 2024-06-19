@@ -575,6 +575,7 @@ class DispatchEventDeserializationTest {
             data = InteractionCallbackData(),
             token = "hunter2",
             version = 1,
+            entitlements = emptyList()
         ),
         json = """{"id":"0","application_id":"0","type":1,"data":{},"token":"hunter2","version":1}""",
     )
