@@ -1,4 +1,4 @@
-package dev.kord.gateway
+package dev.kord.gateway.impl
 
 import io.ktor.client.plugins.websocket.*
 import node.process.process

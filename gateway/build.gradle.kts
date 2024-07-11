@@ -9,6 +9,7 @@ kotlin {
 
         api(libs.bundles.ktor.client.serialization)
         api(libs.ktor.client.websockets)
+        api(libs.ktor.websockets)
 
         implementation(libs.kotlin.logging)
 

@@ -1,6 +1,7 @@
 package dev.kord.gateway.handler
 
 import dev.kord.gateway.*
+import dev.kord.gateway.impl.identify
 import dev.kord.gateway.retry.Retry
 import io.ktor.http.*
 import kotlinx.atomicfu.atomic
@@ -11,7 +12,7 @@ internal class HandshakeHandler(
     private val initialUrl: Url,
     private val send: suspend (Command) -> Unit,
     private val sequence: Sequence,
-    private val reconnectRetry: Retry
+    private val reconnectRetry: Retry,
 ) : Handler(flow, "HandshakeHandler") {
 
     lateinit var configuration: GatewayConfiguration

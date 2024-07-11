@@ -1,8 +1,9 @@
-package dev.kord.gateway
+package dev.kord.gateway.impl
 
 import dev.kord.common.entity.optional.optional
 import dev.kord.common.entity.optional.optionalInt
 import dev.kord.common.ratelimit.RateLimiter
+import dev.kord.gateway.*
 import dev.kord.gateway.GatewayCloseCode.*
 import dev.kord.gateway.handler.*
 import dev.kord.gateway.ratelimit.IdentifyRateLimiter
@@ -33,13 +34,13 @@ private val defaultGatewayLogger = KotlinLogging.logger { }
 internal expect fun Throwable.isTimeout(): Boolean
 
 private sealed class State(val retry: Boolean) {
-    object Stopped : State(false)
+    data object Stopped : State(false)
     class Running(retry: Boolean) : State(retry)
-    object Detached : State(false)
+    data object Detached : State(false)
 }
 
 /**
- * @param url The url to connect to.
+ * @param initialUrl The url to connect to.
  * @param client The [HttpClient] from which a WebSocket will be created, requires the [WebSockets] plugin to be
  * installed.
  * @param reconnectRetry A [Retry] used for reconnection attempts.
@@ -47,7 +48,7 @@ private sealed class State(val retry: Boolean) {
  * @param identifyRateLimiter An [IdentifyRateLimiter] that follows the Discord API specifications for identifying.
  */
 public data class DefaultGatewayData(
-    val url: String,
+    val initialUrl: Url,
     val client: HttpClient,
     val reconnectRetry: Retry,
     val sendRateLimiter: RateLimiter,
@@ -86,12 +87,11 @@ public class DefaultGateway(private val data: DefaultGatewayData) : Gateway {
     private val stateMutex = Mutex()
 
     init {
-        val initialUrl = Url(data.url)
-        compression = initialUrl.parameters.contains("compress", "zlib-stream")
+        compression = data.initialUrl.parameters.contains("compress", "zlib-stream")
 
         val sequence = Sequence()
         SequenceHandler(events, sequence)
-        handshakeHandler = HandshakeHandler(events, initialUrl, ::trySend, sequence, data.reconnectRetry)
+        handshakeHandler = HandshakeHandler(events, data.initialUrl, ::trySend, sequence, data.reconnectRetry)
         HeartbeatHandler(events, ::trySend, { restart(Close.ZombieConnection) }, { _ping.value = it }, sequence)
         ReconnectHandler(events) { restart(Close.Reconnecting) }
         InvalidSessionHandler(events) { restart(it) }
@@ -157,8 +157,8 @@ public class DefaultGateway(private val data: DefaultGatewayData) : Gateway {
     private suspend fun resetState(configuration: GatewayConfiguration) = stateMutex.withLock {
         when (state.value) {
             is State.Running -> throw IllegalStateException(gatewayRunningError)
-            State.Detached -> throw IllegalStateException(gatewayDetachedError)
-            State.Stopped -> Unit
+            State.Detached   -> throw IllegalStateException(gatewayDetachedError)
+            State.Stopped    -> Unit
         }
 
         handshakeHandler.configuration = configuration
@@ -166,18 +166,19 @@ public class DefaultGateway(private val data: DefaultGatewayData) : Gateway {
         state.update { State.Running(true) } //resetting state
     }
 
-
     private suspend fun readSocket() {
         val frames = socket.incoming.asFlow()
             .buffer(Channel.UNLIMITED)
             .onEach { frame -> defaultGatewayLogger.trace { "Received raw frame: $frame" } }
+
         val eventsJson = if (compression) {
             frames.decompressFrames(inflater)
         } else {
+            // Safety: DefaultClientWebSocketSession automatically de-fragments frames.
             frames.mapNotNull { frame ->
                 when (frame) {
                     is Frame.Binary, is Frame.Text -> frame.data.decodeToString()
-                    else -> null // ignore other frame types
+                    else                           -> null // ignore other frame types
                 }
             }
         }
@@ -205,10 +206,11 @@ public class DefaultGateway(private val data: DefaultGatewayData) : Gateway {
         data.eventFlow.emit(Close.DiscordClose(discordReason, discordReason.retry))
 
         when {
-            !discordReason.retry -> {
+            !discordReason.retry       -> {
                 state.update { State.Stopped }
                 throw IllegalStateException("Gateway closed: ${reason.code} ${reason.message}")
             }
+
             discordReason.resetSession -> {
                 setStopped()
             }
@@ -306,41 +308,40 @@ internal val GatewayConfiguration.identify
         intents
     )
 
-
 internal expect val os: String
 
 internal val GatewayCloseCode.retry
     get() = when (this) { //this statement is intentionally structured to ensure we consider the retry for every new code
-        Unknown -> true
-        UnknownOpCode -> true
-        DecodeError -> true
-        NotAuthenticated -> true
+        Unknown              -> true
+        UnknownOpCode        -> true
+        DecodeError          -> true
+        NotAuthenticated     -> true
         AuthenticationFailed -> false
         AlreadyAuthenticated -> true
-        InvalidSeq -> true
-        RateLimited -> true
-        SessionTimeout -> true
-        InvalidShard -> false
-        ShardingRequired -> false
-        InvalidApiVersion -> false
-        InvalidIntents -> false
-        DisallowedIntents -> false
+        InvalidSeq           -> true
+        RateLimited          -> true
+        SessionTimeout       -> true
+        InvalidShard         -> false
+        ShardingRequired     -> false
+        InvalidApiVersion    -> false
+        InvalidIntents       -> false
+        DisallowedIntents    -> false
     }
 
 internal val GatewayCloseCode.resetSession
     get() = when (this) { //this statement is intentionally structured to ensure we consider the reset for every new code
-        Unknown -> false
-        UnknownOpCode -> false
-        DecodeError -> false
-        NotAuthenticated -> false
+        Unknown              -> false
+        UnknownOpCode        -> false
+        DecodeError          -> false
+        NotAuthenticated     -> false
         AuthenticationFailed -> false
         AlreadyAuthenticated -> false
-        InvalidSeq -> true
-        RateLimited -> false
-        SessionTimeout -> false
-        InvalidShard -> false
-        ShardingRequired -> false
-        InvalidApiVersion -> false
-        InvalidIntents -> false
-        DisallowedIntents -> false
+        InvalidSeq           -> true
+        RateLimited          -> false
+        SessionTimeout       -> false
+        InvalidShard         -> false
+        ShardingRequired     -> false
+        InvalidApiVersion    -> false
+        InvalidIntents       -> false
+        DisallowedIntents    -> false
     }

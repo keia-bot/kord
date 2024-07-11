@@ -1,4 +1,4 @@
-package dev.kord.gateway
+package dev.kord.gateway.impl
 
 import java.nio.channels.UnresolvedAddressException
 

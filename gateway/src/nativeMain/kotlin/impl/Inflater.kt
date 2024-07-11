@@ -1,4 +1,4 @@
-package dev.kord.gateway
+package dev.kord.gateway.impl
 
 import kotlinx.cinterop.*
 import platform.zlib.*
@@ -6,8 +6,8 @@ import platform.zlib.*
 @ExperimentalForeignApi
 private class ZlibException(msg: CPointer<ByteVar>?, ret: Int) : IllegalStateException(
     message = msg?.toKString()
-        ?: zError(ret)?.toKString()?.ifEmpty { null } // zError returns empty string for unknown codes
-        ?: "unexpected return code: $ret"
+              ?: zError(ret)?.toKString()?.ifEmpty { null } // zError returns empty string for unknown codes
+              ?: "unexpected return code: $ret"
 )
 
 @OptIn(ExperimentalForeignApi::class)
@@ -59,6 +59,7 @@ internal actual fun Inflater(): Inflater = object : Inflater {
                         decompressedLen = decompressed.size
                         decompressed = decompressed.copyOf(decompressed.size * 2)
                     }
+
                     // Z_BUF_ERROR is no real error after the first inflate call:
                     // It means the previous inflate call did exactly fill the decompressed buffer (avail_out == 0).
                     // Because of that, we grew the buffer and called inflate again. However, it couldn't make any
@@ -67,7 +68,11 @@ internal actual fun Inflater(): Inflater = object : Inflater {
                         check(zStream.avail_in == 0u) { "Inflater did not decompress all available data." }
                         break
                     }
-                    else -> throw ZlibException(zStream.msg, ret)
+
+                    else -> throw ZlibException(
+                        zStream.msg,
+                        ret
+                    )
                 }
             }
         }

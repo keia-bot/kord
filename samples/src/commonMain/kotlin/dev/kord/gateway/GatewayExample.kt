@@ -2,6 +2,7 @@ package dev.kord.gateway
 
 import dev.kord.common.entity.PresenceStatus
 import dev.kord.common.ratelimit.IntervalRateLimiter
+import dev.kord.gateway.impl.DefaultGateway
 import dev.kord.gateway.retry.LinearRetry
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
@@ -11,7 +12,7 @@ import kotlin.time.Duration.Companion.seconds
 suspend fun main(args: Array<String>) {
     val token = args.firstOrNull() ?: error("expected a token")
 
-    val gateway = DefaultGateway {
+    val gateway = DefaultGateway() {
         reconnectRetry = LinearRetry(2.seconds, 20.seconds, 10)
         sendRateLimiter = IntervalRateLimiter(limit = 120, interval = 60.seconds)
     }

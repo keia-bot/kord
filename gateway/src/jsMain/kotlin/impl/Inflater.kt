@@ -1,6 +1,6 @@
-package dev.kord.gateway
+package dev.kord.gateway.impl
 
-import dev.kord.gateway.internal.Inflate
+import dev.kord.gateway.impl.internal.Inflate
 import node.buffer.Buffer
 import node.buffer.BufferEncoding
 

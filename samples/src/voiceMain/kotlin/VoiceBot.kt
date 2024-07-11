@@ -15,7 +15,11 @@ import runMain
 
 fun main(args: Array<String>) = runMain {
     val kord =
-        Kord(args.firstOrNull() ?: error("Missing token"))
+        Kord(args.firstOrNull() ?: error("Missing token")) {
+            defaultGateway {
+                compression = false
+            }
+        }
 
     kord.createGlobalApplicationCommands {
         input("join", "Test command") {
@@ -41,7 +45,7 @@ private suspend fun BaseVoiceChannelBehavior.connectEcho() {
     val buffer = mutableListOf(AudioFrame.SILENCE, AudioFrame.SILENCE, AudioFrame.SILENCE, AudioFrame.SILENCE)
     val connection = connect {
         receiveVoice = true
-        audioProvider {
+        frameProvider(AudioFrame.DEFAULT_DURATION) {
             buffer.removeFirstOrNull() ?: AudioFrame.SILENCE
         }
     }

@@ -12,10 +12,25 @@ kord {
     metadataHost = Family.OSX
 }
 
+publishing {
+    repositories {
+        maven("https://maven.dimensional.fun/snapshots/") {
+            name = "dimensional"
+
+            credentials {
+                username = System.getenv("REPO_ALIAS")
+                password = System.getenv("REPO_TOKEN")
+            }
+        }
+    }
+}
+
 mavenPublishing {
     coordinates(Library.group, "kord-${project.name}")
-    publishToMavenCentral()
-    signAllPublications()
+
+//    publishToMavenCentral()
+
+//    signAllPublications()
 
     if (plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")) {
         configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaHtml")))

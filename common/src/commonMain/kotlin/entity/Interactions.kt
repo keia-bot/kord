@@ -353,7 +353,7 @@ public data class DiscordInteraction(
     val locale: Optional<Locale> = Optional.Missing(),
     @SerialName("guild_locale")
     val guildLocale: Optional<Locale> = Optional.Missing(),
-    val entitlements: List<DiscordEntitlement>,
+    val entitlements: List<DiscordEntitlement> = emptyList(),
     @SerialName("authorizing_integration_owners")
     val authorizingIntegrationOwners: AuthorizingIntegrationOwners,
     val context: Optional<InteractionContextType> = Optional.Missing()

@@ -1,4 +1,4 @@
-package dev.kord.gateway
+package dev.kord.gateway.impl
 
 import io.ktor.utils.io.core.*
 import io.ktor.websocket.*
@@ -28,7 +28,7 @@ internal fun Flow<Frame>.decompressFrames(inflater: Inflater): Flow<String> {
             is Frame.Text, is Frame.Binary -> {
                 val data = frame.data
                 val dataLen = data.size
-                // skip copying into buffer if buffer is empty and data has suffix
+                // skip copying into buffer if buffer is empty and data has a suffix
                 if (bufferLen == 0 && data.endsWithZlibSuffix(dataLen)) {
                     emit(inflater.inflate(data, dataLen))
                 } else {

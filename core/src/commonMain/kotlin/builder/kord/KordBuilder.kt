@@ -15,9 +15,10 @@ import dev.kord.core.gateway.DefaultMasterGateway
 import dev.kord.core.gateway.handler.DefaultGatewayEventInterceptor
 import dev.kord.core.gateway.handler.GatewayEventInterceptor
 import dev.kord.core.supplier.EntitySupplyStrategy
-import dev.kord.gateway.DefaultGateway
 import dev.kord.gateway.Gateway
 import dev.kord.gateway.builder.Shards
+import dev.kord.gateway.impl.DefaultGateway
+import dev.kord.gateway.impl.DefaultGatewayBuilder
 import dev.kord.gateway.ratelimit.IdentifyRateLimiter
 import dev.kord.rest.json.response.BotGatewayResponse
 import dev.kord.rest.ratelimit.ExclusionRequestRateLimiter
@@ -41,6 +42,7 @@ public expect class KordBuilder(token: String) : BaseKordBuilder
 
 public abstract class BaseKordBuilder internal constructor(public val token: String) {
     private var shardsBuilder: (recommended: Int) -> Shards = { Shards(it) }
+    private var defaultGatewayConfig: DefaultGatewayBuilder.() -> Unit = {}
     private var gatewayBuilder: (resources: ClientResources, shards: List<Int>) -> List<Gateway> =
         { resources, shards ->
             // shared between all shards
@@ -49,6 +51,7 @@ public abstract class BaseKordBuilder internal constructor(public val token: Str
                 DefaultGateway {
                     client = resources.httpClient
                     identifyRateLimiter = rateLimiter
+                    defaultGatewayConfig()
                 }
             }
         }
@@ -103,6 +106,10 @@ public abstract class BaseKordBuilder internal constructor(public val token: Str
      */
     public var gatewayEventInterceptor: GatewayEventInterceptor? = null
 
+    public fun defaultGateway(builder: DefaultGatewayBuilder.() -> Unit) {
+        defaultGatewayConfig = builder
+    }
+
     /**
      * Configures the shards this client will connect to, by default `0 until recommended`.
      * This can be used to break up to client into multiple processes.
@@ -139,7 +146,6 @@ public abstract class BaseKordBuilder internal constructor(public val token: Str
         this.gatewayBuilder = gatewayBuilder
     }
 
-
     /**
      * Configures the [RequestHandler] for the [RestClient].
      *
@@ -173,7 +179,6 @@ public abstract class BaseKordBuilder internal constructor(public val token: Str
             builder(resources)
         }
     }
-
 
     /**
      * Requests the gateway info for the bot, or throws a [KordInitializationException] when something went wrong.

@@ -1,4 +1,4 @@
-package dev.kord.gateway
+package dev.kord.gateway.impl
 
 import java.io.ByteArrayOutputStream
 import java.util.zip.InflaterOutputStream
@@ -12,6 +12,7 @@ internal actual fun Inflater() = object : Inflater {
         InflaterOutputStream(buffer, delegate).use {
             it.write(compressed, /* off = */ 0, /* len = */ compressedLen)
         }
+
         return buffer.toString("UTF-8")
     }
 

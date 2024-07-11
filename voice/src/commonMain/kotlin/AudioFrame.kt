@@ -2,6 +2,8 @@ package dev.kord.voice
 
 import dev.kord.common.annotation.KordVoice
 import kotlin.jvm.JvmInline
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * A frame of Opus-encoded 48k stereo audio data.
@@ -14,6 +16,8 @@ public value class AudioFrame(public val data: ByteArray) {
 
     public companion object {
         public val SILENCE: AudioFrame = AudioFrame(byteArrayOf(0xFC.toByte(), 0xFF.toByte(), 0xFE.toByte()))
+
+        public val DEFAULT_DURATION: Duration = 20.seconds
 
         /** the sample rate of the opus packet rate. */
         public const val SAMPLE_RATE: Int = 48_000

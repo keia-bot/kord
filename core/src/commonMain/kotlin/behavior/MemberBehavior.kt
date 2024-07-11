@@ -36,7 +36,7 @@ public interface MemberBehavior : KordEntity, UserBehavior {
     public val guild: GuildBehavior get() = GuildBehavior(guildId, kord)
 
     /**
-     * Requests to get the this behavior as a [Member].
+     * Requests to get this behavior as a [Member].
      *
      * @throws [RequestException] if anything went wrong during the request.
      * @throws [EntityNotFoundException] if the member wasn't present.
@@ -151,11 +151,12 @@ public interface MemberBehavior : KordEntity, UserBehavior {
      * @throws [RequestException] if anything went wrong during the request.
      * @throws [EntityNotFoundException] if the [VoiceState] wasn't present.
      */
-    public suspend fun getVoiceState(): VoiceState = getVoiceStateOrNull() ?: EntityNotFoundException.guildEntityNotFound(
-        "VoiceState for Member",
-        guildId = guildId,
-        id = id
-    )
+    public suspend fun getVoiceState(): VoiceState =
+        getVoiceStateOrNull() ?: EntityNotFoundException.guildEntityNotFound(
+            "VoiceState for Member",
+            guildId = guildId,
+            id = id
+        )
 
     /**
      * Requests to get the [VoiceState] of this member in the [guild],

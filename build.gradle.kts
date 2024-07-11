@@ -4,7 +4,7 @@ plugins {
 
 allprojects {
     repositories {
-//        mavenLocal()
+        mavenLocal()
         mavenCentral()
         maven("https://maven.dimensional.fun/releases")
         maven("https://oss.sonatype.org/content/repositories/snapshots/")

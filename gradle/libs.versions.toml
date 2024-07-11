@@ -2,7 +2,7 @@
 
 # api dependencies
 kotlin                = "2.0.0" # https://github.com/JetBrains/kotlin
-ktor                  = "3.0.0-keia.0" # https://github.com/ktorio/ktor
+ktor                  = "3.0.0-keia.1" # https://github.com/ktorio/ktor
 kotlinx-coroutines    = "1.8.1" # https://github.com/Kotlin/kotlinx.coroutines
 kotlinx-serialization = "1.7.0" # https://github.com/Kotlin/kotlinx.serialization
 kotlinx-datetime      = "0.6.0" # https://github.com/Kotlin/kotlinx-datetime
@@ -54,6 +54,7 @@ ktor-client-winhttp = { module = "io.ktor:ktor-client-winhttp", version.ref = "k
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-curl = { module = "io.ktor:ktor-client-curl", version.ref = "ktor" }
 ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+ktor-websockets = { module = "io.ktor:ktor-websockets", version.ref = "ktor" }
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-network = { module = "io.ktor:ktor-network", version.ref = "ktor" }
 ktor-utils = { module = "io.ktor:ktor-utils", version.ref = "ktor" }
